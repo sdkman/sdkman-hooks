@@ -1,21 +1,19 @@
-#Play Scala REST service seed with Cucumber
+#SDKMAN! Candidates Service
 
-This template forms the base of a REST microservice.
+This service serves up Pre- and Post- Hooks for SDKMAN! CLI.
 
-Testing is performed from outside-in by providing Cucumber and Scalatest.
+##Running Locally
 
-Feature files can be found in the `features` folder, with step defs living beneath `test/steps`. The Cucumber runtime is bootstrapped by `RunCukes.scala`.
+Make sure you have mongodb running locally or in a Docker Container:
 
-##Testing
+    $ docker run -d --net=host --name mongo mongo:3.2
 
-A simple end-to-end scenario is provided in the `health.feature`, testing a `HealthController` with an `/alive` endpoint.
+Start the application:
 
-To run the Cucumber suite, spin up the service as follows:
+    $ sbt run
 
-	$ sbt run
+Run the cukes:
 
-Once running, the tests can be run from within an IDE, or else from the command line using:
+    $ sbt test
 
-	$ sbt test
 
-Enjoy!!!
