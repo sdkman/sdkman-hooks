@@ -15,5 +15,3 @@ Start the application:
 Run the cukes:
 
     $ sbt test
-
-
