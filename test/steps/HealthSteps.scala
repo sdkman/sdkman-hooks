@@ -3,11 +3,13 @@ package steps
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
 import play.api.libs.json.Json
-import steps.support.{Mongo, World}
+import steps.support.Mongo
 
 import scalaj.http.Http
 
-class HealthSteps extends ScalaDsl with EN with Matchers with World {
+import steps.support.World._
+
+class HealthSteps extends ScalaDsl with EN with Matchers {
 
   Before { s =>
     Mongo.insertAliveOk()
