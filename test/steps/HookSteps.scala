@@ -18,6 +18,6 @@ class HookSteps extends ScalaDsl with EN with Matchers {
   }
 
   And("""^I receive a hook containing text: (.*)$""") { (text: String) =>
-    response.body shouldBe text
+    response.body should include(text)
   }
 }

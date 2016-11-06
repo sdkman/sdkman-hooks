@@ -8,7 +8,7 @@ import scala.concurrent.Future
 class HooksController extends Controller {
   def post(candidate: String, version: String, uname: String) = Action.async { request =>
     Future {
-      Ok("mv \"$binary_input\" \"$zip_output\"")
+      Ok(views.html.default())
     }
   }
 }
