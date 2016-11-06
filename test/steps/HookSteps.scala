@@ -12,7 +12,7 @@ class HookSteps extends ScalaDsl with EN with Matchers {
   }
 
   And("""^I fetch a hook for "([^"]*)" "([^"]*)" on "([^"]*)"$""") { (candidate: String, version: String, uname: String) =>
-    response = Http(s"$host/post/$candidate/$version/$uname")
+    response = Http(s"$host/hooks/post/$candidate/$version/$uname")
       .timeout(connTimeoutMs = 1000, readTimeoutMs = 10000)
       .asString
   }
