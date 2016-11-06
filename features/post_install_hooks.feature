@@ -3,4 +3,5 @@ Feature: Post Install Hooks
 		Given no relevant Hook is available
 		When I fetch a hook for "scala" "2.12.0" on "UNIVERSAL"
 		Then a 200 status code is received
+		And I receive a hook containing text: No Universal post install hook found for scala 2.12.0.
 		And I receive a hook containing text: mv "$binary_input" "$zip_output"
