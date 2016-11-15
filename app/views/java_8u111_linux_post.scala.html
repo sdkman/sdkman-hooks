@@ -1,7 +1,7 @@
-@()
+@(candidate: String, version: String, platform: String)
 #!/bin/bash
 
-echo "A Linux post install hook found for Java 8u111."
+echo "A @platform post-install hook found for @candidate @version."
 
 work_dir="${SDKMAN_DIR}/tmp/out"
 cookie_file="${SDKMAN_DIR}/var/cookie"
