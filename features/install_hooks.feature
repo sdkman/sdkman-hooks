@@ -30,3 +30,8 @@ Feature: Install Hooks
 		Given no relevant Hook is available
 		When I fetch a "post" hook for "java" "8u111" on "FreeBSD"
 		Then a 404 status code is received
+
+	Scenario: A platform specific Pre Hook is not found
+		Given no relevant Hook is available
+		When I fetch a "pre" hook for "java" "8u111" on "FreeBSD"
+		Then a 404 status code is received
