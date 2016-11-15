@@ -1,5 +1,6 @@
 package utils
 
+import domain.Platform
 import org.scalatest.{Matchers, WordSpec}
 
 class PlatformSpec extends WordSpec with Matchers {
