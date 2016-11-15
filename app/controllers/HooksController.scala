@@ -13,8 +13,9 @@ class HooksController extends Controller {
       val platformName = Platform(uname).getOrElse(Platform.Universal).name
       Logger.info(s"Post install hook requested for: $candidate $version $platformName")
 
-      (candidate, version, Platform(platformName).get) match {
-        case (Candidate.Java, "8u111", Platform.Linux) => Ok(views.html.java_8u111_linux())
+      (candidate, version, platformName) match {
+        case (Candidate.Java, "8u111", Platform.Linux.name) => Ok(views.html.java_8u111_linux())
+        case (Candidate.Java, _, _) => NotFound
         case _ => Ok(views.html.default(candidate, version, platformName))
       }
     }
