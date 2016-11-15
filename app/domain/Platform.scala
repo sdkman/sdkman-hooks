@@ -18,7 +18,7 @@ object Platform {
   val Linux = Platform("LINUX", "Linux")
   val MacOSX = Platform("MAC_OSX", "Mac OSX")
   val Windows64 = Platform("CYGWIN", "Cygwin")
-  val FreeBSD = Platform("FREE_BSD", "Free BSD")
+  val FreeBSD = Platform("FREE_BSD", "FreeBSD")
   val SunOS = Platform("SUN_OS", "Solaris")
   val Universal = Platform("UNIVERSAL", "Universal")
 }
