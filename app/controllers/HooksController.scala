@@ -8,15 +8,18 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class HooksController extends Controller {
+
+  val PostHook = "post"
+
   def hook(phase: String, candidate: String, version: String, uname: String) = Action.async { request =>
     Future {
       val platformName = Platform(uname).getOrElse(Platform.Universal).name
       Logger.info(s"$phase install hook requested for: $candidate $version $platformName")
 
       (phase, candidate, version, platformName) match {
-        case ("post", Candidate.Java, "8u111", Platform.Linux.name) => Ok(views.html.java_8u111_linux())
-        case ("post", Candidate.Java, _, _) => NotFound
-        case ("post", _, _, _) => Ok(views.html.default(candidate, version, platformName))
+        case (PostHook, Candidate.Java, "8u111", Platform.Linux.name) => Ok(views.html.java_8u111_linux())
+        case (PostHook, Candidate.Java, _, _) => NotFound
+        case (PostHook, _, _, _) => Ok(views.html.default(candidate, version, platformName))
       }
     }
   }
