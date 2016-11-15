@@ -1,0 +1,15 @@
+@()
+#!/bin/bash
+
+echo "A Linux post install hook found for Java 8u111."
+
+work_dir="${SDKMAN_DIR}/tmp/out"
+cookie_file="${SDKMAN_DIR}/var/cookie"
+
+mkdir -p "$work_dir"
+/usr/bin/env tar zxvf "$binary_input" -C "$work_dir"
+cd "$work_dir"
+/usr/bin/env zip -r "$zip_output" .
+rm "$cookie_file"
+
+echo "Leaving post-install hook..."
