@@ -4,4 +4,4 @@
 
 # An example controller showing a sample home page
 GET			/alive										controllers.HealthController.alive
-GET			/hooks/post/:candidate/:version/:uname		controllers.HooksController.post(candidate, version, uname)
+GET			/hooks/:phase/:candidate/:version/:uname		controllers.HooksController.hook(phase, candidate, version, uname)
