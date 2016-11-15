@@ -3,8 +3,14 @@ Feature: Install Hooks
 		Given no relevant Hook is available
 		When I fetch a "post" hook for "scala" "2.12.0" on "Linux"
 		Then a 200 status code is received
-		And I receive a hook containing text: No Linux post install hook found for scala 2.12.0.
+		And I receive a hook containing text: No Linux post-install hook found for scala 2.12.0.
 		And I receive a hook containing text: mv "$binary_input" "$zip_output"
+
+	Scenario: A default Pre Hook is served
+		Given no relevant Hook is available
+		When I fetch a "pre" hook for "scala" "2.12.0" on "Linux"
+		Then a 200 status code is received
+		And I receive a hook containing text: No Linux pre-install hook found for scala 2.12.0.
 
 	Scenario: A platform specific Hook is served
 		Given a Hook is available for consumption
