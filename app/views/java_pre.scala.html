@@ -1,7 +1,9 @@
 @(candidate: String, version: String, platform: String)
 #!/bin/bash
-echo "A @platform pre-install hook found for @candidate @version."
-cookie="$SDKMAN_DIR/var/cookie"
-if [[ -f "$cookie" ]]; then rm "$cookie"; fi
-echo "oraclelicense=accept-securebackup-cookie" > "$cookie"
-echo "Dropped cookie..."
+function __sdkman_pre_installation_hook {
+    echo "A @platform pre-install hook found for @candidate @version."
+    cookie="$SDKMAN_DIR/var/cookie"
+    if [[ -f "$cookie" ]]; then rm "$cookie"; fi
+    echo "oraclelicense=accept-securebackup-cookie" > "$cookie"
+    echo "Dropped cookie..."
+}
