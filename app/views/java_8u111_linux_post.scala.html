@@ -1,15 +1,23 @@
 @(candidate: String, version: String, platform: String)
 #!/bin/bash
+function __sdkman_post_installation_hook {
+    echo ""
+    echo "A @platform post-install hook was found for @candidate @version."
+    echo ""
 
-echo "A @platform post-install hook found for @candidate @version."
+    work_dir="${SDKMAN_DIR}/tmp/out"
+    cookie_file="${SDKMAN_DIR}/var/cookie"
 
-work_dir="${SDKMAN_DIR}/tmp/out"
-cookie_file="${SDKMAN_DIR}/var/cookie"
+    echo "Repackaging @candidate @version to zip..."
 
-mkdir -p "$work_dir"
-/usr/bin/env tar zxvf "$binary_input" -C "$work_dir"
-cd "$work_dir"
-/usr/bin/env zip -r "$zip_output" .
-rm "$cookie_file"
+    mkdir -p "$work_dir"
+    /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
+    cd "$work_dir"
+    /usr/bin/env zip -qr "$zip_output" .
 
-echo "Leaving post-install hook..."
+    echo ""
+    echo "Done repackaging..."
+    echo ""
+    echo "Cleaning up cookie..."
+    rm "$cookie_file"
+}
