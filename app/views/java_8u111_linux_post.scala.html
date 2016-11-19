@@ -8,6 +8,8 @@ function __sdkman_post_installation_hook {
     work_dir="${SDKMAN_DIR}/tmp/out"
     cookie_file="${SDKMAN_DIR}/var/cookie"
 
+    __sdkman_validate_binary_input "$binary_input"
+
     echo "Repackaging @candidate @version to zip..."
 
     mkdir -p "$work_dir"
@@ -20,4 +22,13 @@ function __sdkman_post_installation_hook {
     echo ""
     echo "Cleaning up cookie..."
     rm "$cookie_file"
+}
+
+function __sdkman_validate_binary_input {
+    if ! tar tzf "$1" &> /dev/null; then
+        echo "Download has failed, aborting!"
+        echo ""
+        echo "Can not install java 8u101 at this time..."
+        return 1
+    fi
 }

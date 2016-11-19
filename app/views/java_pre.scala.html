@@ -1,11 +1,26 @@
 @(candidate: String, version: String, platform: String)
 #!/bin/bash
 function __sdkman_pre_installation_hook {
+
     echo ""
     echo "A @platform pre-install hook was found for @candidate @version."
-    cookie="$SDKMAN_DIR/var/cookie"
-    if [[ -f "$cookie" ]]; then rm "$cookie"; fi
-    echo "oraclelicense=accept-securebackup-cookie" > "$cookie"
     echo ""
-    echo "Dropped cookie..."
+    echo "Oracle requires that you agree with the Oracle Binary Code License Agreement"
+    echo "prior to installation. The license agreement can be found at:"
+    echo ""
+    echo "  http://www.oracle.com/technetwork/java/javase/terms/license/index.html"
+    echo ""
+
+    echo -n "Do you agree to the terms of this agreement? (Y/n)"
+    read agree
+    if [[ "$agree" == "N" || "$agree" == "n" ]]; then
+        echo "Not installing @candidate @version at this time..."
+        return 1
+    else
+        cookie="$SDKMAN_DIR/var/cookie"
+        if [[ -f "$cookie" ]]; then rm "$cookie"; fi
+        echo "oraclelicense=accept-securebackup-cookie" > "$cookie"
+        echo ""
+        echo "Dropped cookie..."
+    fi
 }
