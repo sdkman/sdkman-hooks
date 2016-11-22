@@ -3,10 +3,10 @@
 function __sdkman_post_installation_hook {
     __sdkman_echo_debug "A @platform post-install hook was found for @candidate @version."
 
+    __sdkman_validate_binary_input "$binary_input" || return 1
+
     local work_dir="${SDKMAN_DIR}/tmp/out"
     local cookie_file="${SDKMAN_DIR}/var/cookie"
-
-    __sdkman_validate_binary_input "$binary_input"
 
     echo "Repackaging @candidate @version..."
 
