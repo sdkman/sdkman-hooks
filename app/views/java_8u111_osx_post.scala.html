@@ -3,7 +3,7 @@
 function __sdkman_post_installation_hook {
     __sdkman_echo_debug "A @platform post-install hook was found for @candidate @version."
 
-    __sdkman_validate_input_binary "$input_binary" || return 1
+    __sdkman_validate_input_binary "$binary_input" || return 1
     __sdkman_authorise_user || return 1
 
     local mount_volume="/Volumes/JDK 8 Update 111"
@@ -13,7 +13,7 @@ function __sdkman_post_installation_hook {
     rm -rf "$work_dir"
 
     echo "Attaching to the DMG..."
-    disks=$(hdiutil attach -noverify -nomount "$input_binary")
+    disks=$(hdiutil attach -noverify -nomount "$binary_input")
     disk=$(echo "$disks" | awk '{print $1;}' | head -n 1)
 
     echo "Mounting $disk as Volume..."
