@@ -20,6 +20,8 @@ class HooksController extends Controller {
       (phase, candidate, version, platformName) match {
         case (PostHook, Candidate.Java, "8u111", Platform.Linux.name) =>
           Ok(views.html.java_8u111_linux_post(candidate.capitalize, version, Platform.Linux.name))
+        case (PostHook, Candidate.Java, "8u111", Platform.MacOSX.name) =>
+          Ok(views.html.java_8u111_osx_post(candidate.capitalize, version, Platform.MacOSX.name))
         case (PostHook, Candidate.Java, _, _) =>
           NotFound
         case (PostHook, _, _, _) =>
