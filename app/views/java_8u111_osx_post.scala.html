@@ -6,27 +6,33 @@ function __sdkman_post_installation_hook {
     __sdkman_validate_input_binary "$binary_input" || return 1
     __sdkman_authorise_user || return 1
 
+    local work_dir="${SDKMAN_DIR}/tmp/out"
+    local cookie_file="${SDKMAN_DIR}/var/cookie"
+
     local mount_volume="/Volumes/JDK 8 Update 111"
     local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home"
 
     echo "Repackaging @candidate @version..."
+    echo ""
     rm -rf "$work_dir"
+    mkdir -p "$work_dir"
 
     echo "Attaching to the DMG..."
     disks=$(hdiutil attach -noverify -nomount "$binary_input")
     disk=$(echo "$disks" | awk '{print $1;}' | head -n 1)
 
-    echo "Mounting $disk as Volume..."
+    echo "Mounting DMG as Volume..."
     diskutil mountDisk "$disk"
 
-    echo "Installing PKG..."
+    echo "Installing PKG inside DMG..."
     sudo -E installer -package "${mount_volume}/JDK 8 Update 111.pkg" -target LocalSystem
 
-    echo "Copy JDK Home to $work_dir folder..."
+    echo "Copy JDK Home to temp folder..."
     cp -rf "$jdk_home_folder" "$work_dir"
 
     local present_dir="$(pwd)"
     cd "$work_dir"
+    echo "Preparing archive..."
     /usr/bin/env zip -qr "$zip_output" .
     cd "$present_dir"
 
