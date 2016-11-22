@@ -3,7 +3,7 @@
 function __sdkman_post_installation_hook {
     __sdkman_echo_debug "A @platform post-install hook was found for @candidate @version."
 
-    __sdkman_validate_binary_input || return 1
+    __sdkman_validate_input_binary "$input_binary" || return 1
     __sdkman_authorise_user || return 1
 
     local mount_volume="/Volumes/JDK 8 Update 111"
@@ -40,15 +40,15 @@ function __sdkman_post_installation_hook {
     rm "$cookie_file"
 }
 
-function __sdkman_validate_binary_input {
+function __sdkman_validate_input_binary {
     local sha_256="a1c9308b625827ecdf870eab578ced1c5c61bbf2c16195fc5c9ffc25439e673d"
-    checksum=$(shasum -a 256 "$input_binary" | awk '{print $1}')
+    checksum=$(shasum -a 256 "$1" | awk '{print $1}')
     if [[ $sha_256 != $checksum ]]; then
         echo "SHA-256 does not match! Please try re-installing."
         echo "Expected: $sha_256"
         echo "Actual  : $checksum"
         exit 1
-        else
+    else
         echo "Binary validation passed..."
         echo "$checksum SHA-256 checksum matches."
     fi
