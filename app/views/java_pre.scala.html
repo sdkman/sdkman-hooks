@@ -10,7 +10,7 @@ function __sdkman_pre_installation_hook {
     echo "  http://www.oracle.com/technetwork/java/javase/terms/license/index.html"
     echo ""
 
-    echo -n "Do you agree to the terms of this agreement? (Y/n)"
+    echo -n "Do you agree to the terms of this agreement? (Y/n): "
     read agree
     if [[ "$agree" == "N" || "$agree" == "n" ]]; then
         echo "Not installing @candidate @version at this time..."
