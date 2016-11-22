@@ -4,16 +4,17 @@ function __sdkman_post_installation_hook {
     __sdkman_echo_debug "A @platform post-install hook was found for @candidate @version."
 
     __sdkman_validate_input_binary "$binary_input" || return 1
+
     __sdkman_authorise_user || return 1
 
     local work_dir="${SDKMAN_DIR}/tmp/out"
     local cookie_file="${SDKMAN_DIR}/var/cookie"
-
     local mount_volume="/Volumes/JDK 8 Update 111"
     local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home"
 
-    echo "Repackaging @candidate @version..."
     echo ""
+    echo "Repackaging @candidate @version..."
+
     rm -rf "$work_dir"
     mkdir -p "$work_dir"
 
@@ -39,9 +40,7 @@ function __sdkman_post_installation_hook {
     echo "Unmounting volume..."
     hdiutil unmount "$mount_volume"
 
-    echo ""
     echo "Done repackaging..."
-    echo ""
     echo "Cleaning up cookie..."
     rm "$cookie_file"
 }
@@ -56,7 +55,6 @@ function __sdkman_validate_input_binary {
         exit 1
     else
         echo "Binary validation passed..."
-        echo "$checksum SHA-256 checksum matches."
     fi
 }
 
