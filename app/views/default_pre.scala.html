@@ -1,5 +1,5 @@
 @(candidate: String, version: String, platform: String)
 #!/bin/bash
 function __sdkman_pre_installation_hook {
-    echo "No @platform pre-install hook found for @candidate @version."
+    __sdkman_echo_debug "No @platform pre-install hook found for @candidate @version."
 }

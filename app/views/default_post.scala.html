@@ -1,11 +1,7 @@
 @(candidate: String, version: String, platform: String)
 #!/bin/bash
 function __sdkman_post_installation_hook {
-    echo ""
-    echo "No @platform post-install hook found for @candidate @version."
-    echo ""
-    echo "Falling back to default hook..."
-    echo ""
-    echo "Moving $binary_input to $zip_output"
+    __sdkman_echo_debug "No @platform post-install hook found for @candidate @version."
+    __sdkman_echo_debug "Moving $binary_input to $zip_output"
     mv "$binary_input" "$zip_output"
 }
