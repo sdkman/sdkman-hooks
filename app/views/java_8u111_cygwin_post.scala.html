@@ -10,7 +10,9 @@ function __sdkman_post_installation_hook {
     echo "Repackaging @candidate @version..."
 
     mkdir -p "$work_dir"
-    "$binary_input" /s INSTALLDIR="$work_dir"
+    chmod +x "$binary_input"
+    "$binary_input" /s INSTALLDIR=C:\\temp\\jdk
+    mv /cygdrive/c/temp/jdk "$work_dir"
 
     local present_dir="$(pwd)"
     cd "$work_dir"
