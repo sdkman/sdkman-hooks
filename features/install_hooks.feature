@@ -23,15 +23,10 @@ Feature: Install Hooks
 		Given a Hook is available for consumption
 		When I fetch a "pre" hook for "java" "8u111" on "Linux"
 		Then a 200 status code is received
-		And I receive a hook containing text: A Linux pre-install hook was found for Java 8u111.
+		And I receive a hook containing text: A pre-install hook was found for Java 8u111.
 		And I receive a hook containing text: echo "oraclelicense=accept-securebackup-cookie" > "$cookie"
 
 	Scenario: A platform specific Post Hook is not found
 		Given no relevant Hook is available
 		When I fetch a "post" hook for "java" "8u111" on "FreeBSD"
-		Then a 404 status code is received
-
-	Scenario: A platform specific Pre Hook is not found
-		Given no relevant Hook is available
-		When I fetch a "pre" hook for "java" "8u111" on "FreeBSD"
 		Then a 404 status code is received

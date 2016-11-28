@@ -22,16 +22,14 @@ class HooksController extends Controller {
           Ok(views.html.java_8u111_linux_post(candidate.capitalize, version, Platform.Linux.name))
         case (PostHook, Candidate.Java, "8u111", Platform.MacOSX.name) =>
           Ok(views.html.java_8u111_osx_post(candidate.capitalize, version, Platform.MacOSX.name))
+        case (PostHook, Candidate.Java, "8u111", Platform.Windows64.name) =>
+          Ok(views.html.java_8u111_cygwin_post(candidate.capitalize, version, Platform.Windows64.name))
         case (PostHook, Candidate.Java, _, _) =>
           NotFound
         case (PostHook, _, _, _) =>
           Ok(views.html.default_post(candidate.capitalize, version, platformName))
-        case (PreHook, Candidate.Java, _, Platform.Linux.name) =>
-          Ok(views.html.java_pre(candidate.capitalize, version, Platform.Linux.name))
-        case (PreHook, Candidate.Java, _, Platform.MacOSX.name) =>
-          Ok(views.html.java_pre(candidate.capitalize, version, Platform.MacOSX.name))
         case (PreHook, Candidate.Java, _, _) =>
-          NotFound
+          Ok(views.html.java_pre(candidate.capitalize, version))
         case (PreHook, _, _, _) =>
           Ok(views.html.default_pre(candidate.capitalize, version, platformName))
       }

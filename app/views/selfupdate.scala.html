@@ -50,7 +50,7 @@ function __sdkman_echo_debug {
 echo ""
 echo "Updating SDKMAN..."
 
-SDKMAN_VERSION="<SDKMAN_CLI_VERSION>"
+SDKMAN_VERSION="SDKMAN_CLI_VERSION"
 if [ -z "$SDKMAN_DIR" ]; then
 	SDKMAN_DIR="$HOME/.sdkman"
 fi
@@ -61,7 +61,7 @@ sdkman_tmp_zip="${SDKMAN_DIR}/tmp/res-${SDKMAN_VERSION}.zip"
 sdkman_stage_folder="${SDKMAN_DIR}/tmp/stage"
 sdkman_src_folder="${SDKMAN_DIR}/src"
 
-SDKMAN_SERVICE="@SDKMAN_SERVICE@"
+SDKMAN_SERVICE="SDKMAN_SERVICE"
 
 # fetch new distribution and check integrity
 download_url="${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=selfupdate&version=${SDKMAN_VERSION}"
@@ -108,7 +108,7 @@ IFS=","
 SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
 IFS="$OLD_IFS"
 
-for candidate in "${SDKMAN_CANDIDATES[@]}"; do
+for candidate in "${SDKMAN_CANDIDATES[_]}"; do
     if [[ -n "$candidate" && -d "${SDKMAN_DIR}/${candidate}" && ! -L "${SDKMAN_DIR}/${candidate}" ]]; then
         if [[ -z "$(ls -A ${SDKMAN_DIR}/${candidate})" ]]; then
             __sdkman_echo_debug "Attempt removal of ${candidate} dir: ${SDKMAN_DIR}/${candidate}"
