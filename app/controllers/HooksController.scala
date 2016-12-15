@@ -18,6 +18,8 @@ class HooksController extends Controller {
       Logger.info(s"$phase install hook requested for: $candidate $version $platformName")
 
       (phase, candidate, version, platformName) match {
+        case (PostHook, Candidate.Java, "6u65", Platform.MacOSX.name) =>
+          Ok(views.html.java_6u65_osx_post(candidate.capitalize, version, Platform.MacOSX.name))
         case (PostHook, Candidate.Java, "8u111", Platform.Linux.name) =>
           Ok(views.html.java_8u111_linux_post(candidate.capitalize, version, Platform.Linux.name))
         case (PostHook, Candidate.Java, "8u111", Platform.MacOSX.name) =>
@@ -28,6 +30,8 @@ class HooksController extends Controller {
           NotFound
         case (PostHook, _, _, _) =>
           Ok(views.html.default_post(candidate.capitalize, version, platformName))
+        case (PreHook, Candidate.Java, "6u65", Platform.MacOSX.name) =>
+          Ok(views.html.java_6u65_osx_pre(candidate.capitalize, version))
         case (PreHook, Candidate.Java, _, _) =>
           Ok(views.html.java_pre(candidate.capitalize, version))
         case (PreHook, _, _, _) =>

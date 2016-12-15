@@ -1,0 +1,7 @@
+@(candidate: String, version: String)
+#!/bin/bash
+function __sdkman_pre_installation_hook {
+    __sdkman_echo_debug "No pre-install hook required for @candidate @version."
+
+    echo "No License requirements for Apple @candidate JDK @version."
+}
