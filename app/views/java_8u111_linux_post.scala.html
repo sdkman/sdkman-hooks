@@ -2,7 +2,7 @@
 @(candidate: String, version: String, platform: Platform)
 #!/bin/bash
 function __sdkman_post_installation_hook {
-    __sdkman_echo_debug "A @{platform.name} post-install hook was found for @candidate @version."
+    __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.capitalize} @version."
 
     __sdkman_validate_binary_input "$binary_input" || return 1
 

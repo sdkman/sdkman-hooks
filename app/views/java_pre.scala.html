@@ -2,7 +2,7 @@
 #!/bin/bash
 function __sdkman_pre_installation_hook {
 
-    __sdkman_echo_debug "A pre-install hook was found for @candidate @version."
+    __sdkman_echo_debug "A pre-install hook was found for @{candidate.capitalize} @version."
     echo ""
     echo "Oracle requires that you agree with the Oracle Binary Code License Agreement"
     echo "prior to installation. The license agreement can be found at:"
