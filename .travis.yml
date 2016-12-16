@@ -23,8 +23,3 @@ cache:
   directories:
   - "$HOME/.ivy2"
   - "$HOME/.sbt"
-
-# blacklist
-branches:
-  except:
-    - RELEASE

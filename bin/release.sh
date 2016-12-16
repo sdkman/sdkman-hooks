@@ -20,9 +20,6 @@ sed -i "s/1.0.0-SNAPSHOT/$VERSION/g" .travis.yml
 git add conf/application.conf .travis.yml
 git commit -m "Update version of $BRANCH to $VERSION"
 
-#push branch
-git push -f origin "$BRANCH:$BRANCH"
-
 #push tag
 git tag "$VERSION"
 git push origin "$VERSION"
