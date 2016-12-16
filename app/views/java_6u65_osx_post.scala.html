@@ -8,6 +8,7 @@ function __sdkman_post_installation_hook {
     __sdkman_authorise_user || return 1
 
     local work_dir="${SDKMAN_DIR}/tmp/out"
+    local candidate_base_dir="${work_dir}/@candidate-@version"
     local mount_volume="/Volumes/Java for OS X 2015-001"
     local jdk_home_folder="/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home"
 
@@ -28,12 +29,14 @@ function __sdkman_post_installation_hook {
     sudo -E installer -package "${mount_volume}/JavaForOSX.pkg" -target LocalSystem
 
     echo "Copy JDK Home to temp folder..."
-    cp -rf "$jdk_home_folder" "$work_dir"
+    cp -RP "$jdk_home_folder" "$candidate_base_dir"
+    unlink "${candidate_base_dir}/bundle"
+    ln -s "${jdk_home_folder}/.." "${candidate_base_dir}/bundle"
 
     local present_dir="$(pwd)"
     cd "$work_dir"
     echo "Preparing archive..."
-    /usr/bin/env zip -qr "$zip_output" .
+    /usr/bin/env zip -qr --symlinks "$zip_output" .
     cd "$present_dir"
 
     echo "Unmounting volume..."
