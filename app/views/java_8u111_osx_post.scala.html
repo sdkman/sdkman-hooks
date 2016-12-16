@@ -9,6 +9,7 @@ function __sdkman_post_installation_hook {
     __sdkman_authorise_user || return 1
 
     local work_dir="${SDKMAN_DIR}/tmp/out"
+    local candidate_work_dir="${work_dir}/@candidate-@version"
     local cookie_file="${SDKMAN_DIR}/var/cookie"
     local mount_volume="/Volumes/JDK 8 Update 111"
     local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home"
@@ -30,7 +31,7 @@ function __sdkman_post_installation_hook {
     sudo -E installer -package "${mount_volume}/JDK 8 Update 111.pkg" -target LocalSystem
 
     echo "Copy JDK Home to temp folder..."
-    cp -rf "$jdk_home_folder" "$work_dir"
+    cp -rf "$jdk_home_folder" "$candidate_work_dir"
 
     local present_dir="$(pwd)"
     cd "$work_dir"
