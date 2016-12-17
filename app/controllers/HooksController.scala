@@ -22,6 +22,8 @@ class HooksController extends Controller {
           Ok(views.html.java_6u65_osx_post(candidate, version, Platform.MacOSX))
         case (PostHook, Candidate.Java, "8u111", Platform.Linux) =>
           Ok(views.html.java_8u111_linux_post(candidate, version, Platform.Linux))
+        case (PostHook, Candidate.Java, "7u79", Platform.MacOSX) =>
+          Ok(views.html.java_7u79_osx_post(candidate, version, Platform.MacOSX))
         case (PostHook, Candidate.Java, "8u111", Platform.MacOSX) =>
           Ok(views.html.java_8u111_osx_post(candidate, version, Platform.MacOSX))
         case (PostHook, Candidate.Java, "8u111", Platform.Windows64) =>
@@ -30,9 +32,9 @@ class HooksController extends Controller {
           NotFound
         case (PostHook, _, _, _) =>
           Ok(views.html.default_post(candidate, version, platform.name))
-        case (PreHook, Candidate.Java, "6u65", Platform.MacOSX) =>
-          Ok(views.html.java_6u65_osx_pre(candidate, version))
-        case (PreHook, Candidate.Java, _, _) =>
+        case (PreHook, Candidate.Java, "6u65", _) =>
+          Ok(views.html.default_pre(candidate, version, platform.name))
+        case (PreHook, Candidate.Java, "8u111", _) =>
           Ok(views.html.java_pre(candidate, version))
         case (PreHook, _, _, _) =>
           Ok(views.html.default_pre(candidate, version, platform.name))
