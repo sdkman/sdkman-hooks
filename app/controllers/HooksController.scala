@@ -34,6 +34,8 @@ class HooksController extends Controller {
           Ok(views.html.default_post(candidate, version, platform.name))
         case (PreHook, Candidate.Java, "6u65", _) =>
           Ok(views.html.default_pre(candidate, version, platform.name))
+        case (PreHook, Candidate.Java, "7u79", _) =>
+          Ok(views.html.java_pre(candidate, version))
         case (PreHook, Candidate.Java, "8u111", _) =>
           Ok(views.html.java_pre(candidate, version))
         case (PreHook, _, _, _) =>
