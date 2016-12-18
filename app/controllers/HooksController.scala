@@ -20,10 +20,10 @@ class HooksController extends Controller {
       (phase, candidate, version, platform) match {
         case (PostHook, Candidate.Java, "6u65", Platform.MacOSX) =>
           Ok(views.html.java_6u65_osx_post(candidate, version, Platform.MacOSX))
-        case (PostHook, Candidate.Java, "8u111", Platform.Linux) =>
-          Ok(views.html.java_8u111_linux_post(candidate, version, Platform.Linux))
         case (PostHook, Candidate.Java, "7u79", Platform.MacOSX) =>
           Ok(views.html.java_7u79_osx_post(candidate, version, Platform.MacOSX))
+        case (PostHook, Candidate.Java, "8u111", Platform.Linux) =>
+          Ok(views.html.java_8u111_linux_post(candidate, version, Platform.Linux))
         case (PostHook, Candidate.Java, "8u111", Platform.MacOSX) =>
           Ok(views.html.java_8u111_osx_post(candidate, version, Platform.MacOSX))
         case (PostHook, Candidate.Java, "8u111", Platform.Windows64) =>
