@@ -30,7 +30,7 @@ function __sdkman_validate_binary_input {
     if ! tar tzf "$1" &> /dev/null; then
         echo "Download has failed, aborting!"
         echo ""
-        echo "Can not install java 8u101 at this time..."
+        echo "Can not install java @version at this time..."
         return 1
     fi
 }
