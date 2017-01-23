@@ -37,7 +37,7 @@ class HooksController extends Controller {
 
         //POST: Cygwin
         case (PostHook, Candidate.Java, _, Platform.Windows64) =>
-          Ok(views.html.java_cygwin_post(candidate, version, Platform.MacOSX))
+          Ok(views.html.java_cygwin_post(candidate, version, Platform.Windows64))
 
         //POST
         case (PostHook, Candidate.Java, _, _) =>
