@@ -32,12 +32,12 @@ class HooksController extends Controller {
           Ok(views.html.java_9_ea_osx_post(candidate, version, Platform.MacOSX))
 
         //POST: Linux
-        case (PostHook, Candidate.Java, "8u111", Platform.Linux) =>
-          Ok(views.html.java_8_linux_post(candidate, version, Platform.Linux))
+        case (PostHook, Candidate.Java, _, Platform.Linux) =>
+          Ok(views.html.java_linux_post(candidate, version, Platform.Linux))
 
         //POST: Cygwin
-        case (PostHook, Candidate.Java, "8u111", Platform.Windows64) =>
-          Ok(views.html.java_8_cygwin_post(candidate, version, Platform.MacOSX))
+        case (PostHook, Candidate.Java, _, Platform.Windows64) =>
+          Ok(views.html.java_cygwin_post(candidate, version, Platform.MacOSX))
 
         //POST
         case (PostHook, Candidate.Java, _, _) =>
