@@ -15,7 +15,7 @@ function __sdkman_post_installation_hook {
     cd "$work_dir"
 
     chmod +x "$binary_input"
-    "$binary_input" &> /dev/null
+    "$binary_input"
 
     /usr/bin/env zip -qr "$zip_output" .
     cd "$present_dir"
