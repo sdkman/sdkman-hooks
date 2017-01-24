@@ -4,8 +4,6 @@
 function __sdkman_post_installation_hook {
     __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.capitalize} @version."
 
-    __sdkman_validate_binary_input "$binary_input" || return 1
-
     local present_dir="$(pwd)"
     local work_dir="${SDKMAN_DIR}/tmp/out"
     local cookie_file="${SDKMAN_DIR}/var/cookie"
@@ -26,13 +24,4 @@ function __sdkman_post_installation_hook {
     echo "Done repackaging..."
     __sdkman_echo_debug "Cleaning up cookie..."
     rm "$cookie_file"
-}
-
-function __sdkman_validate_binary_input {
-    if ! tar tzf "$1" &> /dev/null; then
-        echo "Download has failed, aborting!"
-        echo ""
-        echo "Can not install java @version at this time..."
-        return 1
-    fi
 }
