@@ -6,6 +6,7 @@ function __sdkman_post_installation_hook {
 
     __sdkman_validate_binary_input "$binary_input" || return 1
 
+    local present_dir="$(pwd)"
     local work_dir="${SDKMAN_DIR}/tmp/out"
     local cookie_file="${SDKMAN_DIR}/var/cookie"
 
@@ -15,7 +16,6 @@ function __sdkman_post_installation_hook {
     mkdir -p "$work_dir"
     /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
 
-    local present_dir="$(pwd)"
     cd "$work_dir"
     /usr/bin/env zip -qr "$zip_output" .
     cd "$present_dir"
