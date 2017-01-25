@@ -42,6 +42,8 @@ class HooksController extends Controller {
           Ok(views.html.java_linux_tarball_post(candidate, version, Platform.Linux))
 
         //POST: Cygwin
+        case (PostHook, Candidate.Java, "5u22", Platform.Windows64) =>
+          Ok(views.html.default_post(candidate, version, Platform.Windows64.name))
         case (PostHook, Candidate.Java, _, Platform.Windows64) =>
           Ok(views.html.java_cygwin_post(candidate, version, Platform.Windows64))
 
