@@ -17,7 +17,9 @@ class HooksController extends Controller {
       val platform = Platform(uname).getOrElse(Platform.Universal)
       Logger.info(s"$phase install hook requested for: $candidate $version $platform")
 
-      (phase, candidate, version, platform) match {
+      def normalise(version: String) = if(version.startsWith("9ea") && candidate == Candidate.Java) "9ea" else version
+
+      (phase, candidate, normalise(version), platform) match {
 
         //POST: Mac OSX
         case (PostHook, Candidate.Java, "6u65", Platform.MacOSX) =>
@@ -28,7 +30,7 @@ class HooksController extends Controller {
           Ok(views.html.java_8u111_osx_post(candidate, version, Platform.MacOSX))
         case (PostHook, Candidate.Java, "8u121", Platform.MacOSX) =>
           Ok(views.html.java_8u121_osx_post(candidate, version, Platform.MacOSX))
-        case (PostHook, Candidate.Java, "9ea153", Platform.MacOSX) =>
+        case (PostHook, Candidate.Java, "9ea", Platform.MacOSX) =>
           Ok(views.html.java_9_ea_osx_post(candidate, version, Platform.MacOSX))
 
         //POST: Linux
@@ -54,8 +56,10 @@ class HooksController extends Controller {
           Ok(views.html.default_post(candidate, version, platform.name))
 
         //PRE
+        case (PreHook, Candidate.Java, "9ea", _) =>
+          Ok(views.html.java_pre_oeadla(candidate, version))
         case (PreHook, Candidate.Java, _, _) =>
-          Ok(views.html.java_pre(candidate, version))
+          Ok(views.html.java_pre_obcla(candidate, version))
         case (PreHook, _, _, _) =>
           Ok(views.html.default_pre(candidate, version, platform.name))
       }
