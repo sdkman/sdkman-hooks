@@ -12,9 +12,9 @@ class HooksController extends Controller {
   val PostHook = "post"
   val PreHook = "pre"
 
-  def hook(phase: String, candidate: String, version: String, uname: String) = Action.async { request =>
+  def hook(phase: String, candidate: String, version: String, id: String) = Action.async { request =>
     Future {
-      val platform = Platform(uname).getOrElse(Platform.Universal)
+      val platform = Platform(id).getOrElse(Platform.Universal)
       Logger.info(s"$phase install hook requested for: $candidate $version $platform")
 
       def normalise(version: String) = if(version.startsWith("9ea") && candidate == Candidate.Java) "9ea" else version
