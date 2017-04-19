@@ -11,8 +11,8 @@ function __sdkman_post_installation_hook {
     local work_dir="${SDKMAN_DIR}/tmp/out"
     local candidate_work_dir="${work_dir}/@candidate-@version"
     local cookie_file="${SDKMAN_DIR}/var/cookie"
-    local mount_volume="/Volumes/JDK 8 Update 121"
-    local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home"
+    local mount_volume="/Volumes/JDK 8 Update 131"
+    local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home"
 
     echo ""
     echo "Repackaging @candidate @version..."
@@ -28,7 +28,7 @@ function __sdkman_post_installation_hook {
     diskutil mountDisk "$disk"
 
     echo "Installing PKG inside DMG..."
-    sudo -E installer -package "${mount_volume}/JDK 8 Update 121.pkg" -target LocalSystem
+    sudo -E installer -package "${mount_volume}/JDK 8 Update 131.pkg" -target LocalSystem
 
     echo "Copy JDK Home to temp folder..."
     cp -rf "$jdk_home_folder" "$candidate_work_dir"
