@@ -30,6 +30,8 @@ class HooksController extends Controller {
           Ok(views.txt.java_8u111_osx_post(candidate, version, Platform.MacOSX))
         case (PostHook, Candidate.Java, "8u121", Platform.MacOSX) =>
           Ok(views.txt.java_8u121_osx_post(candidate, version, Platform.MacOSX))
+        case (PostHook, Candidate.Java, "8u131", Platform.MacOSX) =>
+          Ok(views.txt.java_8u131_osx_post(candidate, version, Platform.MacOSX))
         case (PostHook, Candidate.Java, "9ea", Platform.MacOSX) =>
           Ok(views.txt.java_9_ea_osx_post(candidate, version, Platform.MacOSX))
 
