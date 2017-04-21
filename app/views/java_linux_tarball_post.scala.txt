@@ -1,8 +1,8 @@
-@import domain.Platform
-@(candidate: String, version: String, platform: Platform)
+@import domain._
+@(candidate: Candidate, version: String, platform: Platform)
 #!/bin/bash
 function __sdkman_post_installation_hook {
-    __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.capitalize} @version."
+    __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.name} @version."
 
     __sdkman_validate_binary_input "$binary_input" || return 1
 
@@ -11,7 +11,7 @@ function __sdkman_post_installation_hook {
     local cookie_file="${SDKMAN_DIR}/var/cookie"
 
     echo ""
-    echo "Repackaging @candidate @version..."
+    echo "Repackaging @{candidate.name} @version..."
 
     mkdir -p "$work_dir"
     /usr/bin/env tar zxf "$binary_input" -C "$work_dir"

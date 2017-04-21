@@ -1,8 +1,9 @@
-@(candidate: String, version: String)
+@import domain._
+@(candidate: Candidate, version: String)
 #!/bin/bash
 function __sdkman_pre_installation_hook {
 
-    __sdkman_echo_debug "A pre-install hook was found for @{candidate.capitalize} @version."
+    __sdkman_echo_debug "A pre-install hook was found for @{candidate.name} @version."
     echo ""
     echo "Oracle requires that you agree with the Oracle Technology Network Early"
     echo "Adopter Development License Agreement prior to installation."
@@ -14,7 +15,7 @@ function __sdkman_pre_installation_hook {
     echo -n "Do you agree to the terms of this agreement? (Y/n): "
     read agree
     if [[ "$agree" == "N" || "$agree" == "n" ]]; then
-        echo "Not installing @candidate @version at this time..."
+        echo "Not installing @{candidate.name} @version at this time..."
         return 1
     else
         cookie="$SDKMAN_DIR/var/cookie"

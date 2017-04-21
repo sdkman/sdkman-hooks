@@ -3,5 +3,5 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET			/alive										controllers.HealthController.alive
-GET			/hooks/:phase/:candidate/:version/:uname	controllers.HooksController.hook(phase, candidate, version, uname)
+GET			/alive										    controllers.HealthController.alive
+GET			/hooks/:phase/:candidate/:version/:platform	    controllers.HooksController.hook(phase, candidate, version, platform)

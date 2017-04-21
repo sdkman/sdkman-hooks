@@ -1,21 +1,21 @@
-@import domain.Platform
-@(candidate: String, version: String, platform: Platform)
+@import domain._
+@(candidate: Candidate, version: String, platform: Platform)
 #!/bin/bash
 function __sdkman_post_installation_hook {
-    __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.capitalize} @version."
+    __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.name} @version."
 
     __sdkman_validate_input_binary "$binary_input" || return 1
 
     __sdkman_authorise_user || return 1
 
     local work_dir="${SDKMAN_DIR}/tmp/out"
-    local candidate_work_dir="${work_dir}/@candidate-@version"
+    local candidate_work_dir="${work_dir}/@{candidate.identifier}-@version"
     local cookie_file="${SDKMAN_DIR}/var/cookie"
     local mount_volume="/Volumes/JDK 7 Update 79"
     local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home"
 
     echo ""
-    echo "Repackaging @candidate @version..."
+    echo "Repackaging @{candidate.name} @version..."
 
     rm -rf "$work_dir"
     mkdir -p "$work_dir"

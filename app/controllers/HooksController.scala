@@ -12,12 +12,13 @@ class HooksController extends Controller {
   val PostHook = "post"
   val PreHook = "pre"
 
-  def hook(phase: String, candidate: String, version: String, id: String) = Action.async { request =>
+  def hook(phase: String, candidateId: String, version: String, platformId: String) = Action.async { request =>
     Future {
-      val platform = Platform(id).getOrElse(Platform.Universal)
-      Logger.info(s"$phase install hook requested for: $candidate $version $platform")
+      implicit val candidate = Candidate(candidateId)
 
-      def normalise(version: String) = if(version.startsWith("9ea") && candidate == Candidate.Java) "9ea" else version
+      val platform = Platform(platformId).getOrElse(Platform.Universal)
+
+      Logger.info(s"$phase install hook requested for: $candidateId $version ${platform.name}")
 
       (phase, candidate, normalise(version), platform) match {
 
@@ -26,12 +27,8 @@ class HooksController extends Controller {
           Ok(views.txt.java_6u65_osx_post(candidate, version, Platform.MacOSX))
         case (PostHook, Candidate.Java, "7u79", Platform.MacOSX) =>
           Ok(views.txt.java_7u79_osx_post(candidate, version, Platform.MacOSX))
-        case (PostHook, Candidate.Java, "8u111", Platform.MacOSX) =>
-          Ok(views.txt.java_8u111_osx_post(candidate, version, Platform.MacOSX))
-        case (PostHook, Candidate.Java, "8u121", Platform.MacOSX) =>
-          Ok(views.txt.java_8u121_osx_post(candidate, version, Platform.MacOSX))
-        case (PostHook, Candidate.Java, "8u131", Platform.MacOSX) =>
-          Ok(views.txt.java_8u131_osx_post(candidate, version, Platform.MacOSX))
+        case (PostHook, Candidate.Java, "8u", Platform.MacOSX) =>
+          Ok(views.txt.java_8_update_osx_post(candidate, version, Platform.MacOSX))
         case (PostHook, Candidate.Java, "9ea", Platform.MacOSX) =>
           Ok(views.txt.java_9_ea_osx_post(candidate, version, Platform.MacOSX))
 
@@ -47,7 +44,7 @@ class HooksController extends Controller {
 
         //POST: Cygwin
         case (PostHook, Candidate.Java, "5u22", Platform.Windows64) =>
-          Ok(views.txt.default_post(candidate, version, Platform.Windows64.name))
+          Ok(views.txt.default_post(candidate, version, Platform.Windows64))
         case (PostHook, Candidate.Java, _, Platform.Windows64) =>
           Ok(views.txt.java_cygwin_post(candidate, version, Platform.Windows64))
 
@@ -55,7 +52,7 @@ class HooksController extends Controller {
         case (PostHook, Candidate.Java, _, _) =>
           NotFound
         case (PostHook, _, _, _) =>
-          Ok(views.txt.default_post(candidate, version, platform.name))
+          Ok(views.txt.default_post(candidate, version, platform))
 
         //PRE
         case (PreHook, Candidate.Java, "9ea", _) =>
@@ -63,8 +60,18 @@ class HooksController extends Controller {
         case (PreHook, Candidate.Java, _, _) =>
           Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, _, _, _) =>
-          Ok(views.txt.default_pre(candidate, version, platform.name))
+          Ok(views.txt.default_pre(candidate, version, platform))
       }
     }
+  }
+
+  implicit class EnhancedVersion(v: String) {
+    def isJavaMajor(major: String)(implicit c: Candidate): Boolean = v.startsWith(major) && c == Candidate.Java
+  }
+
+  private def normalise(version: String)(implicit c: Candidate) = version match {
+    case v if v.isJavaMajor("9") => "9ea"
+    case v if v.isJavaMajor("8")=> "8u"
+    case _ => version
   }
 }

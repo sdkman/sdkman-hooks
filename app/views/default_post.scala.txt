@@ -1,7 +1,8 @@
-@(candidate: String, version: String, platform: String)
+@import domain._
+@(candidate: Candidate, version: String, platform: Platform)
 #!/bin/bash
 function __sdkman_post_installation_hook {
-    __sdkman_echo_debug "No @platform post-install hook found for @{candidate.capitalize} @version."
+    __sdkman_echo_debug "No @{platform.name} post-install hook found for @{candidate.name} @version."
     __sdkman_echo_debug "Moving $binary_input to $zip_output"
     mv "$binary_input" "$zip_output"
 }

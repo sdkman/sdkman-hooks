@@ -1,21 +1,22 @@
-@import domain.Platform
-@(candidate: String, version: String, platform: Platform)
+@import domain._
+@(candidate: Candidate, version: String, platform: Platform)
 #!/bin/bash
+@defining(version.split("u")) { case Array(major, minor) =>
 function __sdkman_post_installation_hook {
-    __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.capitalize} @version."
+    __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.name} @version."
 
     __sdkman_validate_input_binary "$binary_input" || return 1
 
     __sdkman_authorise_user || return 1
 
     local work_dir="${SDKMAN_DIR}/tmp/out"
-    local candidate_work_dir="${work_dir}/@candidate-@version"
+    local candidate_work_dir="${work_dir}/@{candidate.identifier}-@version"
     local cookie_file="${SDKMAN_DIR}/var/cookie"
-    local mount_volume="/Volumes/JDK 8 Update 131"
-    local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home"
+    local mount_volume="/Volumes/JDK @major Update @minor"
+    local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk1.@{major}.0_@{minor}.jdk/Contents/Home"
 
     echo ""
-    echo "Repackaging @candidate @version..."
+    echo "Repackaging @{candidate.name} @version..."
 
     rm -rf "$work_dir"
     mkdir -p "$work_dir"
@@ -28,7 +29,7 @@ function __sdkman_post_installation_hook {
     diskutil mountDisk "$disk"
 
     echo "Installing PKG inside DMG..."
-    sudo -E installer -package "${mount_volume}/JDK 8 Update 131.pkg" -target LocalSystem
+    sudo -E installer -package "${mount_volume}/JDK @major Update @{minor}.pkg" -target LocalSystem
 
     echo "Copy JDK Home to temp folder..."
     cp -rf "$jdk_home_folder" "$candidate_work_dir"
@@ -48,16 +49,7 @@ function __sdkman_post_installation_hook {
 }
 
 function __sdkman_validate_input_binary {
-    local sha_256="642aca454e10bea70a36a36f54cc5bac22267de78bf85c2d019b1fefbc023c43"
-    checksum=$(shasum -a 256 "$1" | awk '{print $1}')
-    if [[ $sha_256 != $checksum ]]; then
-        echo "SHA-256 does not match! Please try re-installing."
-        echo "Expected: $sha_256"
-        echo "Actual  : $checksum"
-        exit 1
-    else
-        echo "Binary validation passed..."
-    fi
+    hdiutil verify "$1"
 }
 
 function __sdkman_authorise_user {
@@ -67,4 +59,5 @@ function __sdkman_authorise_user {
         echo "Authorisation failed. Please try installing again..."
         return 1
     fi
+}
 }

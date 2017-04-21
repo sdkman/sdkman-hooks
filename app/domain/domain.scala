@@ -1,7 +1,16 @@
 package domain
 
-case class Platform(identifier: String, name: String)
+case class Candidate private(identifier: String, name: String)
+object Candidate {
+  def apply(id: String): Candidate = id match {
+    case "java" => Java
+    case _ => Candidate(id, id.capitalize)
+  }
 
+  val Java = Candidate("java", "Java")
+}
+
+case class Platform(identifier: String, name: String)
 object Platform {
 
   def apply(id: String): Option[Platform] = id.toLowerCase match {
