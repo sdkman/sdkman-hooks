@@ -2,12 +2,9 @@ package domain
 
 case class Candidate private(identifier: String, name: String)
 object Candidate {
-  def apply(id: String): Candidate = id match {
-    case "java" => Java
-    case _ => Candidate(id, id.capitalize)
-  }
+  def apply(id: String): Candidate = Candidate(id, id.capitalize)
 
-  val Java = Candidate("java", "Java")
+  val Java = Candidate("java")
 }
 
 case class Platform(identifier: String, name: String)
