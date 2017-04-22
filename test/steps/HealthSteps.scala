@@ -21,10 +21,6 @@ class HealthSteps extends ScalaDsl with EN with Matchers {
       .asString
   }
 
-  And("""^a (\d+) status code is received$""") { (status: Int) =>
-    response.code shouldBe status
-  }
-
   And("""^the payload has a "(.*)" of "(.*)"$""") { (key: String, value: String) =>
     val json = Json.parse(response.body)
     val status = (json \ key).as[String]

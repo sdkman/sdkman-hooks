@@ -1,12 +1,13 @@
 package steps
 
+import cucumber.api.PendingException
 import cucumber.api.scala.{EN, ScalaDsl}
-import org.scalatest.Matchers
+import org.scalatest.{Matchers, OptionValues}
 import steps.support.World._
 
 import scalaj.http.Http
 
-class HookSteps extends ScalaDsl with EN with Matchers {
+class HookSteps extends ScalaDsl with EN with Matchers with OptionValues {
   And("""^no relevant Hook is available$""") { () =>
     //do nothing
   }
@@ -23,5 +24,27 @@ class HookSteps extends ScalaDsl with EN with Matchers {
 
   And("""^I receive a hook containing text: (.*)$""") { (text: String) =>
     response.body should include(text)
+  }
+
+  And("""^a hook is requested at (.*)$""") { (uri: String) =>
+    response = Http(s"$host$uri")
+      .timeout(connTimeoutMs = 1000, readTimeoutMs = 10000)
+      .asString
+  }
+
+  And("""^a (\d+) status code is received$""") { (status: Int) =>
+    response.code shouldBe status
+  }
+
+  And("""^a "(.*)" content type is recieved$""") { (contentType: String) =>
+    response.contentType.value shouldBe contentType
+  }
+
+  And("""^the response script starts with "(.*)"$""") { (content: String) =>
+    response.body should startWith(content)
+  }
+
+  And("""^the response script contains "(.*)"$""") { (content: String) =>
+    response.body contains content
   }
 }
