@@ -45,6 +45,10 @@ class HookSteps extends ScalaDsl with EN with Matchers with OptionValues {
   }
 
   And("""^the response script contains "(.*)"$""") { (content: String) =>
-    response.body contains content
+    response.body should include(content)
+  }
+
+  And("""^the response script does not contain "(.*)"$""") { (content: String) =>
+    response.body should not include content
   }
 }

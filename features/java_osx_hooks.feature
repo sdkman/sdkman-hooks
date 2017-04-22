@@ -39,7 +39,7 @@ Feature: Java OSX Hooks
     And a "text/plain; charset=utf-8" content type is recieved
     And the response script starts with "#!/bin/bash"
     And the response script contains "A Mac OSX post-install hook was found for Java 9eaXYZ."
-    And the response script contains "candidate_work_dir="${work_dir}/java-8uXYZ""
+    And the response script contains "candidate_work_dir="${work_dir}/java-9eaXYZ""
     And the response script contains "mount_volume="/Volumes/JDK 9""
     And the response script contains "jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home""
     And the response script contains "sudo -E installer -package "${mount_volume}/JDK 9.pkg" -target LocalSystem"
