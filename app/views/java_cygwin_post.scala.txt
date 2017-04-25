@@ -11,7 +11,8 @@ function __sdkman_post_installation_hook {
 
     mkdir -p "$work_dir"
     chmod +x "$binary_input"
-    "$binary_input" /s INSTALLDIR=C:\\temp\\jdk
+    mv "$binary_input" "$binary_input.exe"
+    cygstart --action=runas -w "$binary_input.exe" /s INSTALLDIR=C:\\temp\\jdk
     mv /cygdrive/c/temp/jdk "$work_dir"
 
     local present_dir="$(pwd)"
