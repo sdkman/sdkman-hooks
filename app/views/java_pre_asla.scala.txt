@@ -1,0 +1,23 @@
+@import domain._
+@(candidate: Candidate, version: String)#!/bin/bash
+function __sdkman_pre_installation_hook {
+
+    __sdkman_echo_debug "A pre-install hook was found for @{candidate.name} @version."
+    echo ""
+    echo "Apple requires that you agree with the Apple Software License Agreement"
+    echo "prior to installation."
+    echo ""
+    echo "The license agreement can be found in PDF format here:"
+    echo ""
+    echo "  http://images.apple.com/legal/sla/docs/JavaForOSX.pdf"
+    echo ""
+
+    echo -n "Do you agree to the terms of this agreement? (Y/n): "
+    read agree
+    if [[ "$agree" == "N" || "$agree" == "n" ]]; then
+        echo "Not installing @{candidate.name} @version at this time..."
+        return 1
+    else
+        __sdkman_echo_debug "Accepted license agreement..."
+    fi
+}
