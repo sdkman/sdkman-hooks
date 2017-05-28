@@ -7,7 +7,6 @@ function __sdkman_post_installation_hook {
 
     local present_dir="$(pwd)"
     local work_dir="${SDKMAN_DIR}/tmp/out"
-    local cookie_file="${SDKMAN_DIR}/var/cookie"
 
     echo ""
     echo "Repackaging @{candidate.name} @version..."
@@ -21,8 +20,6 @@ function __sdkman_post_installation_hook {
 
     echo ""
     echo "Done repackaging..."
-    __sdkman_echo_debug "Cleaning up cookie..."
-    rm "$cookie_file"
 }
 
 function __sdkman_validate_binary_input {
