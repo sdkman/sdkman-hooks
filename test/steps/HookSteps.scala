@@ -36,7 +36,7 @@ class HookSteps extends ScalaDsl with EN with Matchers with OptionValues {
     response.code shouldBe status
   }
 
-  And("""^a "(.*)" content type is recieved$""") { (contentType: String) =>
+  And("""^a "(.*)" content type is received$""") { (contentType: String) =>
     response.contentType.value shouldBe contentType
   }
 
