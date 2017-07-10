@@ -1,6 +1,6 @@
 @import domain._
 @(candidate: Candidate, version: String, platform: Platform)#!/bin/bash
-#Post Hook: java-8-oracle
+#Post Hook: osx-java-8-oracle
 @defining(version.split("u")) { case Array(major, minor) =>
 function __sdkman_post_installation_hook {
     __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.name} @{version}-oracle."

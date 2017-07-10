@@ -5,7 +5,7 @@ Feature: Java OSX Post Hooks
     Then a 200 status code is received
     And a "text/plain; charset=utf-8" content type is received
     And the response script starts with "#!/bin/bash"
-    And the response script contains "Post Hook: java-6-apple"
+    And the response script contains "Post Hook: osx-java-6-apple"
     And the response script contains "A Mac OSX post-install hook was found for Java 6u65-apple"
     And the response script contains "candidate_work_dir="${work_dir}/java-6u65-apple""
     And the response script contains "mount_volume="/Volumes/Java for OS X 2015-001""
@@ -17,7 +17,7 @@ Feature: Java OSX Post Hooks
     Then a 200 status code is received
     And a "text/plain; charset=utf-8" content type is received
     And the response script starts with "#!/bin/bash"
-    And the response script contains "Post Hook: java-8-oracle"
+    And the response script contains "Post Hook: osx-java-8-oracle"
     And the response script contains "A Mac OSX post-install hook was found for Java 8u131-oracle"
     And the response script contains "candidate_work_dir="${work_dir}/java-8u131-oracle""
     And the response script contains "mount_volume="/Volumes/JDK 8 Update 131""
@@ -29,6 +29,6 @@ Feature: Java OSX Post Hooks
     Then a 200 status code is received
     And a "text/plain; charset=utf-8" content type is received
     And the response script starts with "#!/bin/bash"
-    And the response script contains "Post Hook: default_post"
+    And the response script contains "Post Hook: default"
     And the response script contains "No Mac OSX post-install hook found for Java 8u131-zulu"
     And the response script contains "Moving $binary_input to $zip_output"
