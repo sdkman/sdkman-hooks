@@ -1,0 +1,27 @@
+@import domain._
+@(candidate: Candidate, version: String, platform: Platform)#!/bin/bash
+#Post Hook: cygwin-java-msi
+function __sdkman_post_installation_hook {
+    __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.name} @version."
+
+    local work_dir="${SDKMAN_DIR}/tmp/out"
+    local cookie_file="${SDKMAN_DIR}/var/cookie"
+
+    echo ""
+    echo "Repackaging @{candidate.name} @version..."
+
+    mkdir -p "$work_dir"
+    chmod +x "$binary_input"
+    "$binary_input" /s INSTALLDIR=C:\\temp\\jdk
+    mv /cygdrive/c/temp/jdk "$work_dir"
+
+    local present_dir="$(pwd)"
+    cd "$work_dir"
+    /usr/bin/env zip -qr "$zip_output" .
+    cd "$present_dir"
+
+    echo ""
+    echo "Done repackaging..."
+    __sdkman_echo_debug "Cleaning up cookie..."
+    rm "$cookie_file"
+}
