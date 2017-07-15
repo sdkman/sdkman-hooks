@@ -11,8 +11,10 @@ function __sdkman_post_installation_hook {
     echo "Repackaging @{candidate.name} @version..."
 
     mkdir -p "$work_dir"
-    chmod +x "$binary_input"
-    cygstart --action=runas -w "$binary_input" /s INSTALLDIR=C:\\temp\\jdk
+    local exe_file="${binary_input}.exe"
+    mv "$binary_input" "$exe_file"
+    chmod +x "$exe_file"
+    cygstart --action=runas -w "$exe_file" /s INSTALLDIR=C:\\temp\\jdk
     mv /cygdrive/c/temp/jdk "$work_dir"
 
     local present_dir="$(pwd)"
