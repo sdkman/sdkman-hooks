@@ -16,10 +16,13 @@ object Platform {
     case "sunos" => Some(SunOS)
     case CygwinPattern(_) => Some(Windows64)
     case LinuxPattern(_) => Some(Linux)
+    case UnsupportedPattern(_) => Some(Unsupported)
     case _ => None
   }
 
-  private val CygwinPattern = "(cygwin|mingw64|msys).*".r
+  private val CygwinPattern = "(cygwin).*".r
+
+  private val UnsupportedPattern = "(mingw64|msys).*".r
 
   private val LinuxPattern = "(linux|linux32|linux64)".r
 
@@ -29,4 +32,5 @@ object Platform {
   val FreeBSD = Platform("FREE_BSD", "FreeBSD")
   val SunOS = Platform("SUN_OS", "Solaris")
   val Universal = Platform("UNIVERSAL", "Universal")
+  val Unsupported = Platform("UNSUPPORTED", "Unsupported")
 }
