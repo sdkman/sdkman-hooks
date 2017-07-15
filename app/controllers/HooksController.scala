@@ -57,7 +57,7 @@ class HooksController extends Controller {
           Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, Candidate.Java, "6u", Platform.MacOSX, "apple") =>
           Ok(views.txt.java_pre_asla(candidate, version))
-        case (PreHook, Candidate.Java, "8u", Platform.MacOSX, "oracle") =>
+        case (PreHook, Candidate.Java, "8u", _, "oracle") =>
           Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, _, _, _, _) =>
           Ok(views.txt.default_pre(candidate, version, platform))
