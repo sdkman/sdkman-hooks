@@ -22,7 +22,7 @@ object Platform {
 
   private val CygwinPattern = "(cygwin).*".r
 
-  private val UnsupportedPattern = "(mingw64|msys).*".r
+  private val UnsupportedPattern = "(mingw|msys).*".r
 
   private val LinuxPattern = "(linux|linux32|linux64)".r
 
