@@ -5,8 +5,6 @@
 function __sdkman_post_installation_hook {
     __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.name} @{version}-oracle."
 
-    __sdkman_validate_input_binary "$binary_input" || return 1
-
     __sdkman_authorise_user || return 1
 
     local work_dir="${SDKMAN_DIR}/tmp/out"
