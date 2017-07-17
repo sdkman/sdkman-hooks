@@ -35,12 +35,12 @@ class HooksController extends Controller {
           Ok(views.txt.java_linux_tarball_post(candidate, version, Platform.Linux))
 
         //POST: Cygwin
-        case (PostHook, Candidate.Java, _, Platform.Unsupported, "oracle") =>
-          Ok(views.txt.java_unsupported_msi_post(candidate, version, Platform.Unsupported))
-        case (PostHook, Candidate.Java, _, Platform.Windows64, "oracle") =>
-          Ok(views.txt.java_cygwin_msi_post(candidate, version, Platform.Windows64))
-        case (PostHook, Candidate.Java, _, Platform.Windows64, _) =>
-          Ok(views.txt.default_post(candidate, version, Platform.Windows64))
+        case (PostHook, Candidate.Java, _, Platform.Windows64Unsupported, "oracle") =>
+          Ok(views.txt.java_unsupported_msi_post(candidate, version, Platform.Windows64Unsupported))
+        case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "oracle") =>
+          Ok(views.txt.java_cygwin_msi_post(candidate, version, Platform.Windows64Cygwin))
+        case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, _) =>
+          Ok(views.txt.default_post(candidate, version, Platform.Windows64Cygwin))
 
         //POST
         case (PostHook, Candidate.Java, _, _, _) =>
@@ -53,7 +53,7 @@ class HooksController extends Controller {
           Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, Candidate.Java, "5u22-oracle", Platform.Linux, _) =>
           Ok(views.txt.java_pre_obcla(candidate, version))
-        case (PreHook, Candidate.Java, "5u22-oracle", Platform.Windows64, _) =>
+        case (PreHook, Candidate.Java, "5u22-oracle", Platform.Windows64Cygwin, _) =>
           Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, Candidate.Java, "6u", Platform.MacOSX, "apple") =>
           Ok(views.txt.java_pre_asla(candidate, version))
