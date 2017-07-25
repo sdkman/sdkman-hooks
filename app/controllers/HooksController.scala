@@ -35,8 +35,6 @@ class HooksController extends Controller {
           Ok(views.txt.java_linux_tarball_post(candidate, version, Platform.Linux))
 
         //POST: Cygwin
-        case (PostHook, Candidate.Java, _, Platform.Windows64Unsupported, "oracle") =>
-          Ok(views.txt.java_unsupported_msi_post(candidate, version, Platform.Windows64Unsupported))
         case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "oracle") =>
           Ok(views.txt.java_cygwin_msi_post(candidate, version, Platform.Windows64Cygwin))
         case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, _) =>
@@ -57,6 +55,8 @@ class HooksController extends Controller {
           Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, Candidate.Java, "6u", Platform.MacOSX, "apple") =>
           Ok(views.txt.java_pre_asla(candidate, version))
+        case (PreHook, Candidate.Java, "8u", Platform.Windows64MinGW, "oracle") =>
+          Ok(views.txt.java_pre_mingw_msi(candidate, version, Platform.Windows64MinGW))
         case (PreHook, Candidate.Java, "8u", _, "oracle") =>
           Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, _, _, _, _) =>
