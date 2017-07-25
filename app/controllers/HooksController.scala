@@ -39,6 +39,8 @@ class HooksController extends Controller {
           Ok(views.txt.java_post_cygwin_msi(candidate, version, Platform.Windows64Cygwin))
         case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, _) =>
           Ok(views.txt.default_post(candidate, version, Platform.Windows64Cygwin))
+        case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, _) =>
+          Ok(views.txt.default_post(candidate, version, Platform.Windows64MinGW))
 
         //POST
         case (PostHook, Candidate.Java, _, _, _) =>
