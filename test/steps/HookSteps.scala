@@ -1,6 +1,5 @@
 package steps
 
-import cucumber.api.PendingException
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.{Matchers, OptionValues}
 import steps.support.World._
