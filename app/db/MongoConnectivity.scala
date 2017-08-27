@@ -13,7 +13,7 @@ import scala.collection.JavaConversions._
 @Singleton
 class MongoConnectivity @Inject()(configuration: Configuration) {
 
-  lazy val mongoUrl = configuration.getString("mongo.url").getOrElse("mongo://localhost:27017")
+  lazy val mongoUrl = configuration.getString("mongo.url").getOrElse("mongodb://localhost:27017")
 
   lazy val userName = configuration.getString("mongo.username").getOrElse("")
 
@@ -32,7 +32,7 @@ class MongoConnectivity @Inject()(configuration: Configuration) {
     .clusterSettings(clusterSettings)
     .build()
 
-  lazy val mongoClient = if(userName.isEmpty) MongoClient(mongoUrl) else MongoClient(clientSettings)
+  lazy val mongoClient = if(userName.isEmpty) MongoClient(s"$mongoUrl/$databaseName") else MongoClient(clientSettings)
 
   def db = mongoClient.getDatabase("sdkman")
 

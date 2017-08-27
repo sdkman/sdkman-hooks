@@ -18,9 +18,13 @@ object Mongo {
 
   lazy val appCollection = db.getCollection("application")
 
-  def insertAliveOk() = appCollection.insertOne(Document("alive" -> "OK")).results()
+  def insertAliveOk(): Seq[Completed] = appCollection.insertOne(Document("alive" -> "OK")).results()
 
-  def dropAppCollection() = appCollection.drop().results()
+  def insertAliveKo(): Seq[Completed] = appCollection.insertOne(Document("alive" -> "KO")).results()
+
+  def insertCliVersions(cliVersion: String, betaCliVersion: String): Seq[Completed] = appCollection.insertOne(Document("cliVersion" -> cliVersion, "betaCliVersion" -> betaCliVersion)).results()
+
+  def dropAppCollection(): Seq[Completed] = appCollection.drop().results()
 }
 
 object Helpers {
