@@ -96,12 +96,10 @@ mkdir -p "${SDKMAN_DIR}/archives"
 mkdir -p "${SDKMAN_DIR}/tmp"
 
 # prepare candidates
-if [[ "$sdkman_beta_channel" == 'true' ]]; then
-    SDKMAN_CANDIDATES_CSV=$(curl -s "https://api.sdkman.io/2/candidates/all")
-else
-    SDKMAN_CANDIDATES_CSV=$(curl -s "${SDKMAN_SERVICE}/candidates")
-fi
+SDKMAN_CANDIDATES_CSV=$(curl -s "https://api.sdkman.io/2/candidates/all")
+__sdkman_echo_debug "Fetched candidates: $SDKMAN_CANDIDATES_CSV"
 echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
+__sdkman_echo_debug "Overwritten cache: $(cat "${SDKMAN_DIR}/var/candidates")"
 
 # remove empty candidate directories
 # convert csv to array
@@ -110,7 +108,7 @@ IFS=","
 SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
 IFS="$OLD_IFS"
 
-for candidate in "${SDKMAN_CANDIDATES[_]}"; do
+for candidate in "${SDKMAN_CANDIDATES[@]}"; do
     if [[ -n "$candidate" && -d "${SDKMAN_DIR}/${candidate}" && ! -L "${SDKMAN_DIR}/${candidate}" ]]; then
         if [[ -z "$(ls -A ${SDKMAN_DIR}/${candidate})" ]]; then
             __sdkman_echo_debug "Attempt removal of ${candidate} dir: ${SDKMAN_DIR}/${candidate}"
@@ -181,6 +179,10 @@ fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_debug_mode') ]]; then
 	echo "sdkman_debug_mode=false" >> "$sdkman_config_file"
+fi
+
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_colour_enable') ]]; then
+	echo "sdkman_colour_enable=true" >> "$sdkman_config_file"
 fi
 
 
