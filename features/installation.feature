@@ -10,4 +10,4 @@ Feature: Installation
     And the response script starts with "#!/bin/bash"
     And the response script contains "#Install: stable"
     And the response script contains "SDKMAN_VERSION="1.0.0""
-    And the response script contains "SDKMAN_SERVICE="https://api.sdkman.io/2""
+    And the response script contains "SDKMAN_SERVICE="https://api.sdkman.io/1""
