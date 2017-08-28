@@ -1,8 +1,8 @@
 Feature: Selfupdate
 
   Background:
-    Given the stable CLI Version is "1.0.0"
-    And the beta CLI Version is "2.0.0"
+    Given the beta CLI Version is "2.0.0"
+    And the stable CLI Version is "1.0.0"
 
   Scenario: A selfupdate is performed on the Stable Channel
     When a request is made to the /selfupdate endpoint with a "beta" request parameter of "false"

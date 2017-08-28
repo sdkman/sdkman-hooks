@@ -7,7 +7,7 @@ object World {
 
   var response: HttpResponse[String] = null
 
-  var stableCliVersion: String = null
+  var stableCliVersion = ""
 
-  var betaCliVersion: String = null
+  var betaCliVersion = ""
 }

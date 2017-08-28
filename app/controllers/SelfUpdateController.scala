@@ -8,7 +8,7 @@ import repo.ApplicationRepo
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class SelfUpdateController @Inject()(appRepo: ApplicationRepo, config: Configuration) extends Controller {
+class SelfUpdateController @Inject()(config: Configuration, appRepo: ApplicationRepo) extends Controller {
 
   def selfUpdate(beta: Boolean) = Action.async { _ =>
     val versionF = if (beta) appRepo.betaCliVersion else appRepo.stableCliVersion
