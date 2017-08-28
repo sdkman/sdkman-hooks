@@ -1,4 +1,4 @@
-@(cliVersion: String, channel: String)#!/bin/bash
+@(cliVersion: String, channel: String, baseUrl: String)#!/bin/bash
 #
 #   Copyright 2017 Marco Vermeulen
 #
@@ -63,7 +63,7 @@ sdkman_tmp_zip="${SDKMAN_DIR}/tmp/res-${SDKMAN_VERSION}.zip"
 sdkman_stage_folder="${SDKMAN_DIR}/tmp/stage"
 sdkman_src_folder="${SDKMAN_DIR}/src"
 
-SDKMAN_SERVICE="SDKMAN_SERVICE"
+SDKMAN_SERVICE="@baseUrl"
 
 # fetch new distribution and check integrity
 download_url="${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=selfupdate&version=${SDKMAN_VERSION}"
