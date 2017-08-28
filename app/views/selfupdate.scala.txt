@@ -66,7 +66,7 @@ sdkman_src_folder="${SDKMAN_DIR}/src"
 SDKMAN_SERVICE="@baseUrl"
 
 # fetch new distribution and check integrity
-download_url="${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=selfupdate&version=${SDKMAN_VERSION}"
+download_url="https://api.sdkman.io/1/res?platform=${sdkman_platform}&purpose=selfupdate&version=${SDKMAN_VERSION}"
 __sdkman_echo_debug "Download new scripts from: ${download_url}"
 __sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
 curl --location --progress-bar "$download_url" > "$sdkman_tmp_zip"
@@ -96,7 +96,7 @@ mkdir -p "${SDKMAN_DIR}/archives"
 mkdir -p "${SDKMAN_DIR}/tmp"
 
 # prepare candidates
-SDKMAN_CANDIDATES_CSV=$(curl -s "https://api.sdkman.io/2/candidates/all")
+SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
 __sdkman_echo_debug "Fetched candidates: $SDKMAN_CANDIDATES_CSV"
 echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 __sdkman_echo_debug "Overwritten cache: $(cat "${SDKMAN_DIR}/var/candidates")"
