@@ -1,8 +1,8 @@
-#SDKMAN! Candidates Service
+# SDKMAN! Candidates Service
 
 This service serves up Pre- and Post- Hooks for SDKMAN! CLI.
 
-##Running Locally
+## Running Locally
 
 Make sure you have mongodb running locally or in a Docker Container:
 
