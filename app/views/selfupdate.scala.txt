@@ -52,21 +52,21 @@ function __sdkman_echo_debug {
 echo ""
 echo "Updating SDKMAN..."
 
+SDKMAN_SERVICE="@baseUrl"
 SDKMAN_VERSION="@cliVersion"
+SDKMAN_PLATFORM=$(uname)
+
 if [ -z "$SDKMAN_DIR" ]; then
 	SDKMAN_DIR="$HOME/.sdkman"
 fi
 
-sdkman_platform=$(uname)
 sdkman_bin_folder="${SDKMAN_DIR}/bin"
-sdkman_tmp_zip="${SDKMAN_DIR}/tmp/res-${SDKMAN_VERSION}.zip"
+sdkman_tmp_zip="${SDKMAN_DIR}/tmp/sdkman-${SDKMAN_VERSION}.zip"
 sdkman_stage_folder="${SDKMAN_DIR}/tmp/stage"
 sdkman_src_folder="${SDKMAN_DIR}/src"
 
-SDKMAN_SERVICE="@baseUrl"
-
 # fetch new distribution and check integrity
-download_url="https://api.sdkman.io/1/res?platform=${sdkman_platform}&purpose=selfupdate&version=${SDKMAN_VERSION}"
+download_url="${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}"
 __sdkman_echo_debug "Download new scripts from: ${download_url}"
 __sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
 curl --location --progress-bar "$download_url" > "$sdkman_tmp_zip"
