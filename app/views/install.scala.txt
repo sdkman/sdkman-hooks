@@ -229,6 +229,7 @@ echo "sdkman_curl_max_time=10" >> "$sdkman_config_file"
 echo "sdkman_beta_channel=false" >> "$sdkman_config_file"
 echo "sdkman_debug_mode=false" >> "$sdkman_config_file"
 echo "sdkman_colour_enable=true" >> "$sdkman_config_file"
+echo "sdkman_colour_style=light # light/dark" >> "$sdkman_config_file"
 
 echo "Download script archive..."
 curl -L "${SDKMAN_SERVICE}/broker/download/sdkman/install/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}" > "$sdkman_zip_file"
