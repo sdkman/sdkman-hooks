@@ -1,0 +1,33 @@
+@import domain._
+@(candidate: Candidate, version: String, platform: Platform)#!/bin/bash
+#Post Hook: default-tarball
+function __sdkman_post_installation_hook {
+    __sdkman_echo_debug "No post-install hook was found for @{candidate.name} @version."
+
+    __sdkman_validate_binary_input "$binary_input" || return 1
+
+    local present_dir="$(pwd)"
+    local work_dir="${SDKMAN_DIR}/tmp/out"
+
+    echo ""
+    echo "Repackaging @{candidate.name} @version..."
+
+    mkdir -p "$work_dir"
+    /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
+
+    cd "$work_dir"
+    /usr/bin/env zip -qr "$zip_output" .
+    cd "$present_dir"
+
+    echo ""
+    echo "Done repackaging..."
+}
+
+function __sdkman_validate_binary_input {
+    if ! tar tzf "$1" &> /dev/null; then
+        echo "Download has failed, aborting!"
+        echo ""
+        echo "Can not install @{candidate.name} @version at this time..."
+        return 1
+    fi
+}

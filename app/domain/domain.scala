@@ -5,6 +5,8 @@ object Candidate {
   def apply(id: String): Candidate = Candidate(id, id.capitalize)
 
   val Java = Candidate("java")
+
+  val Spark = Candidate("spark")
 }
 
 case class Platform(identifier: String, name: String)

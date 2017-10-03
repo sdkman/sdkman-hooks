@@ -28,7 +28,7 @@ class HooksController extends Controller {
         case (PostHook, Candidate.Java, "8u", Platform.MacOSX, "oracle") =>
           Ok(views.txt.java_post_8_oracle_osx(candidate, dropSuffix(version), Platform.MacOSX))
         case (PostHook, Candidate.Java, _, Platform.MacOSX, _) =>
-          Ok(views.txt.default_post(candidate, version, Platform.MacOSX))
+          Ok(views.txt.default_post_zip(candidate, version, Platform.MacOSX))
 
         //POST: Linux
         case (PostHook, Candidate.Java, _, Platform.Linux, _) =>
@@ -38,15 +38,17 @@ class HooksController extends Controller {
         case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "oracle") =>
           Ok(views.txt.java_post_cygwin_msi(candidate, version, Platform.Windows64Cygwin))
         case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, _) =>
-          Ok(views.txt.default_post(candidate, version, Platform.Windows64Cygwin))
+          Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
         case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, _) =>
-          Ok(views.txt.default_post(candidate, version, Platform.Windows64MinGW))
+          Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
 
         //POST
         case (PostHook, Candidate.Java, _, _, _) =>
           NotFound
+        case (PostHook, Candidate.Spark, _, _, _) =>
+          Ok(views.txt.default_post_tarball(candidate, version, platform))
         case (PostHook, _, _, _, _) =>
-          Ok(views.txt.default_post(candidate, version, platform))
+          Ok(views.txt.default_post_zip(candidate, version, platform))
 
         //PRE
         case (PreHook, Candidate.Java, "4u19-oracle", Platform.Linux, _) =>

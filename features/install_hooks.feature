@@ -5,6 +5,11 @@ Feature: Install Hooks
 		Then a 200 status code is received
 		And I receive a hook containing text: Post Hook: default
 
+	Scenario: A Spark Universal Post Hook is served
+		When I fetch a "post" hook for "spark" "2.2.0" on "Linux"
+		Then a 200 status code is received
+		And I receive a hook containing text: Post Hook: default-tarball
+
 	Scenario: A platform specific Post Hook is served
 		When I fetch a "post" hook for "java" "8u131" on "Linux"
 		Then a 200 status code is received
