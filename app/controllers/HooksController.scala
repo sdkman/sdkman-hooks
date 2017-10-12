@@ -63,6 +63,8 @@ class HooksController extends Controller {
           Ok(views.txt.java_pre_mingw_msi(candidate, version, Platform.Windows64MinGW))
         case (PreHook, Candidate.Java, "8u", _, "oracle") =>
           Ok(views.txt.java_pre_obcla(candidate, version))
+        case (PreHook, Candidate.Java, "9+", _, "oracle") =>
+          Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, _, _, _, _) =>
           Ok(views.txt.default_pre(candidate, version, platform))
       }
@@ -74,7 +76,7 @@ class HooksController extends Controller {
   }
 
   private def normalise(version: String)(implicit c: Candidate) = version match {
-    case v if v.isJavaMajor("9") => "9ea"
+    case v if v.isJavaMajor("9") => "9+"
     case v if v.isJavaMajor("8")=> "8u"
     case v if v.isJavaMajor("6")=> "6u"
     case _ => version
