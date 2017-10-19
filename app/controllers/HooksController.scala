@@ -23,9 +23,9 @@ class HooksController extends Controller {
       (phase, candidate, normalise(version), platform, vendor(version)) match {
 
         //POST: Mac OSX
-        case (PostHook, Candidate.Java, "6u", Platform.MacOSX, "apple") =>
+        case (PostHook, Candidate.Java, "6", Platform.MacOSX, "apple") =>
           Ok(views.txt.java_post_6_apple_osx(candidate, dropSuffix(version), Platform.MacOSX))
-        case (PostHook, Candidate.Java, "8u", Platform.MacOSX, "oracle") =>
+        case (PostHook, Candidate.Java, "8", Platform.MacOSX, "oracle") =>
           Ok(views.txt.java_post_8_oracle_osx(candidate, dropSuffix(version), Platform.MacOSX))
         case (PostHook, Candidate.Java, "9", Platform.MacOSX, "oracle") =>
           Ok(views.txt.java_post_9_oracle_osx(candidate, dropSuffix(version), Platform.MacOSX))
@@ -53,17 +53,17 @@ class HooksController extends Controller {
           Ok(views.txt.default_post_zip(candidate, version, platform))
 
         //PRE
-        case (PreHook, Candidate.Java, "4u19-oracle", Platform.Linux, _) =>
+        case (PreHook, Candidate.Java, "4", Platform.Linux, "oracle") =>
           Ok(views.txt.java_pre_obcla(candidate, version))
-        case (PreHook, Candidate.Java, "5u22-oracle", Platform.Linux, _) =>
+        case (PreHook, Candidate.Java, "5", Platform.Linux, "oracle") =>
           Ok(views.txt.java_pre_obcla(candidate, version))
-        case (PreHook, Candidate.Java, "5u22-oracle", Platform.Windows64Cygwin, _) =>
+        case (PreHook, Candidate.Java, "5", Platform.Windows64Cygwin, "oracle") =>
           Ok(views.txt.java_pre_obcla(candidate, version))
-        case (PreHook, Candidate.Java, "6u", Platform.MacOSX, "apple") =>
+        case (PreHook, Candidate.Java, "6", Platform.MacOSX, "apple") =>
           Ok(views.txt.java_pre_asla(candidate, version))
-        case (PreHook, Candidate.Java, "8u", Platform.Windows64MinGW, "oracle") =>
+        case (PreHook, Candidate.Java, "8", Platform.Windows64MinGW, "oracle") =>
           Ok(views.txt.java_pre_mingw_msi(candidate, version, Platform.Windows64MinGW))
-        case (PreHook, Candidate.Java, "8u", _, "oracle") =>
+        case (PreHook, Candidate.Java, "8", _, "oracle") =>
           Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, Candidate.Java, "9", _, "oracle") =>
           Ok(views.txt.java_pre_obcla(candidate, version))
@@ -79,8 +79,8 @@ class HooksController extends Controller {
 
   private def normalise(version: String)(implicit c: Candidate) = version match {
     case v if v.isJavaMajor("9") => "9"
-    case v if v.isJavaMajor("8")=> "8u"
-    case v if v.isJavaMajor("6")=> "6u"
+    case v if v.isJavaMajor("8") => "8"
+    case v if v.isJavaMajor("6") => "6"
     case _ => version
   }
 
