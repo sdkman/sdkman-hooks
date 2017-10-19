@@ -1,7 +1,6 @@
 @import domain._
 @(candidate: Candidate, version: String, platform: Platform)#!/bin/bash
 #Post Hook: osx-java-9-oracle
-@defining(version.split("_")) { case Array(major, minor) =>
 function __sdkman_post_installation_hook {
     __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.name} @{version}-oracle."
 
@@ -10,8 +9,8 @@ function __sdkman_post_installation_hook {
     local work_dir="${SDKMAN_DIR}/tmp/out"
     local candidate_work_dir="${work_dir}/@{candidate.identifier}-@{version}-oracle"
     local cookie_file="${SDKMAN_DIR}/var/cookie"
-    local mount_volume="/Volumes/JDK 9"
-    local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home"
+    local mount_volume="/Volumes/JDK @{version}"
+    local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk-@{version}.jdk/Contents/Home"
 
     echo ""
     echo "Repackaging @{candidate.name} @version..."
@@ -27,7 +26,7 @@ function __sdkman_post_installation_hook {
     diskutil mountDisk "$disk"
 
     echo "Installing PKG inside DMG..."
-    sudo -E installer -package "${mount_volume}/JDK @{major}.pkg" -target LocalSystem
+    sudo -E installer -package "${mount_volume}/JDK @{version}.pkg" -target LocalSystem
 
     echo "Copy JDK Home to temp folder..."
     cp -rf "$jdk_home_folder" "$candidate_work_dir"
@@ -57,5 +56,4 @@ function __sdkman_authorise_user {
         echo "Authorisation failed. Please try installing again..."
         return 1
     fi
-}
 }

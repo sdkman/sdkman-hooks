@@ -34,16 +34,16 @@ Feature: Java OSX Post Hooks
     And the response script contains "Moving $binary_input to $zip_output"
 
   Scenario: Install Oracle Java 9 on OSX
-    When a hook is requested at /hooks/post/java/9_181-oracle/darwin
+    When a hook is requested at /hooks/post/java/9.0.1-oracle/darwin
     Then a 200 status code is received
     And a "text/plain; charset=utf-8" content type is received
     And the response script starts with "#!/bin/bash"
     And the response script contains "Post Hook: osx-java-9-oracle"
-    And the response script contains "A Mac OSX post-install hook was found for Java 9_181-oracle"
-    And the response script contains "candidate_work_dir="${work_dir}/java-9_181-oracle""
-    And the response script contains "mount_volume="/Volumes/JDK 9""
-    And the response script contains "jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home""
-    And the response script contains "sudo -E installer -package "${mount_volume}/JDK 9.pkg" -target LocalSystem"
+    And the response script contains "A Mac OSX post-install hook was found for Java 9.0.1-oracle"
+    And the response script contains "candidate_work_dir="${work_dir}/java-9.0.1-oracle""
+    And the response script contains "mount_volume="/Volumes/JDK 9.0.1""
+    And the response script contains "jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk-9.0.1.jdk/Contents/Home""
+    And the response script contains "sudo -E installer -package "${mount_volume}/JDK 9.0.1.pkg" -target LocalSystem"
 
   Scenario: Install OpenJDK 9 on OSX
     When a hook is requested at /hooks/post/java/9.0.0-zulu/darwin

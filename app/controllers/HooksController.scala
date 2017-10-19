@@ -27,7 +27,7 @@ class HooksController extends Controller {
           Ok(views.txt.java_post_6_apple_osx(candidate, dropSuffix(version), Platform.MacOSX))
         case (PostHook, Candidate.Java, "8u", Platform.MacOSX, "oracle") =>
           Ok(views.txt.java_post_8_oracle_osx(candidate, dropSuffix(version), Platform.MacOSX))
-        case (PostHook, Candidate.Java, "9_", Platform.MacOSX, "oracle") =>
+        case (PostHook, Candidate.Java, "9", Platform.MacOSX, "oracle") =>
           Ok(views.txt.java_post_9_oracle_osx(candidate, dropSuffix(version), Platform.MacOSX))
         case (PostHook, Candidate.Java, _, Platform.MacOSX, _) =>
           Ok(views.txt.default_post_zip(candidate, version, Platform.MacOSX))
@@ -65,7 +65,7 @@ class HooksController extends Controller {
           Ok(views.txt.java_pre_mingw_msi(candidate, version, Platform.Windows64MinGW))
         case (PreHook, Candidate.Java, "8u", _, "oracle") =>
           Ok(views.txt.java_pre_obcla(candidate, version))
-        case (PreHook, Candidate.Java, "9_", _, "oracle") =>
+        case (PreHook, Candidate.Java, "9", _, "oracle") =>
           Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, _, _, _, _) =>
           Ok(views.txt.default_pre(candidate, version, platform))
@@ -78,7 +78,7 @@ class HooksController extends Controller {
   }
 
   private def normalise(version: String)(implicit c: Candidate) = version match {
-    case v if v.isJavaMajor("9") => "9_"
+    case v if v.isJavaMajor("9") => "9"
     case v if v.isJavaMajor("8")=> "8u"
     case v if v.isJavaMajor("6")=> "6u"
     case _ => version
