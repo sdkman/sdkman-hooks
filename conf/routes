@@ -2,7 +2,7 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET			/alive                                          controllers.HealthController.alive
+GET         /alive                                          controllers.HealthController.alive
 GET         /install                                        controllers.InstallController.install
 GET         /selfupdate                                     controllers.SelfUpdateController.selfUpdate(beta: Boolean)
-GET			/hooks/:phase/:candidate/:version/:platform	    controllers.HooksController.hook(phase, candidate, version, platform)
+GET         /hooks/:phase/:candidate/:version/:platform	    controllers.HooksController.hook(phase, candidate, version, platform)
