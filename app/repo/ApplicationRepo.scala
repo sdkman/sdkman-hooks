@@ -17,7 +17,7 @@ class ApplicationRepo @Inject()(mongo: MongoConnectivity) {
     extractKey("alive").contains("OK")
   }
 
-  def stableCliVersion: Future[String] = fetchApplicationRow().map(implicit doc => extractKey("cliVersion").getOrElse("notfound"))
+  def stableCliVersion: Future[String] = fetchApplicationRow().map(implicit doc => extractKey("stableCliVersion").getOrElse("notfound"))
 
   def betaCliVersion: Future[String] = fetchApplicationRow().map(implicit doc => extractKey("betaCliVersion").getOrElse("notfound"))
 

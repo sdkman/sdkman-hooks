@@ -22,7 +22,10 @@ object Mongo {
 
   def insertAliveKo(): Seq[Completed] = appCollection.insertOne(Document("alive" -> "KO")).results()
 
-  def insertCliVersions(cliVersion: String, betaCliVersion: String): Seq[Completed] = appCollection.insertOne(Document("cliVersion" -> cliVersion, "betaCliVersion" -> betaCliVersion)).results()
+  def insertCliVersions(stableCliVersion: String, betaCliVersion: String): Seq[Completed] =
+    appCollection.insertOne(Document(
+      "stableCliVersion" -> stableCliVersion,
+      "betaCliVersion" -> betaCliVersion)).results()
 
   def dropAppCollection(): Seq[Completed] = appCollection.drop().results()
 }
