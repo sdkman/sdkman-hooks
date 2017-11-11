@@ -235,7 +235,7 @@ echo "sdkman_debug_mode=false" >> "$sdkman_config_file"
 echo "sdkman_colour_enable=true" >> "$sdkman_config_file"
 
 echo "Download script archive..."
-curl -L "${SDKMAN_SERVICE}/broker/download/sdkman/install/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}" > "$sdkman_zip_file"
+curl --location --progress-bar "${SDKMAN_SERVICE}/broker/download/sdkman/install/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}" > "$sdkman_zip_file"
 
 echo "Extract script archive..."
 if [[ "$cygwin" == 'true' ]]; then
