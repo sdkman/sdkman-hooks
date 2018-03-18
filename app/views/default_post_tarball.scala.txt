@@ -2,7 +2,7 @@
 @(candidate: Candidate, version: String, platform: Platform)#!/bin/bash
 #Post Hook: default-tarball
 function __sdkman_post_installation_hook {
-    __sdkman_echo_debug "No post-install hook was found for @{candidate.name} @version."
+    __sdkman_echo_debug "No @{platform.name} post-install hook found for @{candidate.name} @version."
 
     __sdkman_validate_binary_input "$binary_input" || return 1
 

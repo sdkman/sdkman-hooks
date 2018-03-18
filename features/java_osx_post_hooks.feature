@@ -24,7 +24,15 @@ Feature: Java OSX Post Hooks
     And the response script contains "jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home""
     And the response script contains "sudo -E installer -package "${mount_volume}/JDK 8 Update 131.pkg" -target LocalSystem"
 
-  Scenario: Install OpenJDK 8 on OSX
+  Scenario: Install Adopt OpenJDK 8 on OSX
+    When a hook is requested at /hooks/post/java/8u144-openjdk/darwin
+    Then a 200 status code is received
+    And a "text/plain; charset=utf-8" content type is received
+    And the response script starts with "#!/bin/bash"
+    And the response script contains "Post Hook: default-tarball"
+    And the response script contains "No Mac OSX post-install hook found for Java 8u144-openjdk"
+
+  Scenario: Install Azul OpenJDK 8 on OSX
     When a hook is requested at /hooks/post/java/8u131-zulu/darwin
     Then a 200 status code is received
     And a "text/plain; charset=utf-8" content type is received
@@ -45,7 +53,7 @@ Feature: Java OSX Post Hooks
     And the response script contains "jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk-9.0.1.jdk/Contents/Home""
     And the response script contains "sudo -E installer -package "${mount_volume}/JDK 9.0.1.pkg" -target LocalSystem"
 
-  Scenario: Install OpenJDK 9 on OSX
+  Scenario: Install Azul OpenJDK 9 on OSX
     When a hook is requested at /hooks/post/java/9.0.0-zulu/darwin
     Then a 200 status code is received
     And a "text/plain; charset=utf-8" content type is received
@@ -53,3 +61,11 @@ Feature: Java OSX Post Hooks
     And the response script contains "Post Hook: default"
     And the response script contains "No Mac OSX post-install hook found for Java 9.0.0-zulu"
     And the response script contains "Moving $binary_input to $zip_output"
+
+  Scenario: Install Adopt OpenJDK 9 on OSX
+    When a hook is requested at /hooks/post/java/9u181-openjdk/darwin
+    Then a 200 status code is received
+    And a "text/plain; charset=utf-8" content type is received
+    And the response script starts with "#!/bin/bash"
+    And the response script contains "Post Hook: default-tarball"
+    And the response script contains "No Mac OSX post-install hook found for Java 9u181-openjdk"
