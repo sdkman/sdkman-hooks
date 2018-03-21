@@ -69,3 +69,11 @@ Feature: Java OSX Post Hooks
     And the response script starts with "#!/bin/bash"
     And the response script contains "Post Hook: default-tarball"
     And the response script contains "No Mac OSX post-install hook found for Java 9u181-openjdk"
+
+  Scenario: Install Adopt OpenJDK 10 on OSX
+    When a hook is requested at /hooks/post/java/10u23-openjdk/darwin
+    Then a 200 status code is received
+    And a "text/plain; charset=utf-8" content type is received
+    And the response script starts with "#!/bin/bash"
+    And the response script contains "Post Hook: default-tarball"
+    And the response script contains "No Mac OSX post-install hook found for Java 10u23-openjdk"
