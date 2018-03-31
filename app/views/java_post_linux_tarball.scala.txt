@@ -23,6 +23,9 @@ function __sdkman_post_installation_hook {
     echo ""
     echo "Done repackaging..."
 
+    __sdkman_echo_debug "Cleaning up residual binary: $binary_input"
+    rm "$binary_input"
+
     __sdkman_echo_debug "Cleaning up cookie if present..."
     if [ -f "$cookie_file" ] ; then rm "$cookie_file"; fi
 }
