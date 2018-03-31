@@ -66,21 +66,6 @@ sdkman_tmp_folder="${SDKMAN_DIR/tmp}"
 sdkman_tmp_zip="${SDKMAN_DIR}/tmp/sdkman-${SDKMAN_VERSION}.zip"
 sdkman_stage_folder="${SDKMAN_DIR}/tmp/stage"
 
-# fetch new distribution and check integrity
-download_url="${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}"
-__sdkman_echo_debug "Download new scripts from: ${download_url}"
-__sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
-curl --location --progress-bar "$download_url" > "$sdkman_tmp_zip"
-
-ARCHIVE_OK=$(unzip -qt "$sdkman_tmp_zip" | grep 'No errors detected in compressed data')
-if [[ -z "$ARCHIVE_OK" ]]; then
-	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
-	echo ""
-	echo "If problem persists, please ask for help on https://gitter.im/sdkman/user-issues"
-	exit
-fi
-
-
 # prepare file system
 __sdkman_echo_debug "Purge existing scripts..."
 rm -rf "$sdkman_bin_folder"
@@ -97,6 +82,20 @@ mkdir -p "${SDKMAN_DIR}/etc"
 mkdir -p "${SDKMAN_DIR}/var"
 mkdir -p "${SDKMAN_DIR}/archives"
 mkdir -p "${SDKMAN_DIR}/tmp"
+
+# fetch new distribution and check integrity
+download_url="${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}"
+__sdkman_echo_debug "Download new scripts from: ${download_url}"
+__sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
+curl --location --progress-bar "$download_url" > "$sdkman_tmp_zip"
+
+ARCHIVE_OK=$(unzip -qt "$sdkman_tmp_zip" | grep 'No errors detected in compressed data')
+if [[ -z "$ARCHIVE_OK" ]]; then
+	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
+	echo ""
+	echo "If problem persists, please ask for help on https://gitter.im/sdkman/user-issues"
+	exit
+fi
 
 # prepare candidates
 SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
