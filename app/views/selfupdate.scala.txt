@@ -61,9 +61,10 @@ if [ -z "$SDKMAN_DIR" ]; then
 fi
 
 sdkman_bin_folder="${SDKMAN_DIR}/bin"
+sdkman_src_folder="${SDKMAN_DIR}/src"
+sdkman_tmp_folder="${SDKMAN_DIR/tmp}"
 sdkman_tmp_zip="${SDKMAN_DIR}/tmp/sdkman-${SDKMAN_VERSION}.zip"
 sdkman_stage_folder="${SDKMAN_DIR}/tmp/stage"
-sdkman_src_folder="${SDKMAN_DIR}/src"
 
 # fetch new distribution and check integrity
 download_url="${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}"
@@ -84,13 +85,15 @@ fi
 __sdkman_echo_debug "Purge existing scripts..."
 rm -rf "$sdkman_bin_folder"
 rm -rf "$sdkman_src_folder"
+rm -rf "$sdkman_tmp_folder"
 
 __sdkman_echo_debug "Refresh directory structure..."
-mkdir -p "${SDKMAN_DIR}/bin"
+mkdir -p "${sdkman_bin_folder}"
+mkdir -p "${sdkman_src_folder}"
+mkdir -p "${sdkman_tmp_folder}"
 mkdir -p "${SDKMAN_DIR}/candidates"
 mkdir -p "${SDKMAN_DIR}/ext"
 mkdir -p "${SDKMAN_DIR}/etc"
-mkdir -p "${SDKMAN_DIR}/src"
 mkdir -p "${SDKMAN_DIR}/var"
 mkdir -p "${SDKMAN_DIR}/archives"
 mkdir -p "${SDKMAN_DIR}/tmp"
