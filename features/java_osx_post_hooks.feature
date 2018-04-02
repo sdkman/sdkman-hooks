@@ -1,36 +1,36 @@
 Feature: Java OSX Post Hooks
 
   Scenario: Install Oracle Java 8 on OSX
-    When a hook is requested at /hooks/post/java/8u131-oracle/darwin
+    When a hook is requested at /hooks/post/java/8u161-oracle/darwin
     Then a 200 status code is received
     And the response script contains "Post Hook: osx-java-8-oracle"
 
-  Scenario: Install Adopt OpenJDK 8 on OSX
-    When a hook is requested at /hooks/post/java/8u144-openjdk/darwin
-    Then a 200 status code is received
-    And the response script contains "Post Hook: default-tarball"
-
   Scenario: Install Azul OpenJDK 8 on OSX
-    When a hook is requested at /hooks/post/java/8u131-zulu/darwin
+    When a hook is requested at /hooks/post/java/8u161-zulu/darwin
     Then a 200 status code is received
     And the response script contains "Post Hook: default"
 
   Scenario: Install Oracle Java 9 on OSX
-    When a hook is requested at /hooks/post/java/9.0.1-oracle/darwin
+    When a hook is requested at /hooks/post/java/9.0.4-oracle/darwin
     Then a 200 status code is received
     And the response script contains "Post Hook: osx-java-9-oracle"
 
   Scenario: Install Azul OpenJDK 9 on OSX
-    When a hook is requested at /hooks/post/java/9.0.0-zulu/darwin
+    When a hook is requested at /hooks/post/java/9.0.4-zulu/darwin
     Then a 200 status code is received
     And the response script contains "Post Hook: default"
 
-  Scenario: Install Adopt OpenJDK 9 on OSX
-    When a hook is requested at /hooks/post/java/9u181-openjdk/darwin
+  Scenario: Install Azul OpenJDK 10 on OSX
+    When a hook is requested at /hooks/post/java/10.0.0-zulu/darwin
     Then a 200 status code is received
-    And the response script contains "Post Hook: default-tarball"
+    And the response script contains "Post Hook: default"
 
-  Scenario: Install Adopt OpenJDK 10 on OSX
-    When a hook is requested at /hooks/post/java/10u23-openjdk/darwin
+  Scenario: Install java.net OpenJDK 9 on OSX
+    When a hook is requested at /hooks/post/java/9.0.4-openjdk/darwin
     Then a 200 status code is received
-    And the response script contains "Post Hook: default-tarball"
+    And the response script contains "Post Hook: osx-java-tarball"
+
+  Scenario: Install java.net OpenJDK 10 on OSX
+    When a hook is requested at /hooks/post/java/10.0.0-openjdk/darwin
+    Then a 200 status code is received
+    And the response script contains "Post Hook: osx-java-tarball"

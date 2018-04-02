@@ -1,0 +1,37 @@
+@import domain._
+@(candidate: Candidate, version: String, platform: Platform)#!/bin/bash
+#Post Hook: osx-java-tarball
+function __sdkman_post_installation_hook {
+    __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.name} @{version}-openjdk."
+
+     __sdkman_validate_binary_input "$binary_input" || return 1
+
+    local present_dir="$(pwd)"
+    local work_dir="${SDKMAN_DIR}/tmp/out"
+
+    echo ""
+    __sdkman_echo_green "Repackaging @{candidate.name} @version..."
+
+    mkdir -p "$work_dir"
+    /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
+
+    cd "$work_dir"/jdk-@{version}.jdk/Contents/Home
+    /usr/bin/env zip -qr "$zip_output" .
+    cd "$present_dir"
+
+    echo ""
+    __sdkman_echo_green "Done repackaging..."
+
+    __sdkman_echo_debug "Cleaning up residual binary: $binary_input"
+    rm "$binary_input"
+    rm -rf "$work_dir"
+}
+
+function __sdkman_validate_binary_input {
+    if ! tar tzf "$1" &> /dev/null; then
+        echo "Download has failed, aborting!"
+        echo ""
+        echo "Can not install java @version at this time..."
+        return 1
+    fi
+}
