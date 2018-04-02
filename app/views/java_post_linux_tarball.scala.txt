@@ -28,6 +28,10 @@ function __sdkman_post_installation_hook {
 
     __sdkman_echo_debug "Cleaning up cookie if present..."
     if [ -f "$cookie_file" ] ; then rm "$cookie_file"; fi
+
+    __sdkman_echo_debug "Cleaning up residual files..."
+    rm "$binary_input"
+    rm -rf "$work_dir"
 }
 
 function __sdkman_validate_binary_input {

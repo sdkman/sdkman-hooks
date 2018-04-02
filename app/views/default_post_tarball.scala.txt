@@ -24,9 +24,9 @@ function __sdkman_post_installation_hook {
     echo ""
     __sdkman_echo_green "Done repackaging..."
 
-    __sdkman_echo_debug "Cleaning up residual binary: $binary_input"
+    __sdkman_echo_debug "Cleaning up residual files..."
     rm "$binary_input"
-
+    rm -rf "$work_dir"
 }
 
 function __sdkman_validate_binary_input {
