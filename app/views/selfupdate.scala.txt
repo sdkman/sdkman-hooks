@@ -60,11 +60,9 @@ if [ -z "$SDKMAN_DIR" ]; then
 	SDKMAN_DIR="$HOME/.sdkman"
 fi
 
-sdkman_bin_folder="${SDKMAN_DIR}/bin"
-sdkman_src_folder="${SDKMAN_DIR}/src"
-sdkman_tmp_folder="${SDKMAN_DIR/tmp}"
 sdkman_tmp_zip="${SDKMAN_DIR}/tmp/sdkman-${SDKMAN_VERSION}.zip"
 sdkman_stage_folder="${SDKMAN_DIR}/tmp/stage"
+sdkman_src_folder="${SDKMAN_DIR}/src"
 
 # fetch new distribution and check integrity
 download_url="${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}"
@@ -80,26 +78,11 @@ if [[ -z "$ARCHIVE_OK" ]]; then
 	exit
 fi
 
-__sdkman_echo_debug "Refresh directory structure..."
-mkdir -p "${SDKMAN_DIR}/bin"
-mkdir -p "${SDKMAN_DIR}/src"
-mkdir -p "${SDKMAN_DIR}/candidates"
-mkdir -p "${SDKMAN_DIR}/ext"
-mkdir -p "${SDKMAN_DIR}/etc"
-mkdir -p "${SDKMAN_DIR}/var"
-mkdir -p "${SDKMAN_DIR}/archives"
-mkdir -p "${SDKMAN_DIR}/tmp"
-
 # prepare candidates
 SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
 __sdkman_echo_debug "Fetched candidates: $SDKMAN_CANDIDATES_CSV"
 echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 __sdkman_echo_debug "Overwritten cache: $(cat "${SDKMAN_DIR}/var/candidates")"
-
-# prepare file system
-__sdkman_echo_debug "Purge existing scripts..."
-rm "$sdkman_bin_folder/sdkman-init.sh"
-rm "$sdkman_src_folder/sdkman-*.sh"
 
 # extract new distribution
 __sdkman_echo_debug "Extract script archive..."
@@ -112,9 +95,11 @@ else
 fi
 
 __sdkman_echo_debug "Moving sdkman-init file to bin folder..."
-mv "${sdkman_stage_folder}/sdkman-init.sh" "$sdkman_bin_folder"
+rm "${SDKMAN_DIR}/bin/sdkman-init.sh"
+mv "${sdkman_stage_folder}/sdkman-init.sh" "${SDKMAN_DIR}/bin"
 
 __sdkman_echo_debug "Move remaining module scripts to src folder: ${sdkman_src_folder}"
+rm "$sdkman_src_folder/sdkman-*.sh"
 mv "$sdkman_stage_folder"/sdkman-* "$sdkman_src_folder"
 
 __sdkman_echo_debug "Clean up staging folder..."
@@ -162,8 +147,7 @@ fi
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
 
 # clean up tmp folder
-rm -rf "$sdkman_tmp_folder"
-mkdir -p "${sdkman_tmp_folder}"
+rm -rf "${SDKMAN_DIR}/tmp/*"
 
 # the end
 echo ""
