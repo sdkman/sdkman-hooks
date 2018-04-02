@@ -39,10 +39,16 @@ class HooksController extends Controller {
         //POST: Cygwin
         case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "oracle") =>
           Ok(views.txt.java_post_cygwin_msi(candidate, version, Platform.Windows64Cygwin))
-        case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, _) =>
+        case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "zulu") =>
           Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
-        case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, _) =>
+        case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "openjdk") =>
+          Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64Cygwin))
+
+        //POST: Mysys
+        case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, "zulu") =>
           Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
+        case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, "openjdk") =>
+          Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64MinGW))
 
         //POST
         case (PostHook, Candidate.Java, _, _, _) =>

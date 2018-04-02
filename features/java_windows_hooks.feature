@@ -30,9 +30,9 @@ Feature: Java Windows Hooks
   Scenario: Install java.net OpenJDK on Cygwin Post Hook
     When a hook is requested at /hooks/post/java/8u144-openjdk/cygwin
     Then a 200 status code is received
-    And the response script contains "Post Hook: default"
+    And the response script contains "Post Hook: default-tarball"
 
   Scenario: Install java.net OpenJDK on MinGW Post Hook
     When a hook is requested at /hooks/post/java/8u144-openjdk/msys_nt-10.0
     Then a 200 status code is received
-    And the response script contains "Post Hook: default"
+    And the response script contains "Post Hook: default-tarball"
