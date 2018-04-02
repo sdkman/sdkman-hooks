@@ -1,6 +1,6 @@
 @import domain._
 @(candidate: Candidate, version: String, platform: Platform)#!/bin/bash
-#Post Hook: osx-java-9-oracle
+#Post Hook: osx-java-oracle
 function __sdkman_post_installation_hook {
     __sdkman_echo_debug "A @{platform.name} post-install hook was found for @{candidate.name} @{version}-oracle."
 
@@ -12,37 +12,41 @@ function __sdkman_post_installation_hook {
     local mount_volume="/Volumes/JDK @{version}"
     local jdk_home_folder="/Library/Java/JavaVirtualMachines/jdk-@{version}.jdk/Contents/Home"
 
-    echo ""
-    echo "Repackaging @{candidate.name} @version..."
+    __sdkman_echo_green ""
+    __sdkman_echo_green "Repackaging @{candidate.name} @version..."
 
     rm -rf "$work_dir"
     mkdir -p "$work_dir"
 
-    echo "Attaching to the DMG..."
+    __sdkman_echo_green "Attaching to the DMG..."
     disks=$(hdiutil attach -noverify -nomount "$binary_input")
     disk=$(echo "$disks" | awk '{print $1;}' | head -n 1)
 
-    echo "Mounting DMG as Volume..."
+    __sdkman_echo_green "Mounting DMG as Volume..."
     diskutil mountDisk "$disk"
 
-    echo "Installing PKG inside DMG..."
+    __sdkman_echo_green "Installing PKG inside DMG..."
     sudo -E installer -package "${mount_volume}/JDK @{version}.pkg" -target LocalSystem
 
-    echo "Copy JDK Home to temp folder..."
+    __sdkman_echo_green "Copy JDK Home to temp folder..."
     cp -rf "$jdk_home_folder" "$candidate_work_dir"
 
     local present_dir="$(pwd)"
     cd "$work_dir"
-    echo "Preparing archive..."
+    __sdkman_echo_green "Preparing archive..."
     /usr/bin/env zip -qr "$zip_output" .
     cd "$present_dir"
 
-    echo "Unmounting volume..."
+    __sdkman_echo_green "Unmounting volume..."
     hdiutil unmount "$mount_volume"
 
-    echo "Done repackaging..."
-    echo "Cleaning up cookie..."
+    __sdkman_echo_green "Done repackaging..."
+    __sdkman_echo_green "Cleaning up cookie..."
     rm "$cookie_file"
+
+    __sdkman_echo_green "Cleaning up residual binary: $binary_input"
+    rm "$binary_input"
+    rm -rf "$work_dir"
 }
 
 function __sdkman_validate_input_binary {
@@ -50,10 +54,10 @@ function __sdkman_validate_input_binary {
 }
 
 function __sdkman_authorise_user {
-    echo "We will be needing super powers..."
+    __sdkman_echo_yellow "We will be needing super powers..."
     authorised=$(sudo echo 'true')
     if [[ "$authorised" != 'true' ]]; then
-        echo "Authorisation failed. Please try installing again..."
+        __sdkman_echo_red "Authorisation failed. Please try installing again..."
         return 1
     fi
 }
