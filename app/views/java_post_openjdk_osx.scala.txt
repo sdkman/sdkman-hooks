@@ -8,6 +8,7 @@ function __sdkman_post_installation_hook {
 
     local present_dir="$(pwd)"
     local work_dir="${SDKMAN_DIR}/tmp/out"
+    local work_jdk_dir="${SDKMAN_DIR}/tmp/@{candidate.name}-@{version}"
 
     echo ""
     __sdkman_echo_green "Repackaging @{candidate.name} @version..."
@@ -15,16 +16,19 @@ function __sdkman_post_installation_hook {
     mkdir -p "$work_dir"
     /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
 
-    cd "$work_dir"/*/Contents/Home
-    /usr/bin/env zip -qr "$zip_output" .
+    cd "$work_dir"/*/Contents
+    mv Home "$work_jdk_dir"
+    cd "${SDKMAN_DIR}"/tmp
+    /usr/bin/env zip -qr "$zip_output" "@{candidate.name}-@{version}"
     cd "$present_dir"
 
     echo ""
     __sdkman_echo_green "Done repackaging..."
 
-    __sdkman_echo_debug "Cleaning up residual binary: $binary_input"
+    __sdkman_echo_green "Cleaning up residual files..."
     rm "$binary_input"
     rm -rf "$work_dir"
+    rm -rf "$work_jdk_dir"
 }
 
 function __sdkman_validate_binary_input {
