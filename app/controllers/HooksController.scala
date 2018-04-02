@@ -29,7 +29,7 @@ class HooksController extends Controller {
           Ok(views.txt.java_post_9_oracle_osx(candidate, dropSuffix(version), Platform.MacOSX))
         case (PostHook, Candidate.Java, _, Platform.MacOSX, "openjdk") =>
           Ok(views.txt.default_post_tarball(candidate, version, Platform.MacOSX))
-        case (PostHook, Candidate.Java, _, Platform.MacOSX, _) =>
+        case (PostHook, Candidate.Java, _, Platform.MacOSX, "zulu") =>
           Ok(views.txt.default_post_zip(candidate, version, Platform.MacOSX))
 
         //POST: Linux
