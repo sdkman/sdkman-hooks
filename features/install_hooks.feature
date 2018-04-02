@@ -26,12 +26,6 @@ Feature: Install Hooks
 		Then a 200 status code is received
 		And I receive a hook containing text: Pre Hook: default
 
-	Scenario: An Apple Pre Hook is served
-		Given a Hook is available for consumption
-		When I fetch a "pre" hook for "java" "6u65-apple" on "Darwin"
-		Then a 200 status code is received
-		And I receive a hook containing text: Pre Hook: apple-asla
-
 	Scenario: An Oracle Pre Hook is served
 		Given a Hook is available for consumption
 		When I fetch a "pre" hook for "java" "8u131-oracle" on "Darwin"

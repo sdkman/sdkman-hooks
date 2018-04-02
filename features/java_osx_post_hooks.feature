@@ -1,10 +1,5 @@
 Feature: Java OSX Post Hooks
 
-  Scenario: Install Apple Java 6 on OSX
-    When a hook is requested at /hooks/post/java/6u65-apple/darwin
-    Then a 200 status code is received
-    And the response script contains "Post Hook: osx-java-6-apple"
-
   Scenario: Install Oracle Java 8 on OSX
     When a hook is requested at /hooks/post/java/8u131-oracle/darwin
     Then a 200 status code is received

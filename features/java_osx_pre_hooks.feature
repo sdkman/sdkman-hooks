@@ -1,11 +1,5 @@
 Feature: Java OSX Pre Hooks
 
-  Scenario: Install Apple Java 6 on OSX
-    When a hook is requested at /hooks/pre/java/6u65-apple/darwin
-    Then a 200 status code is received
-    And the response script contains "Pre Hook: apple-asla"
-    And the response script contains "Apple requires that you agree with the Apple Software License Agreement"
-
   Scenario: Install Oracle Java 8 on OSX
     When a hook is requested at /hooks/pre/java/8u131-oracle/darwin
     Then a 200 status code is received
