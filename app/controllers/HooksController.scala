@@ -53,12 +53,6 @@ class HooksController extends Controller {
           Ok(views.txt.default_post_zip(candidate, version, platform))
 
         //PRE
-        case (PreHook, Candidate.Java, "4", Platform.Linux, "oracle") =>
-          Ok(views.txt.java_pre_obcla(candidate, version))
-        case (PreHook, Candidate.Java, "5", Platform.Linux, "oracle") =>
-          Ok(views.txt.java_pre_obcla(candidate, version))
-        case (PreHook, Candidate.Java, "5", Platform.Windows64Cygwin, "oracle") =>
-          Ok(views.txt.java_pre_obcla(candidate, version))
         case (PreHook, Candidate.Java, "8", Platform.Windows64MinGW, "oracle") =>
           Ok(views.txt.java_pre_mingw_msi(candidate, version, Platform.Windows64MinGW))
         case (PreHook, Candidate.Java, "8", _, "oracle") =>
