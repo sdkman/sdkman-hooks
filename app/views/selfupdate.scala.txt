@@ -95,12 +95,12 @@ else
 fi
 
 __sdkman_echo_debug "Moving sdkman-init file to bin folder..."
-rm "${SDKMAN_DIR}/bin/sdkman-init.sh"
-mv "${sdkman_stage_folder}/sdkman-init.sh" "${SDKMAN_DIR}/bin"
+rm -v "${SDKMAN_DIR}"/bin/sdkman-init.sh
+mv -v "${sdkman_stage_folder}/sdkman-init.sh" "${SDKMAN_DIR}/bin"
 
 __sdkman_echo_debug "Move remaining module scripts to src folder: ${sdkman_src_folder}"
-rm "$sdkman_src_folder/sdkman-*.sh"
-mv "$sdkman_stage_folder"/sdkman-* "$sdkman_src_folder"
+rm -v "$sdkman_src_folder"/sdkman-*.sh
+mv -v "$sdkman_stage_folder"/sdkman-* "$sdkman_src_folder"
 
 __sdkman_echo_debug "Clean up staging folder..."
 rm -rf "$sdkman_stage_folder"
@@ -147,7 +147,8 @@ fi
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
 
 # clean up tmp folder
-rm -rf "${SDKMAN_DIR}/tmp/*"
+rm -rvf "${SDKMAN_DIR}"/tmp
+mkdir -v "${SDKMAN_DIR}"/tmp
 
 # the end
 echo ""
