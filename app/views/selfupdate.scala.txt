@@ -80,14 +80,9 @@ if [[ -z "$ARCHIVE_OK" ]]; then
 	exit
 fi
 
-# prepare file system
-__sdkman_echo_debug "Purge existing scripts..."
-rm -rf "$sdkman_bin_folder"
-rm -rf "$sdkman_src_folder"
-
 __sdkman_echo_debug "Refresh directory structure..."
-mkdir -p "${sdkman_bin_folder}"
-mkdir -p "${sdkman_src_folder}"
+mkdir -p "${SDKMAN_DIR}/bin"
+mkdir -p "${SDKMAN_DIR}/src"
 mkdir -p "${SDKMAN_DIR}/candidates"
 mkdir -p "${SDKMAN_DIR}/ext"
 mkdir -p "${SDKMAN_DIR}/etc"
@@ -100,6 +95,11 @@ SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
 __sdkman_echo_debug "Fetched candidates: $SDKMAN_CANDIDATES_CSV"
 echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 __sdkman_echo_debug "Overwritten cache: $(cat "${SDKMAN_DIR}/var/candidates")"
+
+# prepare file system
+__sdkman_echo_debug "Purge existing scripts..."
+rm "$sdkman_bin_folder/sdkman-init.sh"
+rm "$sdkman_src_folder/sdkman-*.sh"
 
 # extract new distribution
 __sdkman_echo_debug "Extract script archive..."
