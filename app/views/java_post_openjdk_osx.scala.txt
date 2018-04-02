@@ -15,7 +15,7 @@ function __sdkman_post_installation_hook {
     mkdir -p "$work_dir"
     /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
 
-    cd "$work_dir"/jdk-@{version}.jdk/Contents/Home
+    cd "$work_dir"/*/Contents/Home
     /usr/bin/env zip -qr "$zip_output" .
     cd "$present_dir"
 
