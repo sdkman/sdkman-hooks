@@ -1,7 +1,7 @@
 Feature: Java OSX Post Hooks
 
   Scenario: Install Oracle Java 8 on OSX
-    When a hook is requested at /hooks/post/java/8u161-oracle/darwin
+    When a hook is requested at /hooks/post/java/8.0.161-oracle/darwin
     Then a 200 status code is received
     And the response script contains "Post Hook: osx-java-8-oracle"
 
@@ -16,7 +16,7 @@ Feature: Java OSX Post Hooks
     And the response script contains "Post Hook: osx-java-oracle"
 
   Scenario: Install Azul OpenJDK 8 on OSX
-    When a hook is requested at /hooks/post/java/8u161-zulu/darwin
+    When a hook is requested at /hooks/post/java/8.0.161-zulu/darwin
     Then a 200 status code is received
     And the response script contains "Post Hook: default"
 

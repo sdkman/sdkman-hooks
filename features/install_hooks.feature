@@ -11,13 +11,13 @@ Feature: Install Hooks
 		And I receive a hook containing text: Post Hook: default-tarball
 
 	Scenario: A platform specific Post Hook is served
-		When I fetch a "post" hook for "java" "8u131" on "Linux"
+		When I fetch a "post" hook for "java" "9.0.4-openjdk" on "Linux"
 		Then a 200 status code is received
 		And I receive a hook containing text: Post Hook: linux-java-tarball
 
 	Scenario: A platform specific Post Hook is not found
 		Given no relevant Hook is available
-		When I fetch a "post" hook for "java" "8u111-oracle" on "FreeBSD"
+		When I fetch a "post" hook for "java" "9.0.4-oracle" on "FreeBSD"
 		Then a 404 status code is received
 
 	Scenario: A default Pre Hook is served
@@ -28,6 +28,6 @@ Feature: Install Hooks
 
 	Scenario: An Oracle Pre Hook is served
 		Given a Hook is available for consumption
-		When I fetch a "pre" hook for "java" "8u131-oracle" on "Darwin"
+		When I fetch a "pre" hook for "java" "8.0.161-oracle" on "Darwin"
 		Then a 200 status code is received
 		And I receive a hook containing text: Pre Hook: oracle-obcla

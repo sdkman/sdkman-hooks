@@ -1,7 +1,7 @@
 Feature: Java OSX Pre Hooks
 
   Scenario: Install Oracle Java 8 on OSX
-    When a hook is requested at /hooks/pre/java/8u131-oracle/darwin
+    When a hook is requested at /hooks/pre/java/8.0.161-oracle/darwin
     Then a 200 status code is received
     And the response script contains "Pre Hook: oracle-obcla"
     And the response script contains "Oracle requires that you agree with the Oracle Binary Code License Agreement"
@@ -19,7 +19,7 @@ Feature: Java OSX Pre Hooks
     And the response script contains "Oracle requires that you agree with the Oracle Binary Code License Agreement"
 
   Scenario: Install OpenJDK 8 on OSX
-    When a hook is requested at /hooks/pre/java/8u131-zulu/darwin
+    When a hook is requested at /hooks/pre/java/8.0.161-zulu/darwin
     Then a 200 status code is received
     And the response script contains "Pre Hook: default"
 
