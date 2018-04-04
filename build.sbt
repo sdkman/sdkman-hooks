@@ -18,10 +18,15 @@ scalaVersion := "2.11.8"
 
 routesGenerator := InjectedRoutesGenerator
 
+resolvers ++= Seq(
+  Resolver.bintrayRepo("sdkman", "maven"),
+  Resolver.jcenterRepo
+)
+
 libraryDependencies ++= Seq(
   cache,
   ws,
-  "org.mongodb.scala" %% "mongo-scala-driver" % "1.1.1",
+  "io.sdkman" %% "sdkman-mongodb-persistence" % "0.5",
   "org.scalatest" %% "scalatest" % "3.0.0" % Test,
   "info.cukes" %% "cucumber-scala" % "1.2.5" % Test,
   "info.cukes" % "cucumber-junit" % "1.2.5" % Test,
