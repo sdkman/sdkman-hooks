@@ -35,6 +35,8 @@ class HooksController extends Controller {
         //POST: Linux
         case (PostHook, Candidate.Java, _, Platform.Linux, _) =>
           Ok(views.txt.java_post_linux_tarball(candidate, version, Platform.Linux))
+        case (PostHook, Candidate.GraalVM, _, Platform.Linux, _) =>
+          Ok(views.txt.default_post_tarball(candidate, version, Platform.Linux))
 
         //POST: Cygwin
         case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "oracle") =>

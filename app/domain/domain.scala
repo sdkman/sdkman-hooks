@@ -7,6 +7,8 @@ object Candidate {
   val Java = Candidate("java")
 
   val Spark = Candidate("spark")
+
+  val GraalVM = Candidate("graalvm")
 }
 
 case class Platform(identifier: String, name: String)
