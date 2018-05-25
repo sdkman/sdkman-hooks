@@ -18,7 +18,7 @@ function __sdkman_post_installation_hook {
     /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
 
     cd "$work_dir"
-    /usr/bin/env zip -qr "$zip_output" .
+    /usr/bin/env zip -qyr "$zip_output" .
     cd "$present_dir"
 
     echo ""

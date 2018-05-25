@@ -19,7 +19,7 @@ function __sdkman_post_installation_hook {
 
     local present_dir="$(pwd)"
     cd "$work_dir"
-    /usr/bin/env zip -qr "$zip_output" .
+    /usr/bin/env zip -qyr "$zip_output" .
     cd "$present_dir"
 
     echo ""
