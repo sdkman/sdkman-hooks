@@ -1,4 +1,4 @@
-# SDKMAN! Candidates Service
+# SDKMAN! Hooks Service
 
 This service serves up Pre- and Post- Hooks for SDKMAN! CLI.
 
