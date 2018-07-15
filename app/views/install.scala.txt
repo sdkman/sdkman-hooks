@@ -289,15 +289,19 @@ fi
 if [[ -d "${HOME}"/.config/fish && ! -f "${HOME}"/.config/fish/conf.d/sdk.fish ]]; then
     echo "It seems you have fish installed. Unfortunately, SDKMAN! does not work with fish out of the box."
     echo "Install third-party support now? [y/N/?]"
+    # prompt
 
-    # ? --> show what will be installed (necessary?)
+    while [[ ? ]];  do
+    	# show what will be installed (necessary?)
+	# reprompt
+    done
 
     if [[ y ]]; then
         if [[ ! -f "${HOME}"/.config/fish/functions/fisher.fish ]]; then
             curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
         fi
 
-        fisher reitzig/sdkman-for-fish
+        fish -c "fisher reitzig/sdkman-for-fish"
     fi
 fi
 
