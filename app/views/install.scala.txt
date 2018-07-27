@@ -235,7 +235,9 @@ echo "sdkman_debug_mode=false" >> "$sdkman_config_file"
 echo "sdkman_colour_enable=true" >> "$sdkman_config_file"
 
 echo "Download script archive..."
-curl --location --progress-bar "${SDKMAN_SERVICE}/broker/download/sdkman/install/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}" > "$sdkman_zip_file"
+if ! curl --location --progress-bar --fail "${SDKMAN_SERVICE}/broker/download/sdkman/install/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}" -o "$sdkman_zip_file"; then
+	echo 'Error downloading archive. Please check if internet works correctly.'
+fi
 
 ARCHIVE_OK=$(unzip -qt "$sdkman_zip_file" | grep 'No errors detected in compressed data')
 if [[ -z "$ARCHIVE_OK" ]]; then
