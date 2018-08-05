@@ -32,6 +32,8 @@ class HooksController extends Controller {
             Ok(views.txt.java_post_openjdk_osx(candidate, version, Platform.MacOSX))
           case (PostHook, Candidate.Java, _, Platform.MacOSX, "zulu") =>
             Ok(views.txt.default_post_tarball(candidate, version, Platform.MacOSX))
+          case (PostHook, Candidate.Java, _, Platform.MacOSX, "graal") =>
+            Ok(views.txt.default_post_tarball(candidate, version, Platform.MacOSX))
 
           //POST: Linux
           case (PostHook, Candidate.Java, _, Platform.Linux, _) =>
