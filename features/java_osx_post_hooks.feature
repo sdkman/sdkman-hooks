@@ -39,3 +39,8 @@ Feature: Java OSX Post Hooks
     When a hook is requested at /hooks/post/java/10.0.0-openjdk/darwin
     Then a 200 status code is received
     And the response script contains "Post Hook: osx-java-tarball"
+
+  Scenario: Install GraalVM on OSX
+    When a hook is requested at /hooks/post/java/1.0.0-rc5-graal/darwin
+    Then a 200 status code is received
+    And the response script contains "Post Hook: default-tarball"

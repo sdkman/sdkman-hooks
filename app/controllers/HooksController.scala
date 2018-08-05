@@ -90,5 +90,5 @@ class HooksController extends Controller {
 
   private def dropSuffix(v: String) = v.split("-").head
 
-  private def vendor(version: String) = version.split("-").drop(1).headOption.getOrElse("")
+  private def vendor(version: String) = version.split("-").lastOption.getOrElse("")
 }

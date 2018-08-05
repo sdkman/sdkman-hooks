@@ -31,3 +31,8 @@ Feature: Java Linux Hooks
     When a hook is requested at /hooks/post/java/9.0.4-openjdk/linux
     Then a 200 status code is received
     And the response script contains "Post Hook: linux-java-tarball"
+
+  Scenario: Install GraalVM on Linux
+    When a hook is requested at /hooks/post/java/1.0.0-rc5-graal/linux
+    Then a 200 status code is received
+    And the response script contains "Post Hook: linux-java-tarball"
