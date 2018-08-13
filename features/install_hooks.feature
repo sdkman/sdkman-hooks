@@ -3,7 +3,7 @@ Feature: Install Hooks
 		Given no relevant Hook is available
 		When I fetch a "post" hook for "scala" "2.12.0" on "Linux"
 		Then a 200 status code is received
-		And I receive a hook containing text: Post Hook: default
+		And I receive a hook containing text: Post Hook: default-zip
 
 	Scenario: A Spark Universal Post Hook is served
 		When I fetch a "post" hook for "spark" "2.2.0" on "Linux"

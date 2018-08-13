@@ -20,19 +20,49 @@ Feature: Java Windows Hooks
   Scenario: Install Zulu OpenJDK on Cygwin Post Hook
     When a hook is requested at /hooks/post/java/8.0.152-zulu/cygwin
     Then a 200 status code is received
-    And the response script contains "Post Hook: default"
+    And I receive a hook containing text: Post Hook: default-zip
 
   Scenario: Install Zulu OpenJDK on MinGW Post Hook
     When a hook is requested at /hooks/post/java/8.0.152-zulu/msys_nt-10.0
     Then a 200 status code is received
-    And the response script contains "Post Hook: default"
+    And I receive a hook containing text: Post Hook: default-zip
 
-  Scenario: Install java.net OpenJDK on Cygwin Post Hook
-    When a hook is requested at /hooks/post/java/8.0.144-openjdk/cygwin
+  Scenario: Install java.net OpenJDK 9 on Cygwin Post Hook
+    When a hook is requested at /hooks/post/java/9.0.4-openjdk/cygwin
     Then a 200 status code is received
-    And the response script contains "Post Hook: default-tarball"
+    And I receive a hook containing text: Post Hook: default-tarball
 
-  Scenario: Install java.net OpenJDK on MinGW Post Hook
-    When a hook is requested at /hooks/post/java/8.0.144-openjdk/msys_nt-10.0
+  Scenario: Install java.net OpenJDK 9 on MinGW Post Hook
+    When a hook is requested at /hooks/post/java/9.0.4-openjdk/msys_nt-10.0
     Then a 200 status code is received
-    And the response script contains "Post Hook: default-tarball"
+    And I receive a hook containing text: Post Hook: default-tarball
+
+  Scenario: Install java.net OpenJDK 10 on Cygwin Post Hook
+    When a hook is requested at /hooks/post/java/10.0.0-openjdk/cygwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-tarball
+
+  Scenario: Install java.net OpenJDK 10 on MinGW Post Hook
+    When a hook is requested at /hooks/post/java/10.0.0-openjdk/msys_nt-10.0
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-tarball
+
+  Scenario: Install java.net OpenJDK 11 on Cygwin Post Hook
+    When a hook is requested at /hooks/post/java/11.0.24-openjdk/cygwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
+
+  Scenario: Install java.net OpenJDK 11 on MinGW Post Hook
+    When a hook is requested at /hooks/post/java/11.0.24-openjdk/msys_nt-10.0
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
+
+  Scenario: Install java.net OpenJDK 12 on Cygwin Post Hook
+    When a hook is requested at /hooks/post/java/12.0.0-openjdk/cygwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
+
+  Scenario: Install java.net OpenJDK 12 on MinGW Post Hook
+    When a hook is requested at /hooks/post/java/12.0.0-openjdk/msys_nt-10.0
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
