@@ -44,21 +44,21 @@ class HooksController extends Controller {
             Ok(views.txt.java_post_cygwin_msi(candidate, version, Platform.Windows64Cygwin))
           case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "zulu") =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, "11", Platform.Windows64Cygwin, "openjdk") =>
+          case (PostHook, Candidate.Java, "11", Platform.Windows64Cygwin, "open") =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, "12", Platform.Windows64Cygwin, "openjdk") =>
+          case (PostHook, Candidate.Java, "12", Platform.Windows64Cygwin, "open") =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "openjdk") =>
+          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "open") =>
             Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64Cygwin))
 
           //POST: Mysys
           case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, "zulu") =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
-          case (PostHook, Candidate.Java, "11", Platform.Windows64MinGW, "openjdk") =>
+          case (PostHook, Candidate.Java, "11", Platform.Windows64MinGW, "open") =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
-          case (PostHook, Candidate.Java, "12", Platform.Windows64MinGW, "openjdk") =>
+          case (PostHook, Candidate.Java, "12", Platform.Windows64MinGW, "open") =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
-          case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, "openjdk") =>
+          case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, "open") =>
             Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64MinGW))
 
           //POST
