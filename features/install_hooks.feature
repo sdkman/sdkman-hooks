@@ -11,7 +11,7 @@ Feature: Install Hooks
 		And I receive a hook containing text: Post Hook: default-tarball
 
 	Scenario: A platform specific Post Hook is served
-		When I fetch a "post" hook for "java" "9.0.4-openjdk" on "Linux"
+		When I fetch a "post" hook for "java" "9.0.4-open" on "Linux"
 		Then a 200 status code is received
 		And I receive a hook containing text: Post Hook: linux-java-tarball
 

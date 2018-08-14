@@ -31,12 +31,12 @@ Feature: Java OSX Post Hooks
     And I receive a hook containing text: Post Hook: default-tarball
 
   Scenario: Install java.net OpenJDK 9 on OSX
-    When a hook is requested at /hooks/post/java/9.0.4-openjdk/darwin
+    When a hook is requested at /hooks/post/java/9.0.4-open/darwin
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: osx-java-tarball
 
   Scenario: Install java.net OpenJDK 10 on OSX
-    When a hook is requested at /hooks/post/java/10.0.0-openjdk/darwin
+    When a hook is requested at /hooks/post/java/10.0.0-open/darwin
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: osx-java-tarball
 

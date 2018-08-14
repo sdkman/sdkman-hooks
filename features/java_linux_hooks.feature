@@ -28,7 +28,7 @@ Feature: Java Linux Hooks
     And the response script contains "Post Hook: linux-java-tarball"
 
   Scenario: Install java.net OpenJDK on Linux
-    When a hook is requested at /hooks/post/java/9.0.4-openjdk/linux
+    When a hook is requested at /hooks/post/java/9.0.4-open/linux
     Then a 200 status code is received
     And the response script contains "Post Hook: linux-java-tarball"
 
