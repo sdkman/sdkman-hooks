@@ -44,3 +44,8 @@ Feature: Java OSX Post Hooks
     When a hook is requested at /hooks/post/java/1.0.0-rc5-grl/darwin
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: osx-java-tarball
+
+  Scenario: Install Amazon Corretto 8 on OSX
+    When a hook is requested at /hooks/post/java/8.0.192-amzn/darwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: osx-java-tarball

@@ -66,3 +66,8 @@ Feature: Java Windows Hooks
     When a hook is requested at /hooks/post/java/12.0.0-open/msys_nt-10.0
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: default-zip
+
+  Scenario: Install Amazon Corretto on Cygwin Post Hook
+    When a hook is requested at /hooks/post/java/8.0.192-amzn/cygwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
