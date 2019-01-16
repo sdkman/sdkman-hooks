@@ -36,3 +36,11 @@ object Platform {
   val SunOS = Platform("SUN_OS", "Solaris")
   val Universal = Platform("UNIVERSAL", "Universal")
 }
+
+object JdkDistro {
+  val Amazon = "amzn"
+  val GraalVM = "grl"
+  val OpenJDK = "open"
+  val Oracle = "oracle"
+  val Zulu = "zulu"
+}

@@ -1,6 +1,6 @@
 package controllers
 
-import domain.{Candidate, Platform}
+import domain.{Candidate, Platform, JdkDistro}
 import play.api.Logger
 import play.api.mvc.{Action, _}
 
@@ -24,17 +24,17 @@ class HooksController extends Controller {
         (phase, candidate, normalise(version), platform, vendor(version)) match {
 
           //POST: Mac OSX
-          case (PostHook, Candidate.Java, "8", Platform.MacOSX, "oracle") =>
+          case (PostHook, Candidate.Java, "8", Platform.MacOSX, JdkDistro.Oracle) =>
             Ok(views.txt.java_post_8_oracle_osx(candidate, dropSuffix(version).split(".0.").mkString("u"), Platform.MacOSX))
-          case (PostHook, Candidate.Java, _, Platform.MacOSX, "oracle") =>
+          case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.Oracle) =>
             Ok(views.txt.java_post_oracle_osx(candidate, dropSuffix(version), Platform.MacOSX))
-          case (PostHook, Candidate.Java, _, Platform.MacOSX, "open") =>
+          case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.OpenJDK) =>
             Ok(views.txt.java_post_openjdk_osx(candidate, version, Platform.MacOSX))
-          case (PostHook, Candidate.Java, _, Platform.MacOSX, "grl") =>
+          case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.GraalVM) =>
             Ok(views.txt.java_post_openjdk_osx(candidate, version, Platform.MacOSX))
-          case (PostHook, Candidate.Java, _, Platform.MacOSX, "zulu") =>
+          case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.Zulu) =>
             Ok(views.txt.default_post_tarball(candidate, version, Platform.MacOSX))
-          case (PostHook, Candidate.Java, _, Platform.MacOSX, "amzn") =>
+          case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.Amazon) =>
             Ok(views.txt.java_post_openjdk_osx(candidate, version, Platform.MacOSX))
 
           //POST: Linux
@@ -42,27 +42,27 @@ class HooksController extends Controller {
             Ok(views.txt.java_post_linux_tarball(candidate, version, Platform.Linux))
 
           //POST: Cygwin
-          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "oracle") =>
+          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, JdkDistro.Oracle) =>
             Ok(views.txt.java_post_cygwin_msi(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "zulu") =>
+          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, JdkDistro.Zulu) =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, "11", Platform.Windows64Cygwin, "open") =>
+          case (PostHook, Candidate.Java, "11", Platform.Windows64Cygwin, JdkDistro.OpenJDK) =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, "12", Platform.Windows64Cygwin, "open") =>
+          case (PostHook, Candidate.Java, "12", Platform.Windows64Cygwin, JdkDistro.OpenJDK) =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "open") =>
+          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, JdkDistro.OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, "amzn") =>
+          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, JdkDistro.Amazon) =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
 
           //POST: Mysys
-          case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, "zulu") =>
+          case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, JdkDistro.Zulu) =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
-          case (PostHook, Candidate.Java, "11", Platform.Windows64MinGW, "open") =>
+          case (PostHook, Candidate.Java, "11", Platform.Windows64MinGW, JdkDistro.OpenJDK) =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
-          case (PostHook, Candidate.Java, "12", Platform.Windows64MinGW, "open") =>
+          case (PostHook, Candidate.Java, "12", Platform.Windows64MinGW, JdkDistro.OpenJDK) =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
-          case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, "open") =>
+          case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, JdkDistro.OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64MinGW))
 
           //POST
@@ -74,13 +74,13 @@ class HooksController extends Controller {
             Ok(views.txt.default_post_zip(candidate, version, platform))
 
           //PRE
-          case (PreHook, Candidate.Java, "8", Platform.Windows64MinGW, "oracle") =>
+          case (PreHook, Candidate.Java, "8", Platform.Windows64MinGW, JdkDistro.Oracle) =>
             Ok(views.txt.java_pre_mingw_msi(candidate, version, Platform.Windows64MinGW))
-          case (PreHook, Candidate.Java, "8", _, "oracle") =>
+          case (PreHook, Candidate.Java, "8", _, JdkDistro.Oracle) =>
             Ok(views.txt.java_pre_obcla(candidate, version))
-          case (PreHook, Candidate.Java, "9", _, "oracle") =>
+          case (PreHook, Candidate.Java, "9", _, JdkDistro.Oracle) =>
             Ok(views.txt.java_pre_obcla(candidate, version))
-          case (PreHook, Candidate.Java, "10", _, "oracle") =>
+          case (PreHook, Candidate.Java, "10", _, JdkDistro.Oracle) =>
             Ok(views.txt.java_pre_obcla(candidate, version))
           case (PreHook, _, _, _, _) =>
             Ok(views.txt.default_pre(candidate, version, platform))
