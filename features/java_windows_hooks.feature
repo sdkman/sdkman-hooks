@@ -71,3 +71,8 @@ Feature: Java Windows Hooks
     When a hook is requested at /hooks/post/java/8.0.192-amzn/cygwin
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: default-zip
+
+  Scenario: Install AdoptOpenJDK on Cygwin Post Hook
+    When a hook is requested at /hooks/post/java/8.0.202-adopt/cygwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip

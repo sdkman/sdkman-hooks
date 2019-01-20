@@ -41,3 +41,8 @@ Feature: Java Linux Hooks
     When a hook is requested at /hooks/post/java/8.0.192-amzn/linux
     Then a 200 status code is received
     And the response script contains "Post Hook: linux-java-tarball"
+
+  Scenario: Install AdoptOpenJDK on Linux
+    When a hook is requested at /hooks/post/java/8.0.202-adopt/linux
+    Then a 200 status code is received
+    And the response script contains "Post Hook: linux-java-tarball"
