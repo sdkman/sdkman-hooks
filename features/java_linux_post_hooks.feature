@@ -1,4 +1,4 @@
-Feature: Java Linux Hooks
+Feature: Java Linux Post Hooks
 
   Scenario: Install Oracle Java 8 on Linux Pre Hook
     When a hook is requested at /hooks/pre/java/8.0.161-oracle/linux

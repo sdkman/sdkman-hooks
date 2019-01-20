@@ -1,4 +1,4 @@
-Feature: Java Windows Hooks
+Feature: Java Windows Post Hooks
 
   Scenario: Install Oracle JDK on Cygwin Pre Hook
     When a hook is requested at /hooks/pre/java/8.0.161-oracle/cygwin

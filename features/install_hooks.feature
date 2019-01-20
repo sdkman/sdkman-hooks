@@ -5,7 +5,7 @@ Feature: Install Hooks
 		Then a 200 status code is received
 		And I receive a hook containing text: Post Hook: default-zip
 
-	Scenario: A Spark Universal Post Hook is served
+	Scenario: A Universal Post Hook is served
 		When I fetch a "post" hook for "spark" "2.2.0" on "Linux"
 		Then a 200 status code is received
 		And I receive a hook containing text: Post Hook: default-tarball
@@ -26,7 +26,7 @@ Feature: Install Hooks
 		Then a 200 status code is received
 		And I receive a hook containing text: Pre Hook: default
 
-	Scenario: An Oracle Pre Hook is served
+	Scenario: A specific Pre Hook is served
 		Given a Hook is available for consumption
 		When I fetch a "pre" hook for "java" "8.0.161-oracle" on "Darwin"
 		Then a 200 status code is received
