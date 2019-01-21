@@ -22,6 +22,11 @@ Feature: Java Windows Post Hooks
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: default-zip
 
+  Scenario: Install ZuluFX OpenJDK on Cygwin Post Hook
+    When a hook is requested at /hooks/post/java/8.0.192-zulufx/cygwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
+
   Scenario: Install Zulu OpenJDK on MinGW Post Hook
     When a hook is requested at /hooks/post/java/8.0.152-zulu/msys_nt-10.0
     Then a 200 status code is received

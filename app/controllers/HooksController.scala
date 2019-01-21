@@ -34,6 +34,8 @@ class HooksController extends Controller {
             Ok(views.txt.java_post_openjdk_osx(candidate, version, Platform.MacOSX))
           case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.Zulu) =>
             Ok(views.txt.default_post_tarball(candidate, version, Platform.MacOSX))
+          case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.ZuluFX) =>
+            Ok(views.txt.default_post_tarball(candidate, version, Platform.MacOSX))
           case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.Amazon) =>
             Ok(views.txt.java_post_openjdk_osx(candidate, version, Platform.MacOSX))
           case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.AdoptOpenJDK) =>
@@ -47,6 +49,8 @@ class HooksController extends Controller {
           case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, JdkDistro.Oracle) =>
             Ok(views.txt.java_post_cygwin_msi(candidate, version, Platform.Windows64Cygwin))
           case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, JdkDistro.Zulu) =>
+            Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
+          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, JdkDistro.ZuluFX) =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
           case (PostHook, Candidate.Java, "11", Platform.Windows64Cygwin, JdkDistro.OpenJDK) =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))

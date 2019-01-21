@@ -44,4 +44,5 @@ object JdkDistro {
   val OpenJDK = "open"
   val Oracle = "oracle"
   val Zulu = "zulu"
+  val ZuluFX = "zulufx"
 }
