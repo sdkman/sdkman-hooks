@@ -38,7 +38,7 @@ object Platform {
 }
 
 object JdkDistro {
-  val AdoptOpenJDK = "adopt"
+  val AdoptOpenJDK = "adpt"
   val Amazon = "amzn"
   val GraalVM = "grl"
   val OpenJDK = "open"
