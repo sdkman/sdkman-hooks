@@ -51,3 +51,8 @@ Feature: Java Linux Post Hooks
     When a hook is requested at /hooks/post/java/8.0.202.j9-adpt/linux
     Then a 200 status code is received
     And the response script contains "Post Hook: linux-java-tarball"
+
+  Scenario: Install SapMachine on Linux
+    When a hook is requested at /hooks/post/java/11.0.2-sapmchn/linux
+    Then a 200 status code is received
+    And the response script contains "Post Hook: linux-java-tarball"

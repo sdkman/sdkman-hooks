@@ -43,6 +43,7 @@ object JdkDistro {
   val GraalVM = "grl"
   val OpenJDK = "open"
   val Oracle = "oracle"
+  val SapMachine = "sapmchn"
   val Zulu = "zulu"
   val ZuluFX = "zulufx"
 }

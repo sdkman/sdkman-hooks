@@ -81,3 +81,8 @@ Feature: Java Windows Post Hooks
     When a hook is requested at /hooks/post/java/8.0.202.j9-adpt/cygwin
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: default-zip
+
+  Scenario: Install SapMachine on Cygwin Post Hook
+    When a hook is requested at /hooks/post/java/11.0.2-sapmchn/cygwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
