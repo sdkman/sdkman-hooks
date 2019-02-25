@@ -74,6 +74,8 @@ class HooksController extends Controller {
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
           case (PostHook, Candidate.Java, "12", Platform.Windows64MinGW, JdkDistro.OpenJDK) =>
             Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
+          case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, JdkDistro.Amazon) =>
+            Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
           case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, JdkDistro.OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64MinGW))
           case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, JdkDistro.AdoptOpenJDK) =>
