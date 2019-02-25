@@ -77,8 +77,23 @@ Feature: Java Windows Post Hooks
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: default-zip
 
-  Scenario: Install AdoptOpenJDK on Cygwin Post Hook
+  Scenario: Install AdoptOpenJDK J9 on Cygwin Post Hook
     When a hook is requested at /hooks/post/java/8.0.202.j9-adpt/cygwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
+
+  Scenario: Install AdoptOpenJDK HotSpot on Cygwin Post Hook
+    When a hook is requested at /hooks/post/java/8.0.202.hs-adpt/cygwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
+
+  Scenario: Install AdoptOpenJDK J9 on MinGW Post Hook
+    When a hook is requested at /hooks/post/java/8.0.202.j9-adpt/mingw64_nt-10.0
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
+
+  Scenario: Install AdoptOpenJDK HotSpot on MinGW Post Hook
+    When a hook is requested at /hooks/post/java/8.0.202.hs-adpt/mingw64_nt-10.0
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: default-zip
 
