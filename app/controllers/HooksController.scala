@@ -26,8 +26,6 @@ class HooksController extends Controller {
           //POST: Mac OSX
           case (PostHook, Candidate.Java, "8", Platform.MacOSX, JdkDistro.Oracle) =>
             Ok(views.txt.java_post_8_oracle_osx(candidate, dropSuffix(version), Platform.MacOSX))
-          case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.Oracle) =>
-            Ok(views.txt.java_post_oracle_osx(candidate, dropSuffix(version), Platform.MacOSX))
           case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.Zulu) =>
             Ok(views.txt.default_post_tarball(candidate, version, Platform.MacOSX))
           case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.ZuluFX) =>
@@ -66,13 +64,9 @@ class HooksController extends Controller {
             Ok(views.txt.default_post_zip(candidate, version, platform))
 
           //PRE
-          case (PreHook, Candidate.Java, "8", Platform.Windows64MinGW, JdkDistro.Oracle) =>
+          case (PreHook, Candidate.Java, _, Platform.Windows64MinGW, JdkDistro.Oracle) =>
             Ok(views.txt.java_pre_mingw_msi(candidate, version, Platform.Windows64MinGW))
-          case (PreHook, Candidate.Java, "8", _, JdkDistro.Oracle) =>
-            Ok(views.txt.java_pre_obcla(candidate, version))
-          case (PreHook, Candidate.Java, "9", _, JdkDistro.Oracle) =>
-            Ok(views.txt.java_pre_obcla(candidate, version))
-          case (PreHook, Candidate.Java, "10", _, JdkDistro.Oracle) =>
+          case (PreHook, Candidate.Java, _, _, JdkDistro.Oracle) =>
             Ok(views.txt.java_pre_obcla(candidate, version))
           case (PreHook, _, _, _, _) =>
             Ok(views.txt.default_pre(candidate, version, platform))
