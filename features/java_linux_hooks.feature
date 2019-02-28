@@ -1,4 +1,4 @@
-Feature: Java Linux Post Hooks
+Feature: Java Linux Hooks
 
   # Oracle
 
