@@ -74,20 +74,8 @@ class HooksController extends Controller {
       }
     }
 
-  implicit class EnhancedJavaVersion(v: String) {
-    def isJavaMajor(major: String)(implicit c: Candidate): Boolean = v.startsWith(major) && c == Candidate.Java
-  }
-
-  private def normalise(version: String)(implicit c: Candidate) = version match {
-    case v if v.isJavaMajor("13") => "13"
-    case v if v.isJavaMajor("12") => "12"
-    case v if v.isJavaMajor("11") => "11"
-    case v if v.isJavaMajor("10") => "10"
-    case v if v.isJavaMajor("9") => "9"
-    case v if v.isJavaMajor("8") => "8"
-    case v if v.isJavaMajor("6") => "6"
-    case _ => version
-  }
+  private def normalise(version: String)(implicit c: Candidate): String =
+    if (c == Candidate.Java) version.split('.').head else version
 
   private def dropSuffix(v: String) = v.split("-").head
 
