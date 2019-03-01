@@ -1,6 +1,9 @@
 package controllers
 
-import domain.{Candidate, Platform, JdkDistro}
+import domain.Candidate.{Java, Spark}
+import domain.JdkDistro.{OpenJDK, Oracle, Zulu, ZuluFX}
+import domain.Platform._
+import domain.{Candidate, Platform}
 import play.api.Logger
 import play.api.mvc.{Action, _}
 
@@ -13,60 +16,60 @@ class HooksController extends Controller {
   val PreHook = "pre"
 
   def hook(phase: String, candidateId: String, version: String, platformId: String): Action[AnyContent] =
-    Action.async { request =>
+    Action.async { _ =>
       Future {
         implicit val candidate = Candidate(candidateId)
 
-        val platform = Platform(platformId).getOrElse(Platform.Universal)
+        val platform = Platform(platformId).getOrElse(Universal)
 
         Logger.info(s"$phase install hook requested for: $candidateId $version ${platform.name}")
 
         (phase, candidate, normalise(version), platform, vendor(version)) match {
 
           //POST: Mac OSX
-          case (PostHook, Candidate.Java, "8", Platform.MacOSX, JdkDistro.Oracle) =>
-            Ok(views.txt.java_post_8_oracle_osx(candidate, dropSuffix(version), Platform.MacOSX))
-          case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.Zulu) =>
-            Ok(views.txt.default_post_tarball(candidate, version, Platform.MacOSX))
-          case (PostHook, Candidate.Java, _, Platform.MacOSX, JdkDistro.ZuluFX) =>
-            Ok(views.txt.default_post_tarball(candidate, version, Platform.MacOSX))
-          case (PostHook, Candidate.Java, _, Platform.MacOSX, _) =>
-            Ok(views.txt.java_post_openjdk_osx(candidate, version, Platform.MacOSX))
+          case (PostHook, Java, "8", MacOSX, Oracle) =>
+            Ok(views.txt.java_post_8_oracle_osx(candidate, dropSuffix(version), MacOSX))
+          case (PostHook, Java, _, MacOSX, Zulu) =>
+            Ok(views.txt.default_post_tarball(candidate, version, MacOSX))
+          case (PostHook, Java, _, MacOSX, ZuluFX) =>
+            Ok(views.txt.default_post_tarball(candidate, version, MacOSX))
+          case (PostHook, Java, _, MacOSX, _) =>
+            Ok(views.txt.java_post_openjdk_osx(candidate, version, MacOSX))
 
           //POST: Linux
-          case (PostHook, Candidate.Java, _, Platform.Linux, _) =>
-            Ok(views.txt.java_post_linux_tarball(candidate, version, Platform.Linux))
+          case (PostHook, Java, _, Linux, _) =>
+            Ok(views.txt.java_post_linux_tarball(candidate, version, Linux))
 
           //POST: Cygwin
-          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, JdkDistro.Oracle) =>
-            Ok(views.txt.java_post_cygwin_msi(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, "9", Platform.Windows64Cygwin, JdkDistro.OpenJDK) =>
-            Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, "10", Platform.Windows64Cygwin, JdkDistro.OpenJDK) =>
-            Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64Cygwin))
-          case (PostHook, Candidate.Java, _, Platform.Windows64Cygwin, _) =>
-            Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64Cygwin))
+          case (PostHook, Java, _, Windows64Cygwin, Oracle) =>
+            Ok(views.txt.java_post_cygwin_msi(candidate, version, Windows64Cygwin))
+          case (PostHook, Java, "9", Windows64Cygwin, OpenJDK) =>
+            Ok(views.txt.default_post_tarball(candidate, version, Windows64Cygwin))
+          case (PostHook, Java, "10", Windows64Cygwin, OpenJDK) =>
+            Ok(views.txt.default_post_tarball(candidate, version, Windows64Cygwin))
+          case (PostHook, Java, _, Windows64Cygwin, _) =>
+            Ok(views.txt.default_post_zip(candidate, version, Windows64Cygwin))
 
           //POST: Mysys
-          case (PostHook, Candidate.Java, "9", Platform.Windows64MinGW, JdkDistro.OpenJDK) =>
-            Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64MinGW))
-          case (PostHook, Candidate.Java, "10", Platform.Windows64MinGW, JdkDistro.OpenJDK) =>
-            Ok(views.txt.default_post_tarball(candidate, version, Platform.Windows64MinGW))
-          case (PostHook, Candidate.Java, _, Platform.Windows64MinGW, _) =>
-            Ok(views.txt.default_post_zip(candidate, version, Platform.Windows64MinGW))
+          case (PostHook, Java, "9", Windows64MinGW, OpenJDK) =>
+            Ok(views.txt.default_post_tarball(candidate, version, Windows64MinGW))
+          case (PostHook, Java, "10", Windows64MinGW, OpenJDK) =>
+            Ok(views.txt.default_post_tarball(candidate, version, Windows64MinGW))
+          case (PostHook, Java, _, Windows64MinGW, _) =>
+            Ok(views.txt.default_post_zip(candidate, version, Windows64MinGW))
 
           //POST
-          case (PostHook, Candidate.Java, _, _, _) =>
+          case (PostHook, Java, _, _, _) =>
             NotFound
-          case (PostHook, Candidate.Spark, _, _, _) =>
+          case (PostHook, Spark, _, _, _) =>
             Ok(views.txt.default_post_tarball(candidate, version, platform))
           case (PostHook, _, _, _, _) =>
             Ok(views.txt.default_post_zip(candidate, version, platform))
 
           //PRE
-          case (PreHook, Candidate.Java, _, Platform.Windows64MinGW, JdkDistro.Oracle) =>
-            Ok(views.txt.java_pre_mingw_msi(candidate, version, Platform.Windows64MinGW))
-          case (PreHook, Candidate.Java, _, _, JdkDistro.Oracle) =>
+          case (PreHook, Java, _, Windows64MinGW, Oracle) =>
+            Ok(views.txt.java_pre_mingw_msi(candidate, version, Windows64MinGW))
+          case (PreHook, Java, _, _, Oracle) =>
             Ok(views.txt.java_pre_obcla(candidate, version))
           case (PreHook, _, _, _, _) =>
             Ok(views.txt.default_pre(candidate, version, platform))
@@ -75,7 +78,7 @@ class HooksController extends Controller {
     }
 
   private def normalise(version: String)(implicit c: Candidate): String =
-    if (c == Candidate.Java) version.split('.').head else version
+    if (c == Java) version.split('.').head else version
 
   private def dropSuffix(v: String) = v.split("-").head
 
