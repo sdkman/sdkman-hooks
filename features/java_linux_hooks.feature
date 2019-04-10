@@ -59,3 +59,21 @@ Feature: Java Linux Hooks
     When a hook is requested at /hooks/post/java/11.0.2-sapmchn/linux
     Then a 200 status code is received
     And the response script contains "Post Hook: linux-java-tarball"
+
+  # BellSoft
+
+  Scenario: Install BellSoft OpenJDK 8 on Linux
+    When a hook is requested at /hooks/post/java/8.0.202-librca/linux
+    Then a 200 status code is received
+    And the response script contains "Post Hook: linux-java-tarball"
+
+  Scenario: Install BellSoft OpenJDK 11 on Linux
+    When a hook is requested at /hooks/post/java/11.0.2-librca/linux
+    Then a 200 status code is received
+    And the response script contains "Post Hook: linux-java-tarball"
+
+  Scenario: Install BellSoft OpenJDK 12 on Linux
+    When a hook is requested at /hooks/post/java/12.0.0-librca/linux
+    Then a 200 status code is received
+    And the response script contains "Post Hook: linux-java-tarball"
+ 

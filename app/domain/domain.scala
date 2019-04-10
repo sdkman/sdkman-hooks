@@ -40,6 +40,7 @@ object Platform {
 object JdkDistro {
   val AdoptOpenJDK = "adpt"
   val Amazon = "amzn"
+  val BellSoft = "librca"
   val GraalVM = "grl"
   val OpenJDK = "open"
   val Oracle = "oracle"

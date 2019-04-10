@@ -1,7 +1,7 @@
 package controllers
 
 import domain.Candidate.{Java, Spark}
-import domain.JdkDistro.{OpenJDK, Oracle, Zulu, ZuluFX}
+import domain.JdkDistro.{BellSoft, OpenJDK, Oracle, Zulu, ZuluFX}
 import domain.Platform._
 import domain.{Candidate, Platform}
 import play.api.Logger
@@ -29,6 +29,8 @@ class HooksController extends Controller {
           //POST: Mac OSX
           case (PostHook, Java, "8", MacOSX, Oracle) =>
             Ok(views.txt.java_post_8_oracle_osx(candidate, dropSuffix(version), MacOSX))
+          case (PostHook, Java, _, MacOSX, BellSoft) =>
+            Ok(views.txt.default_post_zip(candidate, version, MacOSX))
           case (PostHook, Java, _, MacOSX, Zulu) =>
             Ok(views.txt.default_post_tarball(candidate, version, MacOSX))
           case (PostHook, Java, _, MacOSX, ZuluFX) =>
