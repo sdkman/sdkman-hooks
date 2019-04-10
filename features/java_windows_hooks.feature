@@ -141,32 +141,12 @@ Feature: Java Windows Post Hooks
 
   # BellSoft
 
-  Scenario: Install BellSoft OpenJDK 8 on Cygwin Post Hook
+  Scenario: Install BellSoft OpenJDK on Cygwin Post Hook
     When a hook is requested at /hooks/post/java/8.0.202-librca/cygwin
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: default-zip
 
-  Scenario: Install BellSoft OpenJDK 8 on MinGW Post Hook
+  Scenario: Install BellSoft OpenJDK on MinGW Post Hook
     When a hook is requested at /hooks/post/java/8.0.202-librca/mingw64_nt-10.0
-    Then a 200 status code is received
-    And I receive a hook containing text: Post Hook: default-zip
-
-  Scenario: Install BellSoft OpenJDK 11 on Cygwin Post Hook
-    When a hook is requested at /hooks/post/java/11.0.2-librca/cygwin
-    Then a 200 status code is received
-    And I receive a hook containing text: Post Hook: default-zip
-
-  Scenario: Install BellSoft OpenJDK 11 on MinGW Post Hook
-    When a hook is requested at /hooks/post/java/11.0.2-librca/mingw64_nt-10.0
-    Then a 200 status code is received
-    And I receive a hook containing text: Post Hook: default-zip
-
-  Scenario: Install BellSoft OpenJDK 12 on Cygwin Post Hook
-    When a hook is requested at /hooks/post/java/12.0.0-librca/cygwin
-    Then a 200 status code is received
-    And I receive a hook containing text: Post Hook: default-zip
-
-  Scenario: Install BellSoft OpenJDK 12 on MinGW Post Hook
-    When a hook is requested at /hooks/post/java/12.0.0-librca/mingw64_nt-10.0
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: default-zip
