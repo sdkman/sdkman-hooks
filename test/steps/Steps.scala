@@ -15,16 +15,16 @@ class Steps extends ScalaDsl with EN with Matchers {
     Mongo.insertAliveOk()
   }
 
-  And("""^the stable CLI Version is "(.*)"""") { (stable: String) =>
+  And("""^the stable CLI Version is "(.*)"""") { stable: String =>
     stableCliVersion = stable
     Mongo.insertCliVersions(stableCliVersion, betaCliVersion)
   }
 
-  And("""^the beta CLI Version is "(.*)"""") { (beta: String) =>
+  And("""^the beta CLI Version is "(.*)"""") { beta: String =>
     betaCliVersion = beta
   }
 
-  And("""^a request is made to the (.*) endpoint$""") { (endpoint: String) =>
+  And("""^a request is made to the (.*) endpoint$""") { endpoint: String =>
     response = Http(s"$host$endpoint")
       .timeout(connTimeoutMs = 1000, readTimeoutMs = 10000)
       .asString

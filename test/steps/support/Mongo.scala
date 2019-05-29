@@ -2,8 +2,14 @@ package steps.support
 
 import java.util.concurrent.TimeUnit
 
+import io.sdkman.repos.Application
 import org.mongodb.scala.{MongoClient, _}
 import org.mongodb.scala.bson.collection.immutable.Document
+import org.bson.codecs.configuration.CodecRegistries.{fromProviders, fromRegistries}
+import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
+import org.mongodb.scala.bson.codecs.Macros._
+import org.mongodb.scala.bson.collection.immutable.Document
+import org.mongodb.scala.{MongoClient, ScalaObservable, _}
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -12,20 +18,20 @@ object Mongo {
 
   import Helpers._
 
+  val codecRegistry = fromRegistries(fromProviders(classOf[Application]), DEFAULT_CODEC_REGISTRY)
+
   lazy val mongoClient = MongoClient("mongodb://localhost:27017")
 
-  lazy val db = mongoClient.getDatabase("sdkman")
+  lazy val db = mongoClient.getDatabase("sdkman").withCodecRegistry(codecRegistry)
 
-  lazy val appCollection = db.getCollection("application")
+  lazy val appCollection: MongoCollection[Application] = db.getCollection("application")
 
-  def insertAliveOk(): Seq[Completed] = appCollection.insertOne(Document("alive" -> "OK")).results()
+  def insertAliveOk(): Seq[Completed] = appCollection.insertOne(Application("OK", "", "")).results()
 
-  def insertAliveKo(): Seq[Completed] = appCollection.insertOne(Document("alive" -> "KO")).results()
+  def insertAliveKo(): Seq[Completed] = appCollection.insertOne(Application("KO", "", "")).results()
 
   def insertCliVersions(stableCliVersion: String, betaCliVersion: String): Seq[Completed] =
-    appCollection.insertOne(Document(
-      "stableCliVersion" -> stableCliVersion,
-      "betaCliVersion" -> betaCliVersion)).results()
+    appCollection.insertOne(Application("OK", stableCliVersion, betaCliVersion)).results()
 
   def dropAppCollection(): Seq[Completed] = appCollection.drop().results()
 }
