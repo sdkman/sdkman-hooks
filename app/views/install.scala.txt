@@ -241,7 +241,9 @@ ARCHIVE_OK=$(unzip -qt "$sdkman_zip_file" | grep 'No errors detected in compress
 if [[ -z "$ARCHIVE_OK" ]]; then
 	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
 	echo ""
-	echo "If problem persists, please ask for help on https://gitter.im/sdkman/user-issues"
+	echo "If problems persist, please ask for help on our Slack:"
+	echo "* easy sign up: https://slack.sdkman.io/"
+	echo "* report on channel: https://sdkman.slack.com/app_redirect?channel=user-issues"
 	rm -rf "$SDKMAN_DIR"
 	exit
 fi
