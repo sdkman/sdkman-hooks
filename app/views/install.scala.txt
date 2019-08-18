@@ -144,7 +144,7 @@ if [ -z $(which unzip) ]; then
 	echo " Restart after installing unzip."
 	echo "======================================================================================================"
 	echo ""
-	exit 0
+	exit 1
 fi
 
 echo "Looking for zip..."
@@ -156,7 +156,7 @@ if [ -z $(which zip) ]; then
 	echo " Restart after installing zip."
 	echo "======================================================================================================"
 	echo ""
-	exit 0
+	exit 1
 fi
 
 echo "Looking for curl..."
@@ -169,7 +169,7 @@ if [ -z $(which curl) ]; then
 	echo " Restart after installing curl."
 	echo "======================================================================================================"
 	echo ""
-	exit 0
+	exit 1
 fi
 
 if [[ "$solaris" == true ]]; then
@@ -185,7 +185,7 @@ if [[ "$solaris" == true ]]; then
 		echo " Restart after installing gsed."
 		echo "======================================================================================================"
 		echo ""
-		exit 0
+		exit 1
 	fi
 else
 	echo "Looking for sed..."
@@ -198,7 +198,7 @@ else
 		echo " Restart after installing sed."
 		echo "======================================================================================================"
 		echo ""
-		exit 0
+		exit 1
 	fi
 fi
 
@@ -245,7 +245,7 @@ if [[ -z "$ARCHIVE_OK" ]]; then
 	echo "* easy sign up: https://slack.sdkman.io/"
 	echo "* report on channel: https://sdkman.slack.com/app_redirect?channel=user-issues"
 	rm -rf "$SDKMAN_DIR"
-	exit
+	exit 2
 fi
 
 echo "Extract script archive..."
