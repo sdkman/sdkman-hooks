@@ -93,6 +93,13 @@ Feature: Java Windows Post Hooks
     Then a 200 status code is received
     And I receive a hook containing text: Post Hook: default-zip
 
+  # GraalVM
+
+  Scenario: Install GraalVM on Cygwin
+    When a hook is requested at /hooks/post/java/1.0.0-rc5-grl/cygwin
+    Then a 200 status code is received
+    And I receive a hook containing text: Post Hook: default-zip
+
   # Amazon Corretto
 
   Scenario: Install Amazon Corretto on Cygwin Post Hook
