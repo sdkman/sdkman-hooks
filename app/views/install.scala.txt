@@ -288,21 +288,42 @@ fi
 
 if [[ -d "${HOME}"/.config/fish && ! -f "${HOME}"/.config/fish/conf.d/sdk.fish ]]; then
     echo "It seems you have fish installed. Unfortunately, SDKMAN! does not work with fish out of the box."
-    echo "Install third-party support now? [y/N/?]"
-    # prompt
+    
+    while true; do
+        read -p "Install third-party support (fisher, sdkman-for-fish) now? [yN]: " yn
+        case $yn in
+            [Yy]* )
+                if [[ -z ${XDG_CONFIG_HOME} ]]; then
+                    XDG_CONFIG_HOME="${HOME}/.config"
+                fi
 
-    while [[ ? ]];  do
-    	# show what will be installed (necessary?)
-	# reprompt
+                if [[ ! -f "${HOME}"/.config/fish/functions/fisher.fish ]]; then
+                    mkdir -p "${XDG_CONFIG_HOME}"/fish/functions/
+
+                    echo -n "Downloading fisher ... "
+                    curl_out=$(curl -fsSL \
+                                -o "${XDG_CONFIG_HOME}"/fish/functions/fisher.fish \
+                                --create-dirs https://git.io/fisher 2>&1)
+
+                    if [[ ${?} -gt 0 ]]; then
+                        echo "FAILED"
+                        echo "${curl_out}"
+                        break
+                    else
+                        echo "OKAY"
+                    fi
+
+                    unset curl_out
+                fi
+
+                fish -c "fisher add reitzig/sdkman-for-fish"
+                break
+            ;;
+            * )
+            break
+            ;;
+        esac
     done
-
-    if [[ y ]]; then
-        if [[ ! -f "${HOME}"/.config/fish/functions/fisher.fish ]]; then
-            curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
-        fi
-
-        fish -c "fisher reitzig/sdkman-for-fish"
-    fi
 fi
 
 echo -e "\n\n\nAll done!\n\n"
