@@ -288,6 +288,46 @@ if [[ -z $(grep 'sdkman-init.sh' "$sdkman_zshrc") ]]; then
     echo "Updated existing ${sdkman_zshrc}"
 fi
 
+if [[ -d "${HOME}"/.config/fish && ! -f "${HOME}"/.config/fish/conf.d/sdk.fish ]]; then
+    echo "It seems you have fish installed. Unfortunately, SDKMAN! does not work with fish out of the box."
+    
+    while true; do
+        read -p "Install third-party support (fisher, sdkman-for-fish) now? [yN]: " yn
+        case $yn in
+            [Yy]* )
+                if [[ -z ${XDG_CONFIG_HOME} ]]; then
+                    XDG_CONFIG_HOME="${HOME}/.config"
+                fi
+
+                if [[ ! -f "${HOME}"/.config/fish/functions/fisher.fish ]]; then
+                    mkdir -p "${XDG_CONFIG_HOME}"/fish/functions/
+
+                    echo -n "Downloading fisher ... "
+                    curl_out=$(curl -fsSL \
+                                -o "${XDG_CONFIG_HOME}"/fish/functions/fisher.fish \
+                                --create-dirs https://git.io/fisher 2>&1)
+
+                    if [[ ${?} -gt 0 ]]; then
+                        echo "FAILED"
+                        echo "${curl_out}"
+                        break
+                    else
+                        echo "OKAY"
+                    fi
+
+                    unset curl_out
+                fi
+
+                fish -c "fisher add reitzig/sdkman-for-fish"
+                break
+            ;;
+            * )
+            break
+            ;;
+        esac
+    done
+fi
+
 echo -e "\n\n\nAll done!\n\n"
 
 echo "Please open a new terminal, or run the following in the existing one:"
