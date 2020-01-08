@@ -1,4 +1,4 @@
-@(cliVersion: String, baseUrl: String)#!/bin/bash
+@(cliVersion: String, baseUrl: String, rcUpdate: Boolean)#!/bin/bash
 #
 #   Copyright 2017 Marco Vermeulen
 #
@@ -264,7 +264,7 @@ mv "$sdkman_stage_folder"/sdkman-* "$sdkman_src_folder"
 echo "Set version to $SDKMAN_VERSION ..."
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
 
-
+@if(rcUpdate) {
 if [[ $darwin == true ]]; then
   touch "$sdkman_bash_profile"
   echo "Attempt update of login bash profile on OSX..."
@@ -288,6 +288,7 @@ if [[ -z $(grep 'sdkman-init.sh' "$sdkman_zshrc") ]]; then
     echo "Updated existing ${sdkman_zshrc}"
 fi
 
+}
 echo -e "\n\n\nAll done!\n\n"
 
 echo "Please open a new terminal, or run the following in the existing one:"

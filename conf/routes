@@ -3,6 +3,6 @@
 # ~~~~
 
 GET         /alive                                          controllers.HealthController.alive
-GET         /install                                        controllers.InstallController.install
+GET         /install                                        controllers.InstallController.install(rcupdate: Option[Boolean])
 GET         /selfupdate                                     controllers.SelfUpdateController.selfUpdate(beta: Boolean)
 GET         /hooks/:phase/:candidate/:version/:platform	    controllers.HooksController.hook(phase, candidate, version, platform)

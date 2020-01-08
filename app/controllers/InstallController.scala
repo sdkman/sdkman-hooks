@@ -13,10 +13,10 @@ class InstallController @Inject() (appRepo: ApplicationRepo, config: Configurati
 
   lazy val baseUrl = config.getString("service.baseUrl").getOrElse("invalid")
 
-  def install = Action.async { _ =>
+  def install(rcUpdate: Option[Boolean]) = Action.async { _ =>
     appRepo.findApplication().map { maybeApp =>
       val version = maybeApp.map(_.stableCliVersion).getOrElse(fallbackVersion)
-      Ok(views.txt.install(version, baseUrl))
+      Ok(views.txt.install(version, baseUrl, rcUpdate.getOrElse(true)))
     }
   }
 }
