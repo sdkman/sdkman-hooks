@@ -7,12 +7,12 @@ import repo.ApplicationRepo
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class SelfUpdateController @Inject()(config: Configuration, appRepo: ApplicationRepo) extends Controller {
+class SelfUpdateController @Inject()(cc: ControllerComponents, config: Configuration, appRepo: ApplicationRepo) extends AbstractController(cc) {
 
-  lazy val fallbackVersion = config.getString("service.fallbackVersion").getOrElse("NA")
+  lazy val fallbackVersion = config.get[String]("service.fallbackVersion")
 
   def selfUpdate(beta: Boolean) = Action.async { _ =>
-    val baseUrl = config.getString("service.baseUrl").getOrElse("invalid")
+    val baseUrl = config.get[String]("service.baseUrl")
     appRepo.findApplication().map { maybeApp =>
       val (channel, version) = if (beta) ("beta", maybeApp.map(_.betaCliVersion)) else ("stable", maybeApp.map(_.stableCliVersion))
       Ok(views.txt.selfupdate(version.getOrElse(fallbackVersion), channel, baseUrl))

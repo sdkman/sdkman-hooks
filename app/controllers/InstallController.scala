@@ -2,16 +2,16 @@ package controllers
 
 import javax.inject.Inject
 import play.api.Configuration
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{AbstractController, ControllerComponents}
 import repo.ApplicationRepo
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class InstallController @Inject() (appRepo: ApplicationRepo, config: Configuration) extends Controller {
+class InstallController @Inject()(cc: ControllerComponents, appRepo: ApplicationRepo, config: Configuration) extends AbstractController(cc) {
 
-  lazy val fallbackVersion = config.getString("service.fallbackVersion").getOrElse("invalid")
+  lazy val fallbackVersion = config.get[String]("service.fallbackVersion")
 
-  lazy val baseUrl = config.getString("service.baseUrl").getOrElse("invalid")
+  lazy val baseUrl = config.get[String]("service.baseUrl")
 
   def install(rcUpdate: Option[Boolean]) = Action.async { _ =>
     appRepo.findApplication().map { maybeApp =>

@@ -4,13 +4,14 @@ import domain.Candidate.{Java, Spark}
 import domain.JdkDistro._
 import domain.Platform._
 import domain.{Candidate, Platform}
-import play.api.Logger
+import javax.inject.Inject
+import play.api.Logging
 import play.api.mvc._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class HooksController extends Controller {
+class HooksController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with Logging {
 
   val PostHook = "post"
   val PreHook = "pre"
@@ -22,7 +23,7 @@ class HooksController extends Controller {
 
         val platform = Platform(platformId).getOrElse(Universal)
 
-        Logger.info(s"$phase install hook requested for: $candidateId $version ${platform.name}")
+        logger.info(s"$phase install hook requested for: $candidateId $version ${platform.name}")
 
         (phase, candidate, normalise(version), platform, vendor(version)) match {
 
