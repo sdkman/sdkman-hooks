@@ -46,8 +46,6 @@ class HooksController @Inject() (cc: ControllerComponents)
             Ok(views.txt.java_post_linux_tarball(candidate, version, Linux))
 
           //POST: Cygwin
-          case (Post, Java, _, Windows64Cygwin, Oracle) =>
-            Ok(views.txt.java_post_cygwin_msi(candidate, version, Windows64Cygwin))
           case (Post, Java, "9", Windows64Cygwin, OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Windows64Cygwin))
           case (Post, Java, "10", Windows64Cygwin, OpenJDK) =>
@@ -72,8 +70,6 @@ class HooksController @Inject() (cc: ControllerComponents)
             Ok(views.txt.default_post_zip(candidate, version, platform))
 
           //PRE
-          case (Pre, Java, _, Windows64MinGW, Oracle) =>
-            Ok(views.txt.java_pre_mingw_msi(candidate, version, Windows64MinGW))
           case (Pre, _, _, _, _) =>
             Ok(views.txt.default_pre(candidate, version, platform))
 

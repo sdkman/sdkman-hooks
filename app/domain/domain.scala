@@ -43,7 +43,6 @@ object JdkDistro {
   val BellSoft     = "librca"
   val GraalVM      = "grl"
   val OpenJDK      = "open"
-  val Oracle       = "oracle"
   val SapMachine   = "sapmchn"
   val Zulu         = "zulu"
   val ZuluFX       = "zulufx"
@@ -55,7 +54,7 @@ sealed trait Hooks {
 object Hooks {
   def from(phase: String) = phase match {
     case Post.phase => Post
-    case Pre.phase => Pre
+    case Pre.phase  => Pre
   }
 }
 case object Post extends Hooks {
