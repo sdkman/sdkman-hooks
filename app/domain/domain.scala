@@ -48,3 +48,19 @@ object JdkDistro {
   val Zulu         = "zulu"
   val ZuluFX       = "zulufx"
 }
+
+sealed trait Hooks {
+  val phase: String
+}
+object Hooks {
+  def from(phase: String) = phase match {
+    case Post.phase => Post
+    case Pre.phase => Pre
+  }
+}
+case object Post extends Hooks {
+  override val phase = "post"
+}
+case object Pre extends Hooks {
+  override val phase = "pre"
+}

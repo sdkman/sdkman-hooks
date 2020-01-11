@@ -3,7 +3,7 @@ package controllers
 import domain.Candidate.{Java, Spark}
 import domain.JdkDistro._
 import domain.Platform._
-import domain.{Candidate, Platform}
+import domain._
 import javax.inject.Inject
 import play.api.Logging
 import play.api.mvc._
@@ -29,56 +29,55 @@ class HooksController @Inject() (cc: ControllerComponents)
 
         logger.info(s"$phase install hook requested for: $candidateId $version ${platform.name}")
 
-        (phase, candidate, normalise(version), platform, vendor(version)) match {
+        (Hooks.from(phase), candidate, normalise(version), platform, vendor(version)) match {
 
           //POST: Mac OSX
-          case (Post.phase, Java, _, MacOSX, BellSoft) =>
+          case (Post, Java, _, MacOSX, BellSoft) =>
             Ok(views.txt.default_post_zip(candidate, version, MacOSX))
-          case (Post.phase, Java, _, MacOSX, Zulu) =>
+          case (Post, Java, _, MacOSX, Zulu) =>
             Ok(views.txt.default_post_tarball(candidate, version, MacOSX))
-          case (Post.phase, Java, _, MacOSX, ZuluFX) =>
+          case (Post, Java, _, MacOSX, ZuluFX) =>
             Ok(views.txt.default_post_tarball(candidate, version, MacOSX))
-          case (Post.phase, Java, _, MacOSX, _) =>
+          case (Post, Java, _, MacOSX, _) =>
             Ok(views.txt.java_post_openjdk_osx(candidate, version, MacOSX))
 
           //POST: Linux
-          case (Post.phase, Java, _, Linux, _) =>
+          case (Post, Java, _, Linux, _) =>
             Ok(views.txt.java_post_linux_tarball(candidate, version, Linux))
 
           //POST: Cygwin
-          case (Post.phase, Java, _, Windows64Cygwin, Oracle) =>
+          case (Post, Java, _, Windows64Cygwin, Oracle) =>
             Ok(views.txt.java_post_cygwin_msi(candidate, version, Windows64Cygwin))
-          case (Post.phase, Java, "9", Windows64Cygwin, OpenJDK) =>
+          case (Post, Java, "9", Windows64Cygwin, OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Windows64Cygwin))
-          case (Post.phase, Java, "10", Windows64Cygwin, OpenJDK) =>
+          case (Post, Java, "10", Windows64Cygwin, OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Windows64Cygwin))
-          case (Post.phase, Java, _, Windows64Cygwin, _) =>
+          case (Post, Java, _, Windows64Cygwin, _) =>
             Ok(views.txt.default_post_zip(candidate, version, Windows64Cygwin))
 
           //POST: Mysys
-          case (Post.phase, Java, "9", Windows64MinGW, OpenJDK) =>
+          case (Post, Java, "9", Windows64MinGW, OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Windows64MinGW))
-          case (Post.phase, Java, "10", Windows64MinGW, OpenJDK) =>
+          case (Post, Java, "10", Windows64MinGW, OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Windows64MinGW))
-          case (Post.phase, Java, _, Windows64MinGW, _) =>
+          case (Post, Java, _, Windows64MinGW, _) =>
             Ok(views.txt.default_post_zip(candidate, version, Windows64MinGW))
 
           //POST
-          case (Post.phase, Java, _, _, _) =>
+          case (Post, Java, _, _, _) =>
             NotFound
-          case (Post.phase, Spark, _, _, _) =>
+          case (Post, Spark, _, _, _) =>
             Ok(views.txt.default_post_tarball(candidate, version, platform))
-          case (Post.phase, _, _, _, _) =>
+          case (Post, _, _, _, _) =>
             Ok(views.txt.default_post_zip(candidate, version, platform))
 
           //PRE
-          case (Pre.phase, Java, _, Windows64MinGW, Oracle) =>
+          case (Pre, Java, _, Windows64MinGW, Oracle) =>
             Ok(views.txt.java_pre_mingw_msi(candidate, version, Windows64MinGW))
-          case (Pre.phase, _, _, _, _) =>
+          case (Pre, _, _, _, _) =>
             Ok(views.txt.default_pre(candidate, version, platform))
 
-          case (_, _, _, _, _) =>
-            NotFound
+          case (_, _, _, _, _) => NotFound
         }
       }
     }
@@ -89,14 +88,4 @@ class HooksController @Inject() (cc: ControllerComponents)
   private def dropSuffix(v: String) = v.split("-").head
 
   private def vendor(version: String) = version.split("-").lastOption.getOrElse("")
-}
-
-sealed trait Hooks {
-  val phase: String
-}
-case object Post extends Hooks {
-  override val phase = "post"
-}
-case object Pre extends Hooks {
-  override val phase = "pre"
 }
