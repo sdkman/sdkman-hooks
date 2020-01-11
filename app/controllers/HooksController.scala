@@ -15,9 +15,6 @@ class HooksController @Inject() (cc: ControllerComponents)
     extends AbstractController(cc)
     with Logging {
 
-  val PostHook = "post"
-  val PreHook  = "pre"
-
   def hook(
       phase: String,
       candidateId: String,
@@ -35,50 +32,53 @@ class HooksController @Inject() (cc: ControllerComponents)
         (phase, candidate, normalise(version), platform, vendor(version)) match {
 
           //POST: Mac OSX
-          case (PostHook, Java, _, MacOSX, BellSoft) =>
+          case (Post.phase, Java, _, MacOSX, BellSoft) =>
             Ok(views.txt.default_post_zip(candidate, version, MacOSX))
-          case (PostHook, Java, _, MacOSX, Zulu) =>
+          case (Post.phase, Java, _, MacOSX, Zulu) =>
             Ok(views.txt.default_post_tarball(candidate, version, MacOSX))
-          case (PostHook, Java, _, MacOSX, ZuluFX) =>
+          case (Post.phase, Java, _, MacOSX, ZuluFX) =>
             Ok(views.txt.default_post_tarball(candidate, version, MacOSX))
-          case (PostHook, Java, _, MacOSX, _) =>
+          case (Post.phase, Java, _, MacOSX, _) =>
             Ok(views.txt.java_post_openjdk_osx(candidate, version, MacOSX))
 
           //POST: Linux
-          case (PostHook, Java, _, Linux, _) =>
+          case (Post.phase, Java, _, Linux, _) =>
             Ok(views.txt.java_post_linux_tarball(candidate, version, Linux))
 
           //POST: Cygwin
-          case (PostHook, Java, _, Windows64Cygwin, Oracle) =>
+          case (Post.phase, Java, _, Windows64Cygwin, Oracle) =>
             Ok(views.txt.java_post_cygwin_msi(candidate, version, Windows64Cygwin))
-          case (PostHook, Java, "9", Windows64Cygwin, OpenJDK) =>
+          case (Post.phase, Java, "9", Windows64Cygwin, OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Windows64Cygwin))
-          case (PostHook, Java, "10", Windows64Cygwin, OpenJDK) =>
+          case (Post.phase, Java, "10", Windows64Cygwin, OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Windows64Cygwin))
-          case (PostHook, Java, _, Windows64Cygwin, _) =>
+          case (Post.phase, Java, _, Windows64Cygwin, _) =>
             Ok(views.txt.default_post_zip(candidate, version, Windows64Cygwin))
 
           //POST: Mysys
-          case (PostHook, Java, "9", Windows64MinGW, OpenJDK) =>
+          case (Post.phase, Java, "9", Windows64MinGW, OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Windows64MinGW))
-          case (PostHook, Java, "10", Windows64MinGW, OpenJDK) =>
+          case (Post.phase, Java, "10", Windows64MinGW, OpenJDK) =>
             Ok(views.txt.default_post_tarball(candidate, version, Windows64MinGW))
-          case (PostHook, Java, _, Windows64MinGW, _) =>
+          case (Post.phase, Java, _, Windows64MinGW, _) =>
             Ok(views.txt.default_post_zip(candidate, version, Windows64MinGW))
 
           //POST
-          case (PostHook, Java, _, _, _) =>
+          case (Post.phase, Java, _, _, _) =>
             NotFound
-          case (PostHook, Spark, _, _, _) =>
+          case (Post.phase, Spark, _, _, _) =>
             Ok(views.txt.default_post_tarball(candidate, version, platform))
-          case (PostHook, _, _, _, _) =>
+          case (Post.phase, _, _, _, _) =>
             Ok(views.txt.default_post_zip(candidate, version, platform))
 
           //PRE
-          case (PreHook, Java, _, Windows64MinGW, Oracle) =>
+          case (Pre.phase, Java, _, Windows64MinGW, Oracle) =>
             Ok(views.txt.java_pre_mingw_msi(candidate, version, Windows64MinGW))
-          case (PreHook, _, _, _, _) =>
+          case (Pre.phase, _, _, _, _) =>
             Ok(views.txt.default_pre(candidate, version, platform))
+
+          case (_, _, _, _, _) =>
+            NotFound
         }
       }
     }
@@ -89,4 +89,14 @@ class HooksController @Inject() (cc: ControllerComponents)
   private def dropSuffix(v: String) = v.split("-").head
 
   private def vendor(version: String) = version.split("-").lastOption.getOrElse("")
+}
+
+sealed trait Hooks {
+  val phase: String
+}
+case object Post extends Hooks {
+  override val phase = "post"
+}
+case object Pre extends Hooks {
+  override val phase = "pre"
 }
