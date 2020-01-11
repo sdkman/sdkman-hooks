@@ -11,12 +11,19 @@ import play.api.mvc._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class HooksController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with Logging {
+class HooksController @Inject() (cc: ControllerComponents)
+    extends AbstractController(cc)
+    with Logging {
 
   val PostHook = "post"
-  val PreHook = "pre"
+  val PreHook  = "pre"
 
-  def hook(phase: String, candidateId: String, version: String, platformId: String): Action[AnyContent] =
+  def hook(
+      phase: String,
+      candidateId: String,
+      version: String,
+      platformId: String
+  ): Action[AnyContent] =
     Action.async { _ =>
       Future {
         implicit val candidate = Candidate(candidateId)

@@ -7,7 +7,11 @@ import repo.ApplicationRepo
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class InstallController @Inject()(cc: ControllerComponents, appRepo: ApplicationRepo, config: Configuration) extends AbstractController(cc) {
+class InstallController @Inject() (
+    cc: ControllerComponents,
+    appRepo: ApplicationRepo,
+    config: Configuration
+) extends AbstractController(cc) {
 
   lazy val fallbackVersion = config.get[String]("service.fallbackVersion")
 
