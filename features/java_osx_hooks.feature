@@ -7,19 +7,6 @@ Feature: Java OSX Hooks
     Then a 200 status code is received
     And the response script contains "Pre Hook: default"
 
-  # Oracle JDK
-
-  Scenario: Install Oracle Java 8 on OSX Pre Hook
-    When a hook is requested at /hooks/pre/java/8.0.161-oracle/darwin
-    Then a 200 status code is received
-    And the response script contains "Pre Hook: oracle-obcla"
-    And the response script contains "Oracle requires that you agree with the Oracle Binary Code License Agreement"
-
-  Scenario: Install Oracle Java 8 on OSX Post Hook
-    When a hook is requested at /hooks/post/java/8.0.201-oracle/darwin
-    Then a 200 status code is received
-    And the response script contains "Post Hook: osx-java-8-oracle"
-
   # Zulu and ZuluFX
 
   Scenario: Install Zulu OpenJDK 8 on OSX

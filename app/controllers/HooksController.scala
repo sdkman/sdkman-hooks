@@ -1,11 +1,11 @@
 package controllers
 
 import domain.Candidate.{Java, Spark}
-import domain.JdkDistro.{BellSoft, OpenJDK, Oracle, Zulu, ZuluFX}
+import domain.JdkDistro._
 import domain.Platform._
 import domain.{Candidate, Platform}
 import play.api.Logger
-import play.api.mvc.{Action, _}
+import play.api.mvc._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -27,8 +27,6 @@ class HooksController extends Controller {
         (phase, candidate, normalise(version), platform, vendor(version)) match {
 
           //POST: Mac OSX
-          case (PostHook, Java, "8", MacOSX, Oracle) =>
-            Ok(views.txt.java_post_8_oracle_osx(candidate, dropSuffix(version), MacOSX))
           case (PostHook, Java, _, MacOSX, BellSoft) =>
             Ok(views.txt.default_post_zip(candidate, version, MacOSX))
           case (PostHook, Java, _, MacOSX, Zulu) =>
@@ -71,8 +69,6 @@ class HooksController extends Controller {
           //PRE
           case (PreHook, Java, _, Windows64MinGW, Oracle) =>
             Ok(views.txt.java_pre_mingw_msi(candidate, version, Windows64MinGW))
-          case (PreHook, Java, _, _, Oracle) =>
-            Ok(views.txt.java_pre_obcla(candidate, version))
           case (PreHook, _, _, _, _) =>
             Ok(views.txt.default_pre(candidate, version, platform))
         }
