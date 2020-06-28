@@ -26,7 +26,7 @@ object Platform {
 
   private val WindowsMinGWPattern = "(mingw|msys).*".r
 
-  private val LinuxPattern = "(linux|linux32|linux64)".r
+  private val LinuxPattern = "(linux|linux32|linux64|linuxarm32|linuxarm64)".r
 
   val Linux           = Platform("LINUX", "Linux")
   val MacOSX          = Platform("MAC_OSX", "Mac OSX")
