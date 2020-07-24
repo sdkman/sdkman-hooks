@@ -96,13 +96,22 @@ else
 	unzip -qo "$sdkman_tmp_zip" -d "$sdkman_stage_folder"
 fi
 
-__sdkman_echo_debug "Moving sdkman-init and sdkman-init-completion files to bin folder..."
-rm -v "${SDKMAN_DIR}"/bin/sdkman-init{,-completion}.sh
-mv -v "${sdkman_stage_folder}"/sdkman-init{,-completion}.sh "${SDKMAN_DIR}/bin"
+__sdkman_echo_debug "Moving sdkman-init file to bin folder..."
+rm -v "${SDKMAN_DIR}"/bin/sdkman-init.sh
+mv -v "${sdkman_stage_folder}/sdkman-init.sh" "${SDKMAN_DIR}/bin"
 
-__sdkman_echo_debug "Move remaining module scripts and Bash completion script to src folder: ${sdkman_src_folder}"
-rm -v "$sdkman_src_folder"/{bash-completion,sdkman-*}.sh
-mv -v "$sdkman_stage_folder"/{bash-completion,sdkman-*}.sh "$sdkman_src_folder"
+__sdkman_echo_debug "Move remaining module scripts to src folder: ${sdkman_src_folder}"
+rm -v "$sdkman_src_folder"/sdkman-*.sh
+mv -v "$sdkman_stage_folder"/sdkman-* "$sdkman_src_folder"
+
+__sdkman_echo_debug "Moving sdkman-init-completion file to bin folder..."
+rm -v "${SDKMAN_DIR}"/bin/sdkman-init-completion.sh
+mv -v "${sdkman_stage_folder}"/sdkman-init-completion.sh "${SDKMAN_DIR}/bin"
+
+__sdkman_echo_debug "Moving bash-completion to src folder: ${sdkman_src_folder}"
+rm -v "$sdkman_src_folder"/bash-completion.sh
+mv -v "$sdkman_stage_folder"/bash-completion.sh "$sdkman_src_folder"
+
 
 __sdkman_echo_debug "Clean up staging folder..."
 rm -rf "$sdkman_stage_folder"
