@@ -98,7 +98,7 @@ fi
 
 __sdkman_echo_debug "Moving sdkman-init and sdkman-init-completion files to bin folder..."
 rm -v "${SDKMAN_DIR}"/bin/sdkman-init{,-completion}.sh
-mv -v "${sdkman_stage_folder}/sdkman-init{,-completion}.sh" "${SDKMAN_DIR}/bin"
+mv -v "${sdkman_stage_folder}"/sdkman-init{,-completion}.sh "${SDKMAN_DIR}/bin"
 
 __sdkman_echo_debug "Move remaining module scripts and Bash completion script to src folder: ${sdkman_src_folder}"
 rm -v "$sdkman_src_folder"/{bash-completion,sdkman-*}.sh

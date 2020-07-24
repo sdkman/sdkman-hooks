@@ -259,7 +259,7 @@ unzip -qo "$sdkman_zip_file" -d "$sdkman_stage_folder"
 
 
 echo "Install scripts..."
-mv "${sdkman_stage_folder}/sdkman-init{,-completion}.sh" "$sdkman_bin_folder"
+mv "${sdkman_stage_folder}"/sdkman-init{,-completion}.sh "$sdkman_bin_folder"
 mv "$sdkman_stage_folder"/{bash-completion,sdkman-*}.sh "$sdkman_src_folder"
 
 echo "Set version to $SDKMAN_VERSION ..."
