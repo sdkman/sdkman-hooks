@@ -136,7 +136,7 @@ if [ -d "$SDKMAN_DIR" ]; then
 fi
 
 echo "Looking for unzip..."
-if [ -z $(which unzip) ]; then
+if [ -z $(command -v unzip) ]; then
 	echo "Not found."
 	echo "======================================================================================================"
 	echo " Please install unzip on your system using your favourite package manager."
@@ -148,7 +148,7 @@ if [ -z $(which unzip) ]; then
 fi
 
 echo "Looking for zip..."
-if [ -z $(which zip) ]; then
+if [ -z $(command -v zip) ]; then
 	echo "Not found."
 	echo "======================================================================================================"
 	echo " Please install zip on your system using your favourite package manager."
@@ -160,7 +160,7 @@ if [ -z $(which zip) ]; then
 fi
 
 echo "Looking for curl..."
-if [ -z $(which curl) ]; then
+if [ -z $(command -v curl) ]; then
 	echo "Not found."
 	echo ""
 	echo "======================================================================================================"
@@ -189,7 +189,7 @@ if [[ "$solaris" == true ]]; then
 	fi
 else
 	echo "Looking for sed..."
-	if [ -z $(which sed) ]; then
+	if [ -z $(command -v sed) ]; then
 		echo "Not found."
 		echo ""
 		echo "======================================================================================================"
