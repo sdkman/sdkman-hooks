@@ -169,7 +169,7 @@ else
 	echo "To join our BETA channel, simply follow the instructions on:"
 fi
 echo ""
-echo "   http://sdkman.io/install.html"
+echo "   http://sdkman.io/install"
 echo ""
 echo "Enjoy!!!"
 echo ""
