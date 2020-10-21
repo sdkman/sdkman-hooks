@@ -39,7 +39,7 @@ class HooksController @Inject() (cc: ControllerComponents)
           case (Post, Java, _, MacOSX, ZuluFX) =>
             Ok(views.txt.default_post_tarball(candidate, version, MacOSX))
           case (Post, Java, _, MacOSX, _) =>
-            Ok(views.txt.java_post_openjdk_osx(candidate, version, MacOSX))
+            Ok(views.txt.java_post_osx_tarball(candidate, version, MacOSX))
 
           //POST: Linux
           case (Post, Java, _, Linux, _) =>
