@@ -32,12 +32,12 @@ Feature: Java OSX Hooks
   Scenario: Install ZuluFX OpenJDK 8 on OSX
     When a hook is requested at /hooks/post/java/8.0.202-zulufx/darwin
     Then a 200 status code is received
-    And I receive a hook containing text: Post Hook: default-tarball
+    And I receive a hook containing text: Post Hook: osx-java-tarball
 
   Scenario: Install ZuluFX OpenJDK 11 on OSX
     When a hook is requested at /hooks/post/java/11.0.2-zulufx/darwin
     Then a 200 status code is received
-    And I receive a hook containing text: Post Hook: default-tarball
+    And I receive a hook containing text: Post Hook: osx-java-tarball
 
   # java.net OpenJDK
 
