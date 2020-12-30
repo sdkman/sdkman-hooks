@@ -13,12 +13,12 @@ case class Platform(identifier: String, name: String)
 object Platform {
 
   def apply(id: String): Option[Platform] = id.toLowerCase match {
-    case "darwin"                => Some(MacOSX)
-    case "freebsd"               => Some(FreeBSD)
-    case "sunos"                 => Some(SunOS)
     case LinuxPattern(_)         => Some(Linux)
+    case DarwinPattern(_)        => Some(MacOSX)
     case WindowsCygwinPattern(_) => Some(Windows64Cygwin)
     case WindowsMinGWPattern(_)  => Some(Windows64MinGW)
+    case "freebsd"               => Some(FreeBSD)
+    case "sunos"                 => Some(SunOS)
     case _                       => None
   }
 
@@ -26,7 +26,9 @@ object Platform {
 
   private val WindowsMinGWPattern = "(mingw|msys).*".r
 
-  private val LinuxPattern = "(linux|linux32|linux64|linuxarm32|linuxarm64)".r
+  private val LinuxPattern = "(linux|linux32|linux64|linuxx32|linuxx64|linuxarm32|linuxarm64)".r
+
+  private val DarwinPattern = "(darwin|darwinx64|darwinarm64)".r
 
   val Linux           = Platform("LINUX", "Linux")
   val MacOSX          = Platform("MAC_OSX", "Mac OSX")
