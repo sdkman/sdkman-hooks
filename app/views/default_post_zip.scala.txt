@@ -4,5 +4,5 @@
 function __sdkman_post_installation_hook {
     __sdkman_echo_debug "No @{platform.name} post-install hook found for @{candidate.name} @version."
     __sdkman_echo_debug "Moving $binary_input to $zip_output"
-    mv "$binary_input" "$zip_output"
+    mv -f "$binary_input" "$zip_output"
 }

@@ -17,7 +17,7 @@ function __sdkman_post_installation_hook {
     /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
 
     cd "$work_dir"/*/Contents
-    mv Home "$work_jdk_dir"
+    mv -f Home "$work_jdk_dir"
     cd "${SDKMAN_DIR}"/tmp
     /usr/bin/env zip -qyr "$zip_output" "@{candidate.name}-@{version}"
     cd "$present_dir"
@@ -26,7 +26,7 @@ function __sdkman_post_installation_hook {
     __sdkman_echo_green "Done repackaging..."
 
     __sdkman_echo_green "Cleaning up residual files..."
-    rm "$binary_input"
+    rm -f "$binary_input"
     rm -rf "$work_dir"
     rm -rf "$work_jdk_dir"
 }
