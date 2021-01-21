@@ -234,6 +234,7 @@ echo "sdkman_beta_channel=false" >> "$sdkman_config_file"
 echo "sdkman_debug_mode=false" >> "$sdkman_config_file"
 echo "sdkman_colour_enable=true" >> "$sdkman_config_file"
 echo "sdkman_auto_env=false" >> "$sdkman_config_file"
+echo "sdkman_rosetta2_compatible=true" >> "$sdkman_config_file"
 
 echo "Download script archive..."
 curl --location --progress-bar "${SDKMAN_SERVICE}/broker/download/sdkman/install/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}" > "$sdkman_zip_file"
