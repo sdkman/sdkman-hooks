@@ -29,6 +29,7 @@ fi
 # Local variables
 sdkman_bin_folder="${SDKMAN_DIR}/bin"
 sdkman_src_folder="${SDKMAN_DIR}/src"
+sdkman_contrib_folder=${SDKMAN_DIR}/contrib
 sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
 sdkman_stage_folder="${sdkman_tmp_folder}/stage"
 sdkman_zip_file="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip"
@@ -211,6 +212,7 @@ echo "Installing SDKMAN scripts..."
 echo "Create distribution directories..."
 mkdir -p "$sdkman_bin_folder"
 mkdir -p "$sdkman_src_folder"
+mkdir -p "$sdkman_contrib_folder"
 mkdir -p "$sdkman_tmp_folder"
 mkdir -p "$sdkman_stage_folder"
 mkdir -p "$sdkman_ext_folder"
@@ -262,6 +264,9 @@ unzip -qo "$sdkman_zip_file" -d "$sdkman_stage_folder"
 echo "Install scripts..."
 mv "${sdkman_stage_folder}/sdkman-init.sh" "$sdkman_bin_folder"
 mv "$sdkman_stage_folder"/sdkman-* "$sdkman_src_folder"
+
+echo "Install contributed software..."
+mv "$sdkman_stage_folder/contrib/*" "$sdkman_contrib_folder"
 
 echo "Set version to $SDKMAN_VERSION ..."
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
