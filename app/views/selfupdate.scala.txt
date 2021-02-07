@@ -107,7 +107,7 @@ mv -v "$sdkman_stage_folder"/sdkman-* "$sdkman_src_folder"
 
 __sdkman_echo_debug "Move contributing software to contrib folder: ${sdkman_contrib_folder}"
 rm -rv "$sdkman_contrib_folder"/*
-mv "$sdkman_stage_folder/contrib/*" "$sdkman_contrib_folder"
+mv -v "$sdkman_stage_folder/contrib/completion" "$sdkman_contrib_folder"
 
 __sdkman_echo_debug "Clean up staging folder..."
 rm -rf "$sdkman_stage_folder"
