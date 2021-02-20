@@ -137,7 +137,7 @@ if [ -d "$SDKMAN_DIR" ]; then
 fi
 
 echo "Looking for unzip..."
-if [ -z $(command -v unzip) ]; then
+if ! command -v unzip > /dev/null; then
 	echo "Not found."
 	echo "======================================================================================================"
 	echo " Please install unzip on your system using your favourite package manager."
@@ -149,7 +149,7 @@ if [ -z $(command -v unzip) ]; then
 fi
 
 echo "Looking for zip..."
-if [ -z $(command -v zip) ]; then
+if ! command -v zip > /dev/null; then
 	echo "Not found."
 	echo "======================================================================================================"
 	echo " Please install zip on your system using your favourite package manager."
@@ -161,7 +161,7 @@ if [ -z $(command -v zip) ]; then
 fi
 
 echo "Looking for curl..."
-if [ -z $(command -v curl) ]; then
+if ! command -v curl > /dev/null; then
 	echo "Not found."
 	echo ""
 	echo "======================================================================================================"
