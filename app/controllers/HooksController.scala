@@ -1,9 +1,10 @@
 package controllers
 
-import domain.Candidate.{Java, Spark}
+import domain.Candidate.{Flink, Java, Spark}
 import domain.JdkDistro._
 import domain.Platform._
 import domain._
+
 import javax.inject.Inject
 import play.api.Logging
 import play.api.mvc._
@@ -64,6 +65,8 @@ class HooksController @Inject() (cc: ControllerComponents)
           //POST
           case (Post, Java, _, _, _) =>
             NotFound
+          case (Post, Flink, _, _, _) =>
+            Ok(views.txt.default_post_tarball(candidate, version, platform))
           case (Post, Spark, _, _, _) =>
             Ok(views.txt.default_post_tarball(candidate, version, platform))
           case (Post, _, _, _, _) =>

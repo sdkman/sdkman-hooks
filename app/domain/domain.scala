@@ -4,8 +4,8 @@ case class Candidate private (identifier: String, name: String)
 object Candidate {
   def apply(id: String): Candidate = Candidate(id, id.capitalize)
 
+  val Flink = Candidate("flink")
   val Java = Candidate("java")
-
   val Spark = Candidate("spark")
 }
 
