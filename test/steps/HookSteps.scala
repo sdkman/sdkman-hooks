@@ -15,10 +15,11 @@ class HookSteps extends ScalaDsl with EN with Matchers with OptionValues {
     //do nothing
   }
 
-  And("""^I fetch a "(.*)" hook for "(.*)" "(.*)" on "(.*)"$""") { (phase: String, candidate: String, version: String, uname: String) =>
-    response = Http(s"$host/hooks/$phase/$candidate/$version/$uname")
-      .timeout(connTimeoutMs = 1000, readTimeoutMs = 10000)
-      .asString
+  And("""^I fetch a "(.*)" hook for "(.*)" "(.*)" on "(.*)"$""") {
+    (phase: String, candidate: String, version: String, uname: String) =>
+      response = Http(s"$host/hooks/$phase/$candidate/$version/$uname")
+        .timeout(connTimeoutMs = 1000, readTimeoutMs = 10000)
+        .asString
   }
 
   And("""^I receive a hook containing text: (.*)$""") { (text: String) =>

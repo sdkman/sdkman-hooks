@@ -30,15 +30,16 @@ class Steps extends ScalaDsl with EN with Matchers {
       .asString
   }
 
-  And("""^a request is made to the (.*) endpoint with a "(.*)" request parameter of "(.*)"""") { (endpoint: String, paramKey: String, paramVal: String) =>
-    response = Http(s"$host$endpoint")
-      .param(paramKey, paramVal)
-      .timeout(connTimeoutMs = 1000, readTimeoutMs = 10000)
-      .asString
+  And("""^a request is made to the (.*) endpoint with a "(.*)" request parameter of "(.*)"""") {
+    (endpoint: String, paramKey: String, paramVal: String) =>
+      response = Http(s"$host$endpoint")
+        .param(paramKey, paramVal)
+        .timeout(connTimeoutMs = 1000, readTimeoutMs = 10000)
+        .asString
   }
 
   And("""^the payload has a "(.*)" of "(.*)"$""") { (key: String, value: String) =>
-    val json = Json.parse(response.body)
+    val json   = Json.parse(response.body)
     val status = (json \ key).as[String]
     status shouldBe value
   }
