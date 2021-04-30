@@ -1,0 +1,45 @@
+@import domain._
+@(version: String, platform: Platform, vendor: String, executableBinary: String)#!/bin/bash
+#Post Hook: linux-jmc-tarball
+function __sdkman_post_installation_hook {
+    __sdkman_echo_debug "A @{platform.name} post-install hook was found for JMC @vendor @version."
+
+    __sdkman_validate_binary_input "$binary_input" || return 1
+
+    local present_dir="$(pwd)"
+    local work_dir="${SDKMAN_DIR}/tmp/out"
+    local executable_binary="@{executableBinary}"
+
+    echo ""
+    echo "Repackaging JMC @version..."
+
+    mkdir -p "$work_dir"
+    /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
+
+    @if(vendor == "zulu") {
+    cd "$work_dir"/*
+    } else {
+    cd "$work_dir"
+    }
+    mkdir bin
+    ln --relative --symbolic "$executable_binary"  bin
+
+    /usr/bin/env zip -qyr "$zip_output" .
+    cd "$present_dir"
+
+    echo ""
+    echo "Done repackaging..."
+
+    __sdkman_echo_debug "Cleaning up residual files..."
+    rm "$binary_input"
+    rm -rf "$work_dir"
+}
+
+function __sdkman_validate_binary_input {
+    if ! tar tzf "$1" &> /dev/null; then
+        echo "Download has failed, aborting!"
+        echo ""
+        echo "Can not install java @version at this time..."
+        return 1
+    fi
+}
