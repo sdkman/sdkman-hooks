@@ -38,7 +38,8 @@ object Mongo {
 
 object Helpers {
 
-  implicit class DocumentObservable[C](val observable: Observable[Document]) extends ImplicitObservable[Document] {
+  implicit class DocumentObservable[C](val observable: Observable[Document])
+      extends ImplicitObservable[Document] {
     override val converter: (Document) => String = (doc) => doc.toJson
   }
 
