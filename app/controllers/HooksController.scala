@@ -24,13 +24,13 @@ class HooksController @Inject() (cc: ControllerComponents)
   ): Action[AnyContent] =
     Action.async { _ =>
       Future {
-        implicit val candidate = Candidate(candidateId)
+        val candidate = Candidate(candidateId)
 
         val platform = Platform(platformId).getOrElse(Universal)
 
         logger.info(s"$phase install hook requested for: $candidateId $version ${platform.name}")
 
-        (Hooks.from(phase), candidate, normalise(version), platform, vendor(version)) match {
+        (Hooks.from(phase), candidate, normalise(candidate, version), platform, vendor(version)) match {
 
           //POST: Mac OSX
           case (Post, Java, _, MacOSX, BellSoft) =>
@@ -81,8 +81,8 @@ class HooksController @Inject() (cc: ControllerComponents)
       }
     }
 
-  private def normalise(version: String)(implicit c: Candidate): String =
-    if (c == Java) version.split('.').head else version
+  private def normalise(candidate: Candidate, version: String): String =
+    if (candidate == Java) version.split('.').head else version
 
   private def dropSuffix(v: String) = v.split("-").head
 
