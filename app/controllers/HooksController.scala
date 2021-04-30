@@ -1,6 +1,6 @@
 package controllers
 
-import domain.Candidate.{Flink, Java, Spark}
+import domain.Candidate.{Flink, JMC, Java, Spark}
 import domain.JdkDistro._
 import domain.Platform._
 import domain._
@@ -28,9 +28,11 @@ class HooksController @Inject() (cc: ControllerComponents)
 
         val platform = Platform(platformId).getOrElse(Universal)
 
+        val vendor = determineVendor(version)
+
         logger.info(s"$phase install hook requested for: $candidateId $version ${platform.name}")
 
-        (Hooks.from(phase), candidate, normalise(candidate, version), platform, vendor(version)) match {
+        (Hooks.from(phase), candidate, normalise(candidate, version), platform, vendor) match {
 
           //POST: Mac OSX
           case (Post, Java, _, MacOSX, BellSoft) =>
@@ -41,10 +43,21 @@ class HooksController @Inject() (cc: ControllerComponents)
             Ok(views.txt.java_post_osx_tarball(candidate, version, MacOSX))
           case (Post, Java, _, MacOSX, _) =>
             Ok(views.txt.java_post_osx_tarball(candidate, version, MacOSX))
+          case (Post, JMC, _, MacOSX, _) =>
+            NotFound
 
           //POST: Linux
           case (Post, Java, _, Linux, _) =>
             Ok(views.txt.java_post_linux_tarball(candidate, version, Linux))
+          case (Post, JMC, _, Linux, _) =>
+            Ok(
+              views.txt.jmc_post_linux_tarball(
+                version,
+                platform,
+                vendor,
+                jmcBinaryExec(vendor)
+              )
+            )
 
           //POST: Cygwin
           case (Post, Java, "9", Windows64Cygwin, OpenJDK) =>
@@ -53,6 +66,8 @@ class HooksController @Inject() (cc: ControllerComponents)
             Ok(views.txt.default_post_tarball(candidate, version, Windows64Cygwin))
           case (Post, Java, _, Windows64Cygwin, _) =>
             Ok(views.txt.default_post_zip(candidate, version, Windows64Cygwin))
+          case (Post, JMC, _, Windows64Cygwin, _) =>
+            NotFound
 
           //POST: Mysys
           case (Post, Java, "9", Windows64MinGW, OpenJDK) =>
@@ -61,6 +76,8 @@ class HooksController @Inject() (cc: ControllerComponents)
             Ok(views.txt.default_post_tarball(candidate, version, Windows64MinGW))
           case (Post, Java, _, Windows64MinGW, _) =>
             Ok(views.txt.default_post_zip(candidate, version, Windows64MinGW))
+          case (Post, JMC, _, Windows64MinGW, _) =>
+            NotFound
 
           //POST
           case (Post, Java, _, _, _) =>
@@ -84,7 +101,11 @@ class HooksController @Inject() (cc: ControllerComponents)
   private def normalise(candidate: Candidate, version: String): String =
     if (candidate == Java) version.split('.').head else version
 
-  private def dropSuffix(v: String) = v.split("-").head
+  private def determineVendor(version: String) = version.split("-").lastOption.getOrElse("")
 
-  private def vendor(version: String) = version.split("-").lastOption.getOrElse("")
+  private def jmcBinaryExec(vendor: String) =
+    vendor match {
+      case "zulu" => "Zulu Mission Control/zmc"
+      case _      => "JDK Mission Control/jmc"
+    }
 }
