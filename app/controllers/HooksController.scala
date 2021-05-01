@@ -44,20 +44,13 @@ class HooksController @Inject() (cc: ControllerComponents)
           case (Post, Java, _, MacOSX, _) =>
             Ok(views.txt.java_post_osx_tarball(candidate, version, MacOSX))
           case (Post, JMC, _, MacOSX, _) =>
-            NotFound
+            Ok(views.txt.jmc_post_unix_tarball(version, vendor, jmcBinaryExec(vendor, MacOSX)))
 
           //POST: Linux
           case (Post, Java, _, Linux, _) =>
             Ok(views.txt.java_post_linux_tarball(candidate, version, Linux))
           case (Post, JMC, _, Linux, _) =>
-            Ok(
-              views.txt.jmc_post_linux_tarball(
-                version,
-                platform,
-                vendor,
-                jmcBinaryExec(vendor)
-              )
-            )
+            Ok(views.txt.jmc_post_unix_tarball(version, vendor, jmcBinaryExec(vendor, Linux)))
 
           //POST: Cygwin
           case (Post, Java, "9", Windows64Cygwin, OpenJDK) =>
@@ -103,9 +96,11 @@ class HooksController @Inject() (cc: ControllerComponents)
 
   private def determineVendor(version: String) = version.split("-").lastOption.getOrElse("")
 
-  private def jmcBinaryExec(vendor: String) =
-    vendor match {
-      case "zulu" => "Zulu Mission Control/zmc"
-      case _      => "JDK Mission Control/jmc"
+  private def jmcBinaryExec(vendor: String, platform: Platform) =
+    (vendor, platform) match {
+      case ("zulu", Platform.MacOSX) => "Zulu Mission Control.app/Contents/MacOS/zmc"
+      case ("zulu", Platform.Linux)  => "Zulu Mission Control/zmc"
+      case ("adpt", Platform.MacOSX) => "JDK Mission Control.app/Contents/MacOS/jmc"
+      case _                         => "JDK Mission Control/jmc"
     }
 }
