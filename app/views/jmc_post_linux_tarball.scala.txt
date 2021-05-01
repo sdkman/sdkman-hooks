@@ -11,25 +11,29 @@ function __sdkman_post_installation_hook {
     local executable_binary="@{executableBinary}"
 
     echo ""
-    echo "Repackaging JMC @version..."
+    __sdkman_echo_green "Repackaging JMC @vendor @version..."
 
     mkdir -p "$work_dir"
-    /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
-
     @if(vendor == "zulu") {
+    # deal with zulu folder structure
+    /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
     cd "$work_dir"/*
     } else {
-    cd "$work_dir"
+    # deal with jmc flat structure
+    local containing_folder="$work_dir/jmc-@{version}"
+    mkdir -p "$containing_folder"
+    /usr/bin/env tar zxf "$binary_input" -C "$containing_folder"
+    cd "$containing_folder"
     }
     mkdir bin
-    ln --relative --symbolic "$executable_binary"  bin
-    cd "$work_dir"
+    ln --relative --symbolic "$executable_binary" bin
 
+    cd "$work_dir"
     /usr/bin/env zip -qyr "$zip_output" .
     cd "$present_dir"
 
     echo ""
-    echo "Done repackaging..."
+    __sdkman_echo_green "Done repackaging..."
 
     __sdkman_echo_debug "Cleaning up residual files..."
     rm "$binary_input"
@@ -38,9 +42,9 @@ function __sdkman_post_installation_hook {
 
 function __sdkman_validate_binary_input {
     if ! tar tzf "$1" &> /dev/null; then
-        echo "Download has failed, aborting!"
+        __sdkman_echo_red "Download has failed, aborting!"
         echo ""
-        echo "Can not install java @version at this time..."
+        __sdkman_echo_red "Can not install java @version at this time..."
         return 1
     fi
 }
