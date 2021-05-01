@@ -26,7 +26,7 @@ function __sdkman_post_installation_hook {
     cd "$containing_folder"
     }
     mkdir bin
-    ln --relative --symbolic "$executable_binary" bin
+    ln --relative --symbolic "$executable_binary" bin/jmc
 
     cd "$work_dir"
     /usr/bin/env zip -qyr "$zip_output" .
