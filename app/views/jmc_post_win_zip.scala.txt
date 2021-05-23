@@ -21,7 +21,6 @@ function __sdkman_post_installation_hook {
     local containing_folder="$work_dir/jmc-@{version}"
     mkdir -p "$containing_folder"
     /usr/bin/env unzip -qo "$binary_input" -d "$containing_folder"
-    #/usr/bin/env tar zxf "$binary_input" -C "$containing_folder"
     cd "$containing_folder"
     }
     mkdir bin
@@ -29,7 +28,7 @@ function __sdkman_post_installation_hook {
     ln -s ../"${executable_binary}" jmc
 
     cd "$work_dir"
-    /usr/bin/env zip -qyr "$zip_output" .
+    /usr/bin/env zip -qr "$zip_output" .
     cd "$present_dir"
 
     echo ""
