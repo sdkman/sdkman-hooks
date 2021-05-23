@@ -60,7 +60,7 @@ class HooksController @Inject() (cc: ControllerComponents)
           case (Post, Java, _, Windows64Cygwin, _) =>
             Ok(views.txt.default_post_zip(candidate, version, Windows64Cygwin))
           case (Post, JMC, _, Windows64Cygwin, _) =>
-            NotFound
+            Ok(views.txt.jmc_post_win_zip(version, vendor, jmcBinaryExec(vendor, Windows64Cygwin)))
 
           //POST: Mysys
           case (Post, Java, "9", Windows64MinGW, OpenJDK) =>
@@ -70,7 +70,7 @@ class HooksController @Inject() (cc: ControllerComponents)
           case (Post, Java, _, Windows64MinGW, _) =>
             Ok(views.txt.default_post_zip(candidate, version, Windows64MinGW))
           case (Post, JMC, _, Windows64MinGW, _) =>
-            NotFound
+            Ok(views.txt.jmc_post_win_zip(version, vendor, jmcBinaryExec(vendor, Windows64MinGW)))
 
           //POST
           case (Post, Java, _, _, _) =>
@@ -98,9 +98,13 @@ class HooksController @Inject() (cc: ControllerComponents)
 
   private def jmcBinaryExec(vendor: String, platform: Platform) =
     (vendor, platform) match {
-      case ("zulu", Platform.MacOSX) => "Zulu Mission Control.app/Contents/MacOS/zmc"
-      case ("zulu", Platform.Linux)  => "Zulu Mission Control/zmc"
-      case ("adpt", Platform.MacOSX) => "JDK Mission Control.app/Contents/MacOS/jmc"
-      case _                         => "JDK Mission Control/jmc"
+      case ("zulu", Platform.MacOSX)          => "Zulu Mission Control.app/Contents/MacOS/zmc"
+      case ("zulu", Platform.Linux)           => "Zulu Mission Control/zmc"
+      case ("zulu", Platform.Windows64Cygwin) => "Zulu Mission Control/zmc.exe"
+      case ("zulu", Platform.Windows64MinGW)  => "Zulu Mission Control/zmc.exe"
+      case ("adpt", Platform.MacOSX)          => "JDK Mission Control.app/Contents/MacOS/jmc"
+      case ("adpt", Platform.Windows64Cygwin) => "JDK Mission Control/jmc.exe"
+      case ("adpt", Platform.Windows64MinGW)  => "JDK Mission Control/jmc.exe"
+      case _                                  => "JDK Mission Control/jmc"
     }
 }

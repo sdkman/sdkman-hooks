@@ -1,0 +1,41 @@
+@import domain._
+@(version: String, vendor: String, executableBinary: String)#!/bin/bash
+#Post Hook: win-jmc-zip
+function __sdkman_post_installation_hook {
+    __sdkman_echo_debug "A Windows post-install hook was found for JMC @vendor @version."
+
+    local present_dir="$(pwd)"
+    local work_dir="${SDKMAN_DIR}/tmp/out"
+    local executable_binary="@{executableBinary}"
+
+    echo ""
+    __sdkman_echo_green "Repackaging JMC @vendor @version..."
+
+    mkdir -p "$work_dir"
+    @if(vendor == "zulu") {
+    # deal with zulu folder structure
+    /usr/bin/env unzip -qo "$binary_input" -d "$work_dir"
+    cd "$work_dir"/*
+    } else {
+    # deal with jmc flat structure
+    local containing_folder="$work_dir/jmc-@{version}"
+    mkdir -p "$containing_folder"
+    /usr/bin/env unzip -qo "$binary_input" -d "$containing_folder"
+    #/usr/bin/env tar zxf "$binary_input" -C "$containing_folder"
+    cd "$containing_folder"
+    }
+    mkdir bin
+    cd bin
+    ln -s ../"${executable_binary}" jmc
+
+    cd "$work_dir"
+    /usr/bin/env zip -qyr "$zip_output" .
+    cd "$present_dir"
+
+    echo ""
+    __sdkman_echo_green "Done repackaging..."
+
+    __sdkman_echo_debug "Cleaning up residual files..."
+    rm "$binary_input"
+    rm -rf "$work_dir"
+}
