@@ -123,8 +123,8 @@ if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_answer') ]]; then
 	echo "sdkman_auto_answer=false" >> "$sdkman_config_file"
 fi
 
-if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_selfupdate') ]]; then
-	echo "sdkman_auto_selfupdate=false" >> "$sdkman_config_file"
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_selfupdate_enable') ]]; then
+	echo "sdkman_selfupdate_enable=true" >> "$sdkman_config_file"
 fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_insecure_ssl') ]]; then
