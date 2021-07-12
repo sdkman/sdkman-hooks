@@ -34,3 +34,4 @@ snapshot. For example, if the current version is `0.76.3-SNAPSHOT`, change it to
 published Docker image will be `0.77.0`, and the corresponding Git tag `v0.77.0`.
 
 You can achieve a major release in much the same way.
+
