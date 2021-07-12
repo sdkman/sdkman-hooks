@@ -6,10 +6,6 @@ enablePlugins(DockerPlugin)
 
 name := """sdkman-hooks"""
 
-val conf = ConfigFactory.parseFile(new File("conf/application.conf")).resolve()
-
-version := conf.getString("application.version")
-
 Docker / packageName := "sdkman/sdkman-hooks"
 
 dockerBaseImage := "openjdk:11"
