@@ -10,24 +10,31 @@ val conf = ConfigFactory.parseFile(new File("conf/application.conf")).resolve()
 
 version := conf.getString("application.version")
 
-packageName in Docker := "sdkman/sdkman-hooks"
+Docker / packageName := "sdkman/sdkman-hooks"
+
+dockerBaseImage := "openjdk:11"
+
+Universal / javaOptions ++= Seq(
+  "-Dpidfile.path=/dev/null"
+)
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-scalaVersion := "2.12.10"
+scalaVersion := "2.12.13"
 
 routesGenerator := InjectedRoutesGenerator
 
 resolvers ++= Seq(
-  Resolver.bintrayRepo("sdkman", "maven"),
-  Resolver.jcenterRepo
+  Resolver.mavenCentral,
+  "jitpack" at "https://jitpack.io"
 )
 
 libraryDependencies ++= Seq(
   guice,
   ws,
-  "io.sdkman" %% "sdkman-mongodb-persistence" % "1.3",
+  "com.github.sdkman" % "sdkman-mongodb-persistence" % "1.9",
   "org.scalatest" %% "scalatest" % "3.0.0" % Test,
+  "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test,
   "io.cucumber" %% "cucumber-scala" % "4.7.1" % Test,
   "io.cucumber" % "cucumber-junit" % "4.7.1" % Test,
   "info.cukes" % "gherkin" % "2.7.3" % Test,
@@ -35,3 +42,18 @@ libraryDependencies ++= Seq(
   "com.github.tomakehurst" % "wiremock" % "2.2.2" % Test
 )
 
+import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  ReleaseStep(releaseStepTask(publish in Docker)),
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
+)
