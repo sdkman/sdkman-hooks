@@ -43,6 +43,7 @@ sdkman_archives_folder="${SDKMAN_DIR}/archives"
 sdkman_candidates_folder="${SDKMAN_DIR}/candidates"
 sdkman_config_file="${sdkman_etc_folder}/config"
 sdkman_bash_profile="${HOME}/.bash_profile"
+sdkman_bash_login="${HOME}/.bash_login"
 sdkman_profile="${HOME}/.profile"
 sdkman_bashrc="${HOME}/.bashrc"
 sdkman_zshrc="${ZDOTDIR:-${HOME}}/.zshrc"
@@ -282,11 +283,22 @@ echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
 
 @if(rcUpdate) {
 if [[ $darwin == true ]]; then
-  touch "$sdkman_bash_profile"
+  # Bash only reads one of the following config files, in this order. Write to the one that the user is already using if possible.
+  if [[ -e "$sdkman_bash_profile" ]]; then
+    sdkman_init_file="$sdkman_bash_profile"
+  elif [[ -e "$sdkman_bash_login" ]]; then
+    sdkman_init_file="$sdkman_bash_login"
+  elif [[ -e "$sdkman_profile" ]]; then
+    sdkman_init_file="$sdkman_profile"
+  else
+    # Default to creating .bash_profile as it's the least likely to be overridden in the future
+    sdkman_init_file="$sdkman_bash_profile"
+  fi
+  touch "$sdkman_init_file"
   echo "Attempt update of login bash profile on OSX..."
-  if [[ -z $(grep 'sdkman-init.sh' "$sdkman_bash_profile") ]]; then
-    echo -e "\n$sdkman_init_snippet" >> "$sdkman_bash_profile"
-    echo "Added sdkman init snippet to $sdkman_bash_profile"
+  if [[ -z $(grep 'sdkman-init.sh' "$sdkman_init_file") ]]; then
+    echo -e "\n$sdkman_init_snippet" >> "$sdkman_init_file"
+    echo "Added sdkman init snippet to $sdkman_init_file"
   fi
 else
   echo "Attempt update of interactive bash profile on regular UNIX..."
