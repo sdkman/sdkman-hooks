@@ -258,7 +258,7 @@ if [[ -z "$ARCHIVE_OK" ]]; then
 	echo "* easy sign up: https://slack.sdkman.io/"
 	echo "* report on channel: https://sdkman.slack.com/app_redirect?channel=user-issues"
 	rm -rf "$SDKMAN_DIR"
-	exit 2
+	exit 1
 fi
 
 echo "Extract script archive..."
