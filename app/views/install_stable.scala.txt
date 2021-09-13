@@ -15,7 +15,7 @@
 #   limitations under the License.
 #
 
-#Install: stable
+# install:- channel: stable; version: @cliVersion; api: @baseUrl
 
 # Global variables
 SDKMAN_SERVICE="@baseUrl"
