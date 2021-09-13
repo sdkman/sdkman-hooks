@@ -1,10 +1,10 @@
 package controllers
 
-import javax.inject._
 import play.api.Configuration
 import play.api.mvc._
 import repo.ApplicationRepo
 
+import javax.inject._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class SelfUpdateController @Inject() (
@@ -13,15 +13,37 @@ class SelfUpdateController @Inject() (
     appRepo: ApplicationRepo
 ) extends AbstractController(cc) {
 
-  lazy val fallbackVersion = config.get[String]("service.fallbackVersion")
+  private val stableBaseUrlO = configUrl("service.stableBaseUrl")
+
+  private val betaBaseUrlO = configUrl("service.betaBaseUrl")
 
   def selfUpdate(beta: Boolean) = Action.async { _ =>
-    val baseUrl = config.get[String]("service.baseUrl")
     appRepo.findApplication().map { maybeApp =>
-      val (channel, version) =
-        if (beta) ("beta", maybeApp.map(_.betaCliVersion))
-        else ("stable", maybeApp.map(_.stableCliVersion))
-      Ok(views.txt.selfupdate(version.getOrElse(fallbackVersion), channel, baseUrl))
+      val response = for {
+        stableBaseUrl <- stableBaseUrlO
+        betaBaseUrl   <- betaBaseUrlO
+        app           <- maybeApp
+        stableVersion = app.stableCliVersion
+        betaVersion   = app.betaCliVersion
+      } yield
+        if (beta) {
+          Ok(
+            views.txt.selfupdate_beta(
+              cliVersion = betaVersion,
+              baseUrl = betaBaseUrl
+            )
+          )
+        } else {
+          Ok(
+            views.txt.selfupdate_stable(
+              cliVersion = stableVersion,
+              baseUrl = stableBaseUrl
+            )
+          )
+        }
+      response getOrElse ServiceUnavailable
     }
   }
+
+  private def configUrl(url: String): Option[String] = config.getOptional[String](url)
 }
