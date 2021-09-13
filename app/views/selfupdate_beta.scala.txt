@@ -1,4 +1,4 @@
-@(cliVersion: String, channel: String, baseUrl: String)#!/bin/bash
+@(cliVersion: String, baseUrl: String)#!/bin/bash
 #
 #   Copyright 2017 Marco Vermeulen
 #
@@ -15,7 +15,12 @@
 #   limitations under the License.
 #
 
-#Selfupdate: @channel
+# selfupdate:- channel: beta; version: @cliVersion; api: @baseUrl
+
+# Global variables
+SDKMAN_SERVICE="@baseUrl"
+SDKMAN_VERSION="@cliVersion"
+SDKMAN_PLATFORM=$(uname)
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
@@ -51,10 +56,6 @@ function __sdkman_echo_debug {
 
 echo ""
 echo "Updating SDKMAN..."
-
-SDKMAN_SERVICE="@baseUrl"
-SDKMAN_VERSION="@cliVersion"
-SDKMAN_PLATFORM=$(uname)
 
 if [ -z "$SDKMAN_DIR" ]; then
 	SDKMAN_DIR="$HOME/.sdkman"
