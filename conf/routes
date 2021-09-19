@@ -6,5 +6,5 @@ GET        /alive                                             controllers.Health
 GET        /install/beta                                      controllers.InstallController.install(beta: Boolean = true, rcupdate: Option[Boolean])
 GET        /install/stable                                    controllers.InstallController.install(beta: Boolean = false, rcupdate: Option[Boolean])
 GET        /selfupdate/beta                                   controllers.SelfUpdateController.selfUpdate(beta: Boolean = true)
-GET        /selfupdate/stable                                 controllers.SelfUpdateController.selfUpdate(beta: Boolean = false)
+GET        /selfupdate/stable                                 controllers.SelfUpdateController.selfUpdate(beta: Boolean ?= false)
 GET        /hooks/:phase/:candidate/:version/:platform        controllers.HooksController.hook(phase, candidate, version, platform)
