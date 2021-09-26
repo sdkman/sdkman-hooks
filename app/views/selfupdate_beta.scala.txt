@@ -145,7 +145,7 @@ if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_beta_channel') ]]; then
 fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_debug_mode') ]]; then
-	echo "sdkman_debug_mode=false" >> "$sdkman_config_file"
+	echo "sdkman_debug_mode=true" >> "$sdkman_config_file"
 fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_colour_enable') ]]; then
