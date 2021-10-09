@@ -81,12 +81,6 @@ if [[ -z "$ARCHIVE_OK" ]]; then
 	exit
 fi
 
-# prepare candidates
-SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
-__sdkman_echo_debug "Fetched candidates: $SDKMAN_CANDIDATES_CSV"
-echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
-__sdkman_echo_debug "Overwritten cache: $(cat "${SDKMAN_DIR}/var/candidates")"
-
 # extract new distribution
 __sdkman_echo_debug "Extract script archive..."
 __sdkman_echo_debug "Unzipping script archive to: ${sdkman_tmp_folder}"
@@ -101,6 +95,12 @@ unzip -qo "$sdkman_zip_file" -d "$sdkman_tmp_folder"
 echo "Install scripts..."
 mv "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
 rm -rf "$sdkman_zip_base_folder"
+
+# prepare candidates
+SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
+__sdkman_echo_debug "Fetched candidates: $SDKMAN_CANDIDATES_CSV"
+echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
+__sdkman_echo_debug "Overwritten cache: $(cat "${SDKMAN_DIR}/var/candidates")"
 
 # prime config file
 __sdkman_echo_debug "Prime the config file..."
