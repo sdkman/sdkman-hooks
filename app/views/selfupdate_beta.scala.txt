@@ -164,8 +164,8 @@ fi
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
 
 # clean up tmp folder
-rm -rvf "${SDKMAN_DIR}"/tmp
-mkdir -v "${SDKMAN_DIR}"/tmp
+rm -rf "${SDKMAN_DIR}"/tmp
+mkdir "${SDKMAN_DIR}"/tmp
 
 # the end
 echo ""
