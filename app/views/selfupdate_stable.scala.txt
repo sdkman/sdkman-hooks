@@ -61,18 +61,20 @@ if [ -z "$SDKMAN_DIR" ]; then
 	SDKMAN_DIR="$HOME/.sdkman"
 fi
 
-sdkman_tmp_zip="${SDKMAN_DIR}/tmp/sdkman-${SDKMAN_VERSION}.zip"
-sdkman_stage_folder="${SDKMAN_DIR}/tmp/stage"
-sdkman_src_folder="${SDKMAN_DIR}/src"
+sdkman_bin_folder="${SDKMAN_DIR}/bin"
 sdkman_contrib_folder="${SDKMAN_DIR}/contrib"
+sdkman_src_folder="${SDKMAN_DIR}/src"
+sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
+sdkman_zip_file="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip"
+sdkman_zip_base_folder="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
 
 # fetch new distribution and check integrity
 download_url="${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}"
 __sdkman_echo_debug "Download new scripts from: ${download_url}"
-__sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
-curl --location --progress-bar "$download_url" > "$sdkman_tmp_zip"
+__sdkman_echo_debug "Download new scripts to: ${sdkman_zip_file}"
+curl --location --progress-bar "$download_url" > "$sdkman_zip_file"
 
-ARCHIVE_OK=$(unzip -qt "$sdkman_tmp_zip" | grep 'No errors detected in compressed data')
+ARCHIVE_OK=$(unzip -qt "$sdkman_zip_file" | grep 'No errors detected in compressed data')
 if [[ -z "$ARCHIVE_OK" ]]; then
 	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
 	echo ""
@@ -82,39 +84,29 @@ if [[ -z "$ARCHIVE_OK" ]]; then
 	exit
 fi
 
+# extract new distribution
+__sdkman_echo_debug "Extract script archive..."
+__sdkman_echo_debug "Unzipping script archive to: ${sdkman_tmp_folder}"
+if [[ "$cygwin" == 'true' ]]; then
+	__sdkman_echo_debug "Cygwin detected - normalizing paths for unzip..."
+	sdkman_tmp_folder=$(cygpath -w "$sdkman_tmp_folder")
+	sdkman_zip_file=$(cygpath -w "$sdkman_zip_file")
+	sdkman_zip_base_folder=$(cygpath -w "$sdkman_zip_base_folder")
+fi
+unzip -qo "$sdkman_zip_file" -d "$sdkman_tmp_folder"
+
+echo "Install scripts..."
+rm -rf $sdkman_bin_folder
+rm -rf $sdkman_contrib_folder
+rm -rf $sdkman_src_folder
+mv "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
+rm -rf "$sdkman_zip_base_folder"
+
 # prepare candidates
 SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
 __sdkman_echo_debug "Fetched candidates: $SDKMAN_CANDIDATES_CSV"
 echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 __sdkman_echo_debug "Overwritten cache: $(cat "${SDKMAN_DIR}/var/candidates")"
-
-# extract new distribution
-__sdkman_echo_debug "Extract script archive..."
-__sdkman_echo_debug "Unziping scripts to: ${sdkman_stage_folder}"
-if [[ "$cygwin" == 'true' ]]; then
-	__sdkman_echo_debug "Cygwin detected - normalizing paths for unzip..."
-	unzip -qo $(cygpath -w "$sdkman_tmp_zip") -d $(cygpath -w "$sdkman_stage_folder")
-else
-	unzip -qo "$sdkman_tmp_zip" -d "$sdkman_stage_folder"
-fi
-
-__sdkman_echo_debug "Moving sdkman-init file to bin folder..."
-rm -vf "${SDKMAN_DIR}"/bin/sdkman-init.sh
-mv -vf "${sdkman_stage_folder}/sdkman-init.sh" "${SDKMAN_DIR}/bin"
-
-__sdkman_echo_debug "Move remaining module scripts to src folder: ${sdkman_src_folder}"
-rm -vf "$sdkman_src_folder"/sdkman-*.sh
-mv -vf "$sdkman_stage_folder"/sdkman-* "$sdkman_src_folder"
-
-__sdkman_echo_debug "Move contributing software to contrib folder: ${sdkman_contrib_folder}"
-if [[ -d "$sdkman_contrib_folder" ]]; then
-	rm -rvf "$sdkman_contrib_folder"
-fi
-mv -vf "$sdkman_stage_folder"/contrib "$sdkman_contrib_folder"
-
-__sdkman_echo_debug "Clean up staging folder..."
-rm -rf "$sdkman_stage_folder"
-
 
 # prime config file
 __sdkman_echo_debug "Prime the config file..."
@@ -172,8 +164,8 @@ fi
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
 
 # clean up tmp folder
-rm -rvf "${SDKMAN_DIR}"/tmp
-mkdir -v "${SDKMAN_DIR}"/tmp
+rm -rf "${SDKMAN_DIR}"/tmp
+mkdir "${SDKMAN_DIR}"/tmp
 
 # the end
 echo ""
