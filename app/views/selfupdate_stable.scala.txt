@@ -149,7 +149,7 @@ if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_env') ]]; then
 fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_rosetta2_compatible') ]]; then
-	echo "sdkman_rosetta2_compatible=true" >> "$sdkman_config_file"
+	echo "sdkman_rosetta2_compatible=false" >> "$sdkman_config_file"
 fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_complete') ]]; then
