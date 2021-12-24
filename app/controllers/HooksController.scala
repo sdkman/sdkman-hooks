@@ -100,10 +100,10 @@ class HooksController @Inject() (cc: ControllerComponents)
 
   private def jmcBinaryExec(vendor: String, platform: Platform) =
     (vendor, platform) match {
-      case ("zulu", Platform.MacOSX)          => "Zulu Mission Control.app/Contents/MacOS/zmc"
-      case ("zulu", Platform.Linux)           => "Zulu Mission Control/zmc"
-      case ("zulu", Platform.Windows64Cygwin) => "Zulu Mission Control/zmc.exe"
-      case ("zulu", Platform.Windows64MinGW)  => "Zulu Mission Control/zmc.exe"
+      case ("zulu", Platform.MacOSX)          => "Azul Mission Control.app/Contents/MacOS/zmc"
+      case ("zulu", Platform.Linux)           => "Azul Mission Control/zmc"
+      case ("zulu", Platform.Windows64Cygwin) => "Azul Mission Control/zmc.exe"
+      case ("zulu", Platform.Windows64MinGW)  => "Azul Mission Control/zmc.exe"
       case ("adpt", Platform.MacOSX)          => "JDK Mission Control.app/Contents/MacOS/jmc"
       case ("adpt", Platform.Windows64Cygwin) => "JDK Mission Control/jmc.exe"
       case ("adpt", Platform.Windows64MinGW)  => "JDK Mission Control/jmc.exe"
