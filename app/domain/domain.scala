@@ -28,7 +28,7 @@ object Platform {
 
   private val WindowsMinGWPattern = "(mingw|msys).*".r
 
-  private val LinuxPattern = "(linux|linux32|linux64|linuxx32|linuxx64|linuxarm32|linuxarm64)".r
+  private val LinuxPattern = "(linux|linux32|linux64|linuxx32|linuxx64|linuxarm32|linuxarm64|linuxarm32sf|linuxarm32hf)".r
 
   private val DarwinPattern = "(darwin|darwinx64|darwinarm64)".r
 
