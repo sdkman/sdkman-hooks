@@ -231,6 +231,7 @@ else
 fi
 echo "sdkman_auto_env=false" >> "$sdkman_config_file"
 echo "sdkman_beta_channel=true" >> "$sdkman_config_file"
+echo "sdkman_checksum_enable=true" >> "$sdkman_config_file"
 echo "sdkman_colour_enable=true" >> "$sdkman_config_file"
 echo "sdkman_curl_connect_timeout=7" >> "$sdkman_config_file"
 echo "sdkman_curl_max_time=10" >> "$sdkman_config_file"
