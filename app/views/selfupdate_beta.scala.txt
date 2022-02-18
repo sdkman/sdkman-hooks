@@ -1,3 +1,4 @@
+@import java.time.LocalDate
 @(cliVersion: String, baseUrl: String)#!/bin/bash
 #
 #   Copyright 2017 Marco Vermeulen
@@ -156,12 +157,28 @@ if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_checksum_enable') ]]; then
 	echo "sdkman_checksum_enable=true" >> "$sdkman_config_file"
 fi
 
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_selfupdate_feature') ]]; then
+	echo "sdkman_selfupdate_feature=true" >> "$sdkman_config_file"
+fi
+
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_complete') ]]; then
     if [ -z "$ZSH_VERSION" -a -z "$BASH_VERSION" ]; then
         echo "sdkman_auto_complete=false" >> "$sdkman_config_file"
     else
         echo "sdkman_auto_complete=true" >> "$sdkman_config_file"
     fi
+fi
+
+# migrate deprecated sdkman_selfupdate_enable configuration
+@defining(LocalDate.now()) { now =>
+cp "$sdkman_config_file" "${sdkman_config_file}-@{now}.bak"
+
+sed 's/sdkman_selfupdate_enable/sdkman_auto_update/' "$sdkman_config_file" > "${sdkman_config_file}.tmp" &&
+    mv "${sdkman_config_file}.tmp" "$sdkman_config_file"
+}
+
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_update') ]]; then
+	echo "sdkman_auto_update=true" >> "$sdkman_config_file"
 fi
 
 # drop version token
