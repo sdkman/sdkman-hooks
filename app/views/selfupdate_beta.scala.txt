@@ -170,12 +170,13 @@ if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_complete') ]]; then
 fi
 
 # migrate deprecated sdkman_selfupdate_enable configuration
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_selfupdate_enable') ]]; then
 @defining(LocalDate.now()) { now =>
-cp "$sdkman_config_file" "${sdkman_config_file}-@{now}.bak"
-
-sed 's/sdkman_selfupdate_enable/sdkman_auto_update/' "$sdkman_config_file" > "${sdkman_config_file}.tmp" &&
-    mv "${sdkman_config_file}.tmp" "$sdkman_config_file"
+    cp "$sdkman_config_file" "${sdkman_config_file}-@{now}.bak"
 }
+    sed 's/sdkman_selfupdate_enable/sdkman_auto_update/' "$sdkman_config_file" > "${sdkman_config_file}.tmp"
+    mv "${sdkman_config_file}.tmp" "$sdkman_config_file"
+fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_update') ]]; then
 	echo "sdkman_auto_update=true" >> "$sdkman_config_file"
