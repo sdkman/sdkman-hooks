@@ -25,11 +25,13 @@ class SelfUpdateController @Inject() (
         app           <- maybeApp
         stableVersion = app.stableCliVersion
         betaVersion   = app.betaCliVersion
+        stableNativeVersion  = app.stableNativeCliVersion
       } yield
         if (beta) {
           Ok(
             views.txt.selfupdate_beta(
               cliVersion = betaVersion,
+              cliNativeVersion = stableNativeVersion,
               baseUrl = betaBaseUrl
             )
           )

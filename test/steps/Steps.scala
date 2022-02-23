@@ -17,11 +17,15 @@ class Steps extends ScalaDsl with EN with Matchers {
 
   And("""^the stable CLI Version is "(.*)"""") { stable: String =>
     stableCliVersion = stable
-    Mongo.insertCliVersions(stableCliVersion, betaCliVersion)
   }
 
   And("""^the beta CLI Version is "(.*)"""") { beta: String =>
     betaCliVersion = beta
+  }
+
+  And("""^the stable native CLI Version is "(.*)"""") { native: String =>
+    stableNativeCliVersion = native
+    Mongo.insertCliVersions(stableCliVersion, betaCliVersion, stableNativeCliVersion)
   }
 
   And("""^a request is made to the (.*) endpoint$""") { endpoint: String =>

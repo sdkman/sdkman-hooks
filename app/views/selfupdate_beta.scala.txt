@@ -1,5 +1,5 @@
 @import java.time.LocalDate
-@(cliVersion: String, baseUrl: String)#!/bin/bash
+@(cliVersion: String, cliNativeVersion: String, baseUrl: String)#!/bin/bash
 #
 #   Copyright 2017 Marco Vermeulen
 #
@@ -21,6 +21,7 @@
 # Global variables
 SDKMAN_SERVICE="@baseUrl"
 SDKMAN_VERSION="@cliVersion"
+SDKMAN_NATIVE_VERSION="@cliNativeVersion"
 SDKMAN_PLATFORM=$(uname)
 
 # OS specific support (must be 'true' or 'false').
@@ -183,6 +184,7 @@ fi
 
 # drop version token
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
+echo "$SDKMAN_NATIVE_VERSION" > "${SDKMAN_DIR}/var/version_native"
 
 # clean up tmp folder
 rm -rf "${SDKMAN_DIR}"/tmp
@@ -193,7 +195,8 @@ echo ""
 echo ""
 echo "Successfully upgraded SDKMAN!"
 echo ""
-echo "Open a new terminal to start using SDKMAN $SDKMAN_VERSION."
+echo "Open a new terminal to start using SDKMAN $SDKMAN_VERSION"
+echo "with $SDKMAN_NATIVE_VERSION native extensions."
 echo ""
 echo "You are subscribed to the BETA channel."
 echo "To return to STABLE, simply follow the instructions on:"
