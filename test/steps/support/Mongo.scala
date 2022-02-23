@@ -1,8 +1,7 @@
 package steps.support
 
+import io.sdkman.model.Application
 import java.util.concurrent.TimeUnit
-
-import io.sdkman.repos.Application
 import org.mongodb.scala.{MongoClient, _}
 import org.mongodb.scala.bson.collection.immutable.Document
 import org.bson.codecs.configuration.CodecRegistries.{fromProviders, fromRegistries}
@@ -26,12 +25,20 @@ object Mongo {
 
   lazy val appCollection: MongoCollection[Application] = db.getCollection("application")
 
-  def insertAliveOk(): Seq[Completed] = appCollection.insertOne(Application("OK", "", "")).results()
+  def insertAliveOk(): Seq[Completed] =
+    appCollection.insertOne(Application("OK", "", "", "")).results()
 
-  def insertAliveKo(): Seq[Completed] = appCollection.insertOne(Application("KO", "", "")).results()
+  def insertAliveKo(): Seq[Completed] =
+    appCollection.insertOne(Application("KO", "", "", "")).results()
 
-  def insertCliVersions(stableCliVersion: String, betaCliVersion: String): Seq[Completed] =
-    appCollection.insertOne(Application("OK", stableCliVersion, betaCliVersion)).results()
+  def insertCliVersions(
+      stableCliVersion: String,
+      betaCliVersion: String,
+      stableNativeCliVersion: String
+  ): Seq[Completed] =
+    appCollection
+      .insertOne(Application("OK", stableCliVersion, betaCliVersion, stableNativeCliVersion))
+      .results()
 
   def dropAppCollection(): Seq[Completed] = appCollection.drop().results()
 }
