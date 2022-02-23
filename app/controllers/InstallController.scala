@@ -25,11 +25,13 @@ class InstallController @Inject() (
         app           <- maybeApp
         stableVersion = app.stableCliVersion
         betaVersion   = app.betaCliVersion
+        stableNativeVersion = app.stableNativeCliVersion
       } yield
         if (beta) {
           Ok(
             views.txt.install_beta(
               cliVersion = betaVersion,
+              cliNativeVersion = stableNativeVersion,
               baseUrl = betaBaseUrl,
               rcUpdate = rcUpdate.getOrElse(true)
             )
