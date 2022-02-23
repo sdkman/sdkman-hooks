@@ -23,8 +23,8 @@ class InstallController @Inject() (
         stableBaseUrl <- stableBaseUrlO
         betaBaseUrl   <- betaBaseUrlO
         app           <- maybeApp
-        stableVersion = app.stableCliVersion
-        betaVersion   = app.betaCliVersion
+        stableVersion       = app.stableCliVersion
+        betaVersion         = app.betaCliVersion
         stableNativeVersion = app.stableNativeCliVersion
       } yield
         if (beta) {

@@ -23,9 +23,9 @@ class SelfUpdateController @Inject() (
         stableBaseUrl <- stableBaseUrlO
         betaBaseUrl   <- betaBaseUrlO
         app           <- maybeApp
-        stableVersion = app.stableCliVersion
-        betaVersion   = app.betaCliVersion
-        stableNativeVersion  = app.stableNativeCliVersion
+        stableVersion       = app.stableCliVersion
+        betaVersion         = app.betaCliVersion
+        stableNativeVersion = app.stableNativeCliVersion
       } yield
         if (beta) {
           Ok(
