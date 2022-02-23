@@ -4,11 +4,11 @@ case class Candidate private (identifier: String, name: String)
 object Candidate {
   def apply(id: String): Candidate = Candidate(id, id.capitalize)
 
-  val Flink = Candidate("flink")
+  val Flink  = Candidate("flink")
   val Hadoop = Candidate("hadoop")
-  val Java  = Candidate("java")
-  val Spark = Candidate("spark")
-  val JMC   = Candidate("jmc")
+  val Java   = Candidate("java")
+  val Spark  = Candidate("spark")
+  val JMC    = Candidate("jmc")
 }
 
 case class Platform(identifier: String, name: String)
@@ -28,7 +28,8 @@ object Platform {
 
   private val WindowsMinGWPattern = "(mingw|msys).*".r
 
-  private val LinuxPattern = "(linux|linux32|linux64|linuxx32|linuxx64|linuxarm32|linuxarm64|linuxarm32sf|linuxarm32hf)".r
+  private val LinuxPattern =
+    "(linux|linux32|linux64|linuxx32|linuxx64|linuxarm32|linuxarm64|linuxarm32sf|linuxarm32hf)".r
 
   private val DarwinPattern = "(darwin|darwinx64|darwinarm64)".r
 
