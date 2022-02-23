@@ -3,6 +3,7 @@ Feature: Installation
   Background:
     Given the stable CLI Version is "1.0.0"
     And the beta CLI Version is "latest+bff371f"
+    And the stable native CLI Version is "0.1.0"
 
   Scenario: Install SDKMAN stable from the command line
     When a request is made to the /install/stable endpoint
@@ -36,6 +37,7 @@ Feature: Installation
     And the response script starts with "#!/bin/bash"
     And the response script contains "# install:- channel: beta; version: latest+bff371f; api: https://beta.sdkman.io"
     And the response script contains "SDKMAN_VERSION="latest+bff371f""
+    And the response script contains "SDKMAN_NATIVE_VERSION="0.1.0""
     And the response script contains "SDKMAN_SERVICE="https://beta.sdkman.io/2"
 
   Scenario: Install SDKMAN beta from the command line without updating rc files
