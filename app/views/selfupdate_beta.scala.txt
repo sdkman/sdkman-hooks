@@ -173,8 +173,10 @@ if [[ -z $(cat "${sdkman_config_file_tmp}" | grep 'sdkman_auto_complete') ]]; th
 fi
 
 # migrate deprecated sdkman_selfupdate_enable configuration
-sed 's/sdkman_selfupdate_enable/sdkman_auto_update/' "$sdkman_config_file_tmp" > "${sdkman_config_file_tmp}.tmp" &&
+if [[ -z $(cat "${sdkman_config_file_tmp}" | grep 'sdkman_selfupdate_enable') ]]; then
+    sed 's/sdkman_selfupdate_enable/sdkman_auto_update/' "$sdkman_config_file_tmp" > "${sdkman_config_file_tmp}.tmp"
     mv "${sdkman_config_file_tmp}.tmp" "$sdkman_config_file_tmp"
+fi
 
 if [[ -z $(cat "${sdkman_config_file_tmp}" | grep 'sdkman_auto_update') ]]; then
 	echo "sdkman_auto_update=true" >> "$sdkman_config_file_tmp"
