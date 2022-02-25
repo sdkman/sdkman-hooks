@@ -116,51 +116,51 @@ sdkman_config_file="${SDKMAN_DIR}/etc/config"
 sdkman_config_file_tmp="${SDKMAN_DIR}/etc/config.tmp"
 touch "$sdkman_config_file"
 cp "$sdkman_config_file" "$sdkman_config_file_tmp"
-if [[ -z $(cat "${sdkman_config_file_tmp}" | grep 'sdkman_auto_answer') ]]; then
+if ! grep 'sdkman_auto_answer' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_auto_answer=false" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_insecure_ssl' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_insecure_ssl' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_insecure_ssl=false" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_curl_connect_timeout' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_curl_connect_timeout' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_curl_connect_timeout=7" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_curl_max_time' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_curl_max_time' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_curl_max_time=10" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_beta_channel' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_beta_channel' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_beta_channel=false" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_debug_mode' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_debug_mode' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_debug_mode=true" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_colour_enable' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_colour_enable' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_colour_enable=true" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_auto_env' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_auto_env' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_auto_env=false" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_rosetta2_compatible' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_rosetta2_compatible' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_rosetta2_compatible=false" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_checksum_enable' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_checksum_enable' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_checksum_enable=true" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_selfupdate_feature' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_selfupdate_feature' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_selfupdate_feature=true" >> "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_auto_complete' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_auto_complete' "${sdkman_config_file_tmp}"; then
     if [ -z "$ZSH_VERSION" -a -z "$BASH_VERSION" ]; then
         echo "sdkman_auto_complete=false" >> "$sdkman_config_file_tmp"
     else
@@ -169,12 +169,12 @@ if [[ -z $(grep 'sdkman_auto_complete' "${sdkman_config_file_tmp}") ]]; then
 fi
 
 # migrate deprecated sdkman_selfupdate_enable configuration
-if [[ -z $(grep 'sdkman_selfupdate_enable' "${sdkman_config_file_tmp}") ]]; then
+if grep 'sdkman_selfupdate_enable' "${sdkman_config_file_tmp}"; then
     sed 's/sdkman_selfupdate_enable/sdkman_auto_update/' "$sdkman_config_file_tmp" > "${sdkman_config_file_tmp}.tmp"
     mv "${sdkman_config_file_tmp}.tmp" "$sdkman_config_file_tmp"
 fi
 
-if [[ -z $(grep 'sdkman_auto_update' "${sdkman_config_file_tmp}") ]]; then
+if ! grep 'sdkman_auto_update' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_auto_update=true" >> "$sdkman_config_file_tmp"
 fi
 
