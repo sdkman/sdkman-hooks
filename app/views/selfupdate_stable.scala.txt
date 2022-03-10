@@ -10,29 +10,7 @@ SDKMAN_SERVICE="@baseUrl"
 SDKMAN_VERSION="@cliVersion"
 SDKMAN_PLATFORM=$(uname)
 
-# OS specific support (must be 'true' or 'false').
-cygwin=false;
-darwin=false;
-solaris=false;
-freebsd=false;
-linux=false;
-case "$(uname)" in
-    CYGWIN*)
-        cygwin=true
-        ;;
-    Darwin*)
-        darwin=true
-        ;;
-    SunOS*)
-        solaris=true
-        ;;
-    FreeBSD*)
-        freebsd=true
-        ;;
-    Linux*)
-        linux=true
-esac
-
+@includes.os()
 
 function __sdkman_echo_debug {
     if [[ "$sdkman_debug_mode" == 'true' ]]; then

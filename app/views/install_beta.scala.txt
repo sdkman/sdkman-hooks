@@ -38,24 +38,7 @@ export SDKMAN_DIR="$SDKMAN_DIR_RAW"
 EOF
 )
 
-# OS specific support (must be 'true' or 'false').
-cygwin=false;
-darwin=false;
-solaris=false;
-freebsd=false;
-case "$(uname)" in
-    CYGWIN*)
-        cygwin=true
-        ;;
-    Darwin*)
-        darwin=true
-        ;;
-    SunOS*)
-        solaris=true
-        ;;
-    FreeBSD*)
-        freebsd=true
-esac
+@includes.os()
 
 @includes.banner()
 
