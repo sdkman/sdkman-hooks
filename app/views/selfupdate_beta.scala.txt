@@ -181,18 +181,4 @@ echo "$SDKMAN_NATIVE_VERSION" > "${SDKMAN_DIR}/var/version_native"
 rm -rf "${SDKMAN_DIR}"/tmp
 mkdir "${SDKMAN_DIR}"/tmp
 
-# the end
-echo ""
-echo ""
-echo "Successfully upgraded SDKMAN!"
-echo ""
-echo "Open a new terminal to start using SDKMAN $SDKMAN_VERSION"
-echo "with $SDKMAN_NATIVE_VERSION native extensions."
-echo ""
-echo "You are subscribed to the BETA channel."
-echo "To return to STABLE, simply follow the instructions on:"
-echo ""
-echo "   http://sdkman.io/install"
-echo ""
-echo "Enjoy!!!"
-echo ""
+@includes.selfupdate_message(beta)
