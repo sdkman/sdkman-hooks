@@ -1,0 +1,7 @@
+@(hook: String, cliVersion: String, baseUrl: String, beta: Boolean)
+
+@if(beta){
+# @hook:- channel: beta; version: @cliVersion; api: @baseUrl
+} else {
+# @hook:- channel: stable; version: @cliVersion; api: @baseUrl
+}

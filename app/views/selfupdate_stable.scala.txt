@@ -3,7 +3,7 @@
 @(cliVersion: String, baseUrl: String, beta: Boolean)#!/bin/bash
 @includes.license()
 
-# selfupdate:- beta: @beta; version: @cliVersion; api: @baseUrl
+@includes.statusline("selfupdate", cliVersion, baseUrl, beta)
 
 # Global variables
 SDKMAN_SERVICE="@baseUrl"

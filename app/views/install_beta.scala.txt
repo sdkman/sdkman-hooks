@@ -1,7 +1,7 @@
 @(cliVersion: String, cliNativeVersion: String, baseUrl: String, rcUpdate: Boolean, beta: Boolean)#!/bin/bash
 @includes.license()
 
-# install:- beta: @beta; version: @cliVersion; api: @baseUrl
+@includes.statusline("install", cliVersion, baseUrl, beta)
 
 # Global variables
 SDKMAN_SERVICE="@baseUrl"
