@@ -32,14 +32,16 @@ class SelfUpdateController @Inject() (
             views.txt.selfupdate_beta(
               cliVersion = betaVersion,
               cliNativeVersion = stableNativeVersion,
-              baseUrl = betaBaseUrl
+              baseUrl = betaBaseUrl,
+              beta = beta
             )
           )
         } else {
           Ok(
             views.txt.selfupdate_stable(
               cliVersion = stableVersion,
-              baseUrl = stableBaseUrl
+              baseUrl = stableBaseUrl,
+              beta = beta
             )
           )
         }

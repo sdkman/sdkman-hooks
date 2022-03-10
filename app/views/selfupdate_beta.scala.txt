@@ -1,9 +1,9 @@
 @import java.time.LocalDateTime
 @import java.time.format.DateTimeFormatter
-@(cliVersion: String, cliNativeVersion: String, baseUrl: String)#!/bin/bash
+@(cliVersion: String, cliNativeVersion: String, baseUrl: String, beta: Boolean)#!/bin/bash
 @includes.license()
 
-# selfupdate:- channel: beta; version: @cliVersion; api: @baseUrl
+# selfupdate:- beta: @beta; version: @cliVersion; api: @baseUrl
 
 # Global variables
 SDKMAN_SERVICE="@baseUrl"
@@ -120,7 +120,7 @@ if ! grep 'sdkman_curl_max_time' "${sdkman_config_file_tmp}"; then
 fi
 
 if ! grep 'sdkman_beta_channel' "${sdkman_config_file_tmp}"; then
-	echo "sdkman_beta_channel=true" >> "$sdkman_config_file_tmp"
+	echo "sdkman_beta_channel=@beta" >> "$sdkman_config_file_tmp"
 fi
 
 if ! grep 'sdkman_debug_mode' "${sdkman_config_file_tmp}"; then
