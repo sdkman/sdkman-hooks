@@ -1,0 +1,20 @@
+@(beta: Boolean)
+echo -e "\n\n\nAll done!\n\n"
+@if(beta) {
+echo "You are subscribed to the BETA channel."
+echo "To use STABLE, simply follow the instructions on:"
+echo ""
+echo "   http://sdkman.io/install"
+} else {
+echo "You are subscribed to the STABLE channel."
+}
+echo ""
+echo "Please open a new terminal, or run the following in the existing one:"
+echo ""
+echo "    source \"${SDKMAN_DIR}/bin/sdkman-init.sh\""
+echo ""
+echo "Then issue the following command:"
+echo ""
+echo "    sdk help"
+echo ""
+echo "Enjoy!!!"

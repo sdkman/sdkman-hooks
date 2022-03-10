@@ -33,7 +33,8 @@ class InstallController @Inject() (
               cliVersion = betaVersion,
               cliNativeVersion = stableNativeVersion,
               baseUrl = betaBaseUrl,
-              rcUpdate = rcUpdate.getOrElse(true)
+              rcUpdate = rcUpdate.getOrElse(true),
+              beta = beta
             )
           )
         } else {
@@ -41,7 +42,8 @@ class InstallController @Inject() (
             views.txt.install_stable(
               cliVersion = stableVersion,
               baseUrl = stableBaseUrl,
-              rcUpdate = rcUpdate.getOrElse(true)
+              rcUpdate = rcUpdate.getOrElse(true),
+              beta = beta
             )
           )
         }
