@@ -1,0 +1,87 @@
+# Sanity checks
+
+echo "Looking for a previous installation of SDKMAN..."
+if [ -d "$SDKMAN_DIR" ]; then
+	echo "SDKMAN found."
+	echo ""
+	echo "======================================================================================================"
+	echo " You already have SDKMAN installed."
+	echo " SDKMAN was found at:"
+	echo ""
+	echo "    ${SDKMAN_DIR}"
+	echo ""
+	echo " Please consider running the following if you need to upgrade."
+	echo ""
+	echo "    $ sdk selfupdate force"
+	echo ""
+	echo "======================================================================================================"
+	echo ""
+	exit 0
+fi
+
+echo "Looking for unzip..."
+if ! command -v unzip > /dev/null; then
+	echo "Not found."
+	echo "======================================================================================================"
+	echo " Please install unzip on your system using your favourite package manager."
+	echo ""
+	echo " Restart after installing unzip."
+	echo "======================================================================================================"
+	echo ""
+	exit 1
+fi
+
+echo "Looking for zip..."
+if ! command -v zip > /dev/null; then
+	echo "Not found."
+	echo "======================================================================================================"
+	echo " Please install zip on your system using your favourite package manager."
+	echo ""
+	echo " Restart after installing zip."
+	echo "======================================================================================================"
+	echo ""
+	exit 1
+fi
+
+echo "Looking for curl..."
+if ! command -v curl > /dev/null; then
+	echo "Not found."
+	echo ""
+	echo "======================================================================================================"
+	echo " Please install curl on your system using your favourite package manager."
+	echo ""
+	echo " Restart after installing curl."
+	echo "======================================================================================================"
+	echo ""
+	exit 1
+fi
+
+if [[ "$solaris" == true ]]; then
+	echo "Looking for gsed..."
+	if [ -z $(which gsed) ]; then
+		echo "Not found."
+		echo ""
+		echo "======================================================================================================"
+		echo " Please install gsed on your solaris system."
+		echo ""
+		echo " SDKMAN uses gsed extensively."
+		echo ""
+		echo " Restart after installing gsed."
+		echo "======================================================================================================"
+		echo ""
+		exit 1
+	fi
+else
+	echo "Looking for sed..."
+	if [ -z $(command -v sed) ]; then
+		echo "Not found."
+		echo ""
+		echo "======================================================================================================"
+		echo " Please install sed on your system using your favourite package manager."
+		echo ""
+		echo " Restart after installing sed."
+		echo "======================================================================================================"
+		echo ""
+		exit 1
+	fi
+fi
