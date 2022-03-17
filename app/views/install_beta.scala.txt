@@ -10,10 +10,11 @@ SDKMAN_NATIVE_VERSION="@cliNativeVersion"
 SDKMAN_PLATFORM=$(uname)
 
 if [ -z "$SDKMAN_DIR" ]; then
-    SDKMAN_DIR="$HOME/.sdkman"
+    SDKMAN_DIR=$(readlink -f "$HOME/.sdkman")
     SDKMAN_DIR_RAW='$HOME/.sdkman'
 else
     SDKMAN_DIR_RAW="$SDKMAN_DIR"
+    SDKMAN_DIR=$(readlink -f $SDKMAN_DIR)
 fi
 
 # Local variables
