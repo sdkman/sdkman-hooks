@@ -14,22 +14,22 @@ object Candidate {
 case class Platform(identifier: String, name: String)
 object Platform {
 
-  def apply(id: String): Option[Platform] = id.toLowerCase match {
-    case LinuxPattern(_)         => Some(Linux)
-    case DarwinPattern(_)        => Some(MacOSX)
-    case WindowsCygwinPattern(_) => Some(Windows64Cygwin)
-    case WindowsMinGWPattern(_)  => Some(Windows64MinGW)
-    case "freebsd"               => Some(FreeBSD)
-    case "sunos"                 => Some(SunOS)
-    case _                       => None
+  def apply(id: String): Platform = id.toLowerCase match {
+    case LinuxPattern(_)         => Linux
+    case DarwinPattern(_)        => MacOSX
+    case WindowsCygwinPattern(_) => Windows64Cygwin
+    case WindowsMinGWPattern(_)  => Windows64MinGW
+    case "freebsd"               => FreeBSD
+    case "sunos"                 => SunOS
+    case _                       => Exotic
   }
 
   private val WindowsCygwinPattern = "(cygwin).*".r
 
-  private val WindowsMinGWPattern = "(mingw|msys).*".r
+  private val WindowsMinGWPattern = "(mingw64|msys).*".r
 
   private val LinuxPattern =
-    "(linux|linux32|linux64|linuxx32|linuxx64|linuxarm32|linuxarm64|linuxarm32sf|linuxarm32hf)".r
+    "(linux|linux64|linuxx64|linuxarm32|linuxarm64|linuxarm32sf|linuxarm32hf)".r
 
   private val DarwinPattern = "(darwin|darwinx64|darwinarm64)".r
 
@@ -39,7 +39,7 @@ object Platform {
   val Windows64MinGW  = Platform("MINGW", "MinGW")
   val FreeBSD         = Platform("FREE_BSD", "FreeBSD")
   val SunOS           = Platform("SUN_OS", "Solaris")
-  val Universal       = Platform("UNIVERSAL", "Universal")
+  val Exotic          = Platform("UNIVERSAL", "Universal")
 }
 
 object JdkDistro {

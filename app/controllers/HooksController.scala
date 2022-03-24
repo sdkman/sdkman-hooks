@@ -26,11 +26,13 @@ class HooksController @Inject() (cc: ControllerComponents)
       Future {
         val candidate = Candidate(candidateId)
 
-        val platform = Platform(platformId).getOrElse(Universal)
+        val platform = Platform(platformId)
 
         val vendor = determineVendor(version)
 
-        logger.info(s"$phase install hook requested for: $candidateId $version ${platform.name}")
+        logger.info(
+          s"$phase install hook requested for: $candidateId $version $platformId as ${platform.name}"
+        )
 
         (Hooks.from(phase), candidate, normalise(candidate, version), platform, vendor) match {
 
