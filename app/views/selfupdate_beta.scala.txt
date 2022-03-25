@@ -76,7 +76,8 @@ echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 __sdkman_echo_debug "Overwritten cache: $(cat "${SDKMAN_DIR}/var/candidates")"
 
 # prime config file
-__sdkman_echo_debug "Prime the config file..."
+echo "Update config file..."
+echo ""
 sdkman_config_file="${SDKMAN_DIR}/etc/config"
 sdkman_config_file_tmp="${SDKMAN_DIR}/etc/config.tmp"
 touch "$sdkman_config_file"
@@ -144,6 +145,8 @@ if ! grep 'sdkman_auto_update' "${sdkman_config_file_tmp}"; then
 fi
 
 # create config backup and overwrite with updated config
+echo "Create config file backup..."
+__sdkman_echo_debug "Write backup file: ${sdkman_config_file}-$cliVersion-@{now.format(formatter)}.bak"
 @defining(LocalDateTime.now()) { now =>
     @defining(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) { formatter =>
 mv "$sdkman_config_file" "${sdkman_config_file}-@{now.format(formatter)}.bak"
