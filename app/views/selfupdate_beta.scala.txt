@@ -145,12 +145,13 @@ if ! grep 'sdkman_auto_update' "${sdkman_config_file_tmp}"; then
 fi
 
 # create config backup and overwrite with updated config
+echo ""
 echo "Create config file backup..."
 @defining(LocalDateTime.now()) { now =>
     @defining(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) { formatter =>
 sdkman_config_file_backup="${sdkman_config_file}-@cliVersion-@{now.format(formatter)}.bak"
 __sdkman_echo_debug "Write backup file: $sdkman_config_file_backup"
-mv -v "$sdkman_config_file" "$sdkman_config_file_backup"
+mv "$sdkman_config_file" "$sdkman_config_file_backup"
     }
 }
 mv "$sdkman_config_file_tmp" "$sdkman_config_file"
