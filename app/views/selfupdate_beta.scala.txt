@@ -146,10 +146,11 @@ fi
 
 # create config backup and overwrite with updated config
 echo "Create config file backup..."
-__sdkman_echo_debug "Write backup file: ${sdkman_config_file}-$cliVersion-@{now.format(formatter)}.bak"
 @defining(LocalDateTime.now()) { now =>
     @defining(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) { formatter =>
-mv "$sdkman_config_file" "${sdkman_config_file}-$cliVersion-@{now.format(formatter)}.bak"
+sdkman_config_file_backup="${sdkman_config_file}-@cliVersion-@{now.format(formatter)}.bak"
+__sdkman_echo_debug "Write backup file: $sdkman_config_file_backup"
+mv -v "$sdkman_config_file" "$sdkman_config_file_backup"
     }
 }
 mv "$sdkman_config_file_tmp" "$sdkman_config_file"
