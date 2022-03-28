@@ -37,42 +37,32 @@ class HooksController @Inject() (cc: ControllerComponents)
         (Hooks.from(phase), candidate, normalise(candidate, version), platform, vendor) match {
 
           //POST: Mac OSX
-          case (Post, Java, _, MacOSX, BellSoft) =>
-            Ok(views.txt.default_post_zip(candidate, version, MacOSX))
-          case (Post, Java, _, MacOSX, Zulu) =>
-            Ok(views.txt.default_post_tarball(candidate, version, MacOSX))
-          case (Post, Java, _, MacOSX, ZuluFX) =>
-            Ok(views.txt.java_post_osx_tarball(candidate, version, MacOSX))
-          case (Post, Java, _, MacOSX, _) =>
-            Ok(views.txt.java_post_osx_tarball(candidate, version, MacOSX))
-          case (Post, JMC, _, MacOSX, _) =>
-            Ok(views.txt.jmc_post_unix_tarball(version, vendor, jmcBinaryExec(vendor, MacOSX)))
+          case (Post, Java, _, MacX64 | MacARM64, BellSoft) =>
+            Ok(views.txt.default_post_zip(candidate, version, platform))
+          case (Post, Java, _, MacX64 | MacARM64, Zulu) =>
+            Ok(views.txt.default_post_tarball(candidate, version, platform))
+          case (Post, Java, _, MacX64 | MacARM64, ZuluFX) =>
+            Ok(views.txt.java_post_osx_tarball(candidate, version, platform))
+          case (Post, Java, _, MacX64 | MacARM64, _) =>
+            Ok(views.txt.java_post_osx_tarball(candidate, version, platform))
+          case (Post, JMC, _, MacX64 | MacARM64, _) =>
+            Ok(views.txt.jmc_post_unix_tarball(version, vendor, jmcBinaryExec(vendor, MacX64)))
 
-          //POST: Linux
-          case (Post, Java, _, Linux, _) =>
-            Ok(views.txt.java_post_linux_tarball(candidate, version, Linux))
-          case (Post, JMC, _, Linux, _) =>
-            Ok(views.txt.jmc_post_unix_tarball(version, vendor, jmcBinaryExec(vendor, Linux)))
+          //POST: Linux 64 bit
+          case (Post, Java, _, LinuxX32 | LinuxX64 | LinuxARM64 | LinuxARM32HF | LinuxARM32SF, _) =>
+            Ok(views.txt.java_post_linux_tarball(candidate, version, platform))
+          case (Post, JMC, _, LinuxX32 | LinuxX64 | LinuxARM64 | LinuxARM32HF | LinuxARM32SF, _) =>
+            Ok(views.txt.jmc_post_unix_tarball(version, vendor, jmcBinaryExec(vendor, platform)))
 
-          //POST: Cygwin
-          case (Post, Java, "9", Windows64Cygwin, OpenJDK) =>
-            Ok(views.txt.default_post_tarball(candidate, version, Windows64Cygwin))
-          case (Post, Java, "10", Windows64Cygwin, OpenJDK) =>
-            Ok(views.txt.default_post_tarball(candidate, version, Windows64Cygwin))
-          case (Post, Java, _, Windows64Cygwin, _) =>
-            Ok(views.txt.default_post_zip(candidate, version, Windows64Cygwin))
-          case (Post, JMC, _, Windows64Cygwin, _) =>
-            Ok(views.txt.jmc_post_win_zip(version, vendor, jmcBinaryExec(vendor, Windows64Cygwin)))
-
-          //POST: Mysys
-          case (Post, Java, "9", Windows64MinGW, OpenJDK) =>
-            Ok(views.txt.default_post_tarball(candidate, version, Windows64MinGW))
-          case (Post, Java, "10", Windows64MinGW, OpenJDK) =>
-            Ok(views.txt.default_post_tarball(candidate, version, Windows64MinGW))
-          case (Post, Java, _, Windows64MinGW, _) =>
-            Ok(views.txt.default_post_zip(candidate, version, Windows64MinGW))
-          case (Post, JMC, _, Windows64MinGW, _) =>
-            Ok(views.txt.jmc_post_win_zip(version, vendor, jmcBinaryExec(vendor, Windows64MinGW)))
+          //POST: Windows
+          case (Post, Java, "9", Windows64, OpenJDK) =>
+            Ok(views.txt.default_post_tarball(candidate, version, platform))
+          case (Post, Java, "10", Windows64, OpenJDK) =>
+            Ok(views.txt.default_post_tarball(candidate, version, platform))
+          case (Post, Java, _, Windows64, _) =>
+            Ok(views.txt.default_post_zip(candidate, version, platform))
+          case (Post, JMC, _, Windows64, _) =>
+            Ok(views.txt.jmc_post_win_zip(version, vendor, jmcBinaryExec(vendor, Windows64)))
 
           //POST
           case (Post, Java, _, _, _) =>
@@ -102,13 +92,17 @@ class HooksController @Inject() (cc: ControllerComponents)
 
   private def jmcBinaryExec(vendor: String, platform: Platform) =
     (vendor, platform) match {
-      case ("zulu", Platform.MacOSX)          => "Azul Mission Control.app/Contents/MacOS/zmc"
-      case ("zulu", Platform.Linux)           => "Azul Mission Control/zmc"
-      case ("zulu", Platform.Windows64Cygwin) => "Azul Mission Control/zmc.exe"
-      case ("zulu", Platform.Windows64MinGW)  => "Azul Mission Control/zmc.exe"
-      case ("adpt", Platform.MacOSX)          => "JDK Mission Control.app/Contents/MacOS/jmc"
-      case ("adpt", Platform.Windows64Cygwin) => "JDK Mission Control/jmc.exe"
-      case ("adpt", Platform.Windows64MinGW)  => "JDK Mission Control/jmc.exe"
-      case _                                  => "JDK Mission Control/jmc"
+      case ("zulu", Platform.MacX64)       => "Azul Mission Control.app/Contents/MacOS/zmc"
+      case ("zulu", Platform.MacARM64)     => "Azul Mission Control.app/Contents/MacOS/zmc"
+      case ("zulu", Platform.LinuxX32)     => "Azul Mission Control/zmc"
+      case ("zulu", Platform.LinuxX64)     => "Azul Mission Control/zmc"
+      case ("zulu", Platform.LinuxARM64)   => "Azul Mission Control/zmc"
+      case ("zulu", Platform.LinuxARM32SF) => "Azul Mission Control/zmc"
+      case ("zulu", Platform.LinuxARM32HF) => "Azul Mission Control/zmc"
+      case ("zulu", Platform.Windows64)    => "Azul Mission Control/zmc.exe"
+      case (_, Platform.LinuxX64)          => "JDK Mission Control/jmc"
+      case (_, Platform.MacX64)            => "JDK Mission Control.app/Contents/MacOS/jmc"
+      case (_, Platform.Windows64)         => "JDK Mission Control/jmc.exe"
+      case _                               => "JDK Mission Control/jmc"
     }
 }

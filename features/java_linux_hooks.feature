@@ -8,6 +8,8 @@ Feature: Java Linux Hooks
       | uri                                          | contains                      |
       | /hooks/post/java/8.0.161-zulu/linuxx64       | Post Hook: linux-java-tarball |
       | /hooks/post/java/8.0.161-zulu/linuxarm64     | Post Hook: linux-java-tarball |
+      | /hooks/post/java/8.0.161-zulu/linuxarm32sf   | Post Hook: linux-java-tarball |
+      | /hooks/post/java/8.0.161-zulu/linuxarm32hf   | Post Hook: linux-java-tarball |
       | /hooks/post/java/8.0.192-zulufx/linuxx64     | Post Hook: linux-java-tarball |
       | /hooks/post/java/8.0.192-zulufx/linuxarm64   | Post Hook: linux-java-tarball |
       | /hooks/post/java/9.0.4-open/linuxx64         | Post Hook: linux-java-tarball |
