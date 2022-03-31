@@ -92,17 +92,18 @@ class HooksController @Inject() (cc: ControllerComponents)
 
   private def jmcBinaryExec(vendor: String, platform: Platform) =
     (vendor, platform) match {
-      case ("zulu", Platform.MacX64)       => "Azul Mission Control.app/Contents/MacOS/zmc"
-      case ("zulu", Platform.MacARM64)     => "Azul Mission Control.app/Contents/MacOS/zmc"
-      case ("zulu", Platform.LinuxX32)     => "Azul Mission Control/zmc"
-      case ("zulu", Platform.LinuxX64)     => "Azul Mission Control/zmc"
-      case ("zulu", Platform.LinuxARM64)   => "Azul Mission Control/zmc"
-      case ("zulu", Platform.LinuxARM32SF) => "Azul Mission Control/zmc"
-      case ("zulu", Platform.LinuxARM32HF) => "Azul Mission Control/zmc"
-      case ("zulu", Platform.Windows64)    => "Azul Mission Control/zmc.exe"
-      case (_, Platform.LinuxX64)          => "JDK Mission Control/jmc"
-      case (_, Platform.MacX64)            => "JDK Mission Control.app/Contents/MacOS/jmc"
-      case (_, Platform.Windows64)         => "JDK Mission Control/jmc.exe"
-      case _                               => "JDK Mission Control/jmc"
+      case ("zulu", MacX64 | MacARM64) =>
+        "Azul Mission Control.app/Contents/MacOS/zmc"
+      case ("zulu", LinuxX32 | LinuxX64 | LinuxARM64 | LinuxARM32SF | LinuxARM32HF) =>
+        "Azul Mission Control/zmc"
+      case ("zulu", Windows64) =>
+        "Azul Mission Control/zmc.exe"
+      case (_, LinuxX64) =>
+        "JDK Mission Control/jmc"
+      case (_, MacX64) =>
+        "JDK Mission Control.app/Contents/MacOS/jmc"
+      case (_, Windows64) =>
+        "JDK Mission Control/jmc.exe"
+      case _ => "JDK Mission Control/jmc"
     }
 }
