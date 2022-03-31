@@ -1,7 +1,12 @@
 set -e
 
-#keep track of the last executed command
-trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
+track_last_command() {
+    last_command=$current_command
+    current_command=$BASH_COMMAND
+}
+trap track_last_command DEBUG
 
-#echo error message before exiting
-trap 'echo "\"${last_command}\": command failed with exit code $?."' EXIT
+echo_failed_command() {
+    echo "'$last_command': command failed with exit code $?."
+}
+trap echo_failed_command EXIT
