@@ -25,12 +25,12 @@ object Platform {
     case "darwinarm64"    => MacARM64
     case CygwinPattern(c) => Windows64
     // backward compat
-    case "darwin"         => MacX64
-    case "linux"          => LinuxX64
-    case "linux64"        => LinuxX64
-    case "freebsd"        => FreeBSD
-    case "sunos"          => SunOS
-    case _                => Exotic
+    case "darwin"  => MacX64
+    case "linux"   => LinuxX64
+    case "linux64" => LinuxX64
+    case "freebsd" => FreeBSD
+    case "sunos"   => SunOS
+    case _         => Exotic
   }
 
   private val CygwinPattern = "(cygwin|mingw64|msys).*".r
