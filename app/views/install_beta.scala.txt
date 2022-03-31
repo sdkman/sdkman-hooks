@@ -1,6 +1,8 @@
 @(cliVersion: String, cliNativeVersion: String, baseUrl: String, rcUpdate: Boolean, beta: Boolean)#!/bin/bash
 @includes.license()
 
+@includes.trap_errors()
+
 @includes.statusline("install", cliVersion, baseUrl, beta)
 
 # Global variables
