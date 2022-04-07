@@ -33,6 +33,7 @@ fi
 sdkman_bin_folder="${SDKMAN_DIR}/bin"
 sdkman_contrib_folder="${SDKMAN_DIR}/contrib"
 sdkman_src_folder="${SDKMAN_DIR}/src"
+sdkman_archives_folder="${SDKMAN_DIR}/archives"
 sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
 sdkman_zip_file="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip"
 sdkman_zip_base_folder="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
@@ -70,6 +71,7 @@ rm -rf $sdkman_contrib_folder
 rm -rf $sdkman_src_folder
 mv "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
 rm -rf "$sdkman_zip_base_folder"
+rm -rf "$sdkman_archives_folder"
 
 # prepare candidates
 SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
