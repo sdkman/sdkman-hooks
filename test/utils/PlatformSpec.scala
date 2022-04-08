@@ -1,9 +1,9 @@
 package utils
 
 import domain.Platform
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.{Matchers, OptionValues, WordSpec}
 
-class PlatformSpec extends WordSpec with Matchers {
+class PlatformSpec extends WordSpec with Matchers with OptionValues {
   "platform" should {
     "return some platform when presented with a valid client platform identifier" in {
       Platform("cygwin_nt-6.1") shouldBe Platform.Windows64
@@ -39,6 +39,14 @@ class PlatformSpec extends WordSpec with Matchers {
 
     "return none when presented with an unknown client platform identifier" in {
       Platform("exotic") shouldBe Platform.Exotic
+    }
+
+    "return a valid platform triple for platforms with native support" in {
+      Platform("linuxx64").triple.value shouldBe "x86_64-unknown-linux-gnu"
+      Platform("linuxarm64").triple.value shouldBe "aarch64-unknown-linux-gnu"
+      Platform("darwinx64").triple.value shouldBe "x86_64-apple-darwin"
+      Platform("darwinarm64").triple.value shouldBe "aarch64-apple-darwin"
+      Platform("cygwin_nt-6.1").triple.value shouldBe "x86_64-pc-windows-msvc"
     }
   }
 }
