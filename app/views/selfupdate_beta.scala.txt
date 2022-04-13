@@ -1,6 +1,7 @@
+@import domain.Platform
 @import java.time.LocalDateTime
 @import java.time.format.DateTimeFormatter
-@(cliVersion: String, cliNativeVersion: String, baseUrl: String, beta: Boolean)#!/bin/bash
+@(cliVersion: String, cliNativeVersion: String, baseUrl: String, platform: Option[Platform], beta: Boolean)#!/bin/bash
 @includes.license()
 
 @includes.trap_errors()
@@ -11,7 +12,9 @@
 SDKMAN_SERVICE="@baseUrl"
 SDKMAN_VERSION="@cliVersion"
 SDKMAN_NATIVE_VERSION="@cliNativeVersion"
-SDKMAN_PLATFORM=$(uname)
+if [[ -z "$SDKMAN_PLATFORM" ]]; then
+    SDKMAN_PLATFORM="unknown"
+fi
 
 @includes.os()
 
@@ -31,18 +34,19 @@ if [ -z "$SDKMAN_DIR" ]; then
 fi
 
 sdkman_bin_folder="${SDKMAN_DIR}/bin"
+sdkman_libexec_folder="${SDKMAN_DIR}/libexec"
 sdkman_contrib_folder="${SDKMAN_DIR}/contrib"
 sdkman_src_folder="${SDKMAN_DIR}/src"
 sdkman_archives_folder="${SDKMAN_DIR}/archives"
 sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
+
+# fetch new cli distribution and check integrity
+download_url="${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}"
 sdkman_zip_file="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip"
 sdkman_zip_base_folder="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
-
-# fetch new distribution and check integrity
-download_url="${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}"
 __sdkman_echo_debug "Download new scripts from: ${download_url}"
 __sdkman_echo_debug "Download new scripts to: ${sdkman_zip_file}"
-curl --location --progress-bar "$download_url" > "$sdkman_zip_file"
+curl --fail --location --progress-bar "$download_url" > "$sdkman_zip_file"
 
 ARCHIVE_OK=$(unzip -qt "$sdkman_zip_file" | grep 'No errors detected in compressed data')
 if [[ -z "$ARCHIVE_OK" ]]; then
@@ -72,6 +76,44 @@ rm -rf $sdkman_src_folder
 mv "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
 rm -rf "$sdkman_zip_base_folder"
 rm -rf "$sdkman_archives_folder"
+
+
+@for(p <- platform) {
+# fetch new native distribution and check integrity
+download_url="${SDKMAN_SERVICE}/broker/download/native/selfupdate/${SDKMAN_NATIVE_VERSION}/${SDKMAN_PLATFORM}"
+sdkman_zip_file="${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip"
+sdkman_zip_base_folder="${sdkman_tmp_folder}/sdkman-cli-native-${SDKMAN_NATIVE_VERSION}-@{p.triple}"
+__sdkman_echo_debug "Download new native binaries from: ${download_url}"
+__sdkman_echo_debug "Download new native binaries to: ${sdkman_zip_file}"
+curl --fail --location --progress-bar "$download_url" > "$sdkman_zip_file"
+
+ARCHIVE_OK=$(unzip -qt "$sdkman_zip_file" | grep 'No errors detected in compressed data')
+if [[ -z "$ARCHIVE_OK" ]]; then
+	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
+	echo ""
+	echo "If problems persist, please ask for help on our Slack:"
+	echo "* easy sign up: https://slack.sdkman.io/"
+	echo "* report on channel: https://sdkman.slack.com/app_redirect?channel=user-issues"
+	exit
+fi
+
+echo "Install binaries..."
+rm -rf $sdkman_libexec_folder
+mv "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
+rm -rf "$sdkman_zip_base_folder"
+
+# extract new distribution
+__sdkman_echo_debug "Extract script archive..."
+__sdkman_echo_debug "Unzipping script archive to: ${sdkman_tmp_folder}"
+if [[ "$cygwin" == 'true' ]]; then
+	__sdkman_echo_debug "Cygwin detected - normalizing paths for unzip..."
+	sdkman_tmp_folder=$(cygpath -w "$sdkman_tmp_folder")
+	sdkman_zip_file=$(cygpath -w "$sdkman_zip_file")
+	sdkman_zip_base_folder=$(cygpath -w "$sdkman_zip_base_folder")
+fi
+unzip -qo "$sdkman_zip_file" -d "$sdkman_tmp_folder"
+}
+
 
 # prepare candidates
 SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
