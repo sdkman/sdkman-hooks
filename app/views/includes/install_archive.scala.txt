@@ -3,8 +3,6 @@
 download_url="@url"
 sdkman_zip_file="@targetZip"
 sdkman_zip_base_folder="@baseFolder"
-__sdkman_echo_debug "Download new scripts from: ${download_url}"
-__sdkman_echo_debug "Download new scripts to: ${sdkman_zip_file}"
 echo "* Downloading..."
 curl --fail --location --progress-bar "$download_url" > "$sdkman_zip_file"
 
@@ -22,10 +20,7 @@ fi
 
 # extract
 echo "* Extracting archive..."
-__sdkman_echo_debug "Extract script archive ${sdkman_zip_file}..."
-__sdkman_echo_debug "Unzipping script archive to: ${sdkman_tmp_folder}"
 if [[ "$cygwin" == 'true' ]]; then
-	__sdkman_echo_debug "Cygwin detected - normalizing paths for unzip..."
 	sdkman_tmp_folder=$(cygpath -w "$sdkman_tmp_folder")
 	sdkman_zip_file=$(cygpath -w "$sdkman_zip_file")
 	sdkman_zip_base_folder=$(cygpath -w "$sdkman_zip_base_folder")
@@ -35,7 +30,6 @@ unzip -qo "$sdkman_zip_file" -d "$sdkman_tmp_folder"
 # copy in place
 
 echo "* Copying archive contents..."
-__sdkman_echo_debug "Copying over archive contents to: ${SDKMAN_DIR}"
 cp -rf "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
 
 # clean up

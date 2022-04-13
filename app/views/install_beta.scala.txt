@@ -20,8 +20,6 @@ fi
 
 # Local variables
 sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
-sdkman_zip_file="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip"
-sdkman_zip_base_folder="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
 sdkman_ext_folder="${SDKMAN_DIR}/ext"
 sdkman_etc_folder="${SDKMAN_DIR}/etc"
 sdkman_var_folder="${SDKMAN_DIR}/var"
@@ -81,32 +79,13 @@ echo "sdkman_insecure_ssl=false" >> "$sdkman_config_file"
 echo "sdkman_rosetta2_compatible=false" >> "$sdkman_config_file"
 echo "sdkman_selfupdate_feature=true" >> "$sdkman_config_file"
 
-echo "Download script archive..."
-curl --location --progress-bar "${SDKMAN_SERVICE}/broker/download/sdkman/install/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}" > "$sdkman_zip_file"
-
-ARCHIVE_OK=$(unzip -qt "$sdkman_zip_file" | grep 'No errors detected in compressed data')
-if [[ -z "$ARCHIVE_OK" ]]; then
-	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
-	echo ""
-	echo "If problems persist, please ask for help on our Slack:"
-	echo "* easy sign up: https://slack.sdkman.io/"
-	echo "* report on channel: https://sdkman.slack.com/app_redirect?channel=user-issues"
-	rm -rf "$SDKMAN_DIR"
-	exit 1
-fi
-
-echo "Extract script archive..."
-if [[ "$cygwin" == 'true' ]]; then
-	echo "Cygwin detected - normalizing paths for unzip..."
-	sdkman_tmp_folder=$(cygpath -w "$sdkman_tmp_folder")
-	sdkman_zip_file=$(cygpath -w "$sdkman_zip_file")
-	sdkman_zip_base_folder=$(cygpath -w "$sdkman_zip_base_folder")
-fi
-unzip -qo "$sdkman_zip_file" -d "$sdkman_tmp_folder"
-
-echo "Install scripts..."
-mv "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
-rm -rf "$sdkman_zip_base_folder"
+# script cli distribution
+echo "Installing script cli archive..."
+@includes.install_archive(
+    "${SDKMAN_SERVICE}/broker/download/sdkman/install/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}",
+    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip",
+    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
+)
 
 echo "Set version to $SDKMAN_VERSION ..."
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
