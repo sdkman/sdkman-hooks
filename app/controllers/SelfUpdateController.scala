@@ -1,5 +1,6 @@
 package controllers
 
+import domain.Platform
 import play.api.Configuration
 import play.api.mvc._
 import repo.ApplicationRepo
@@ -17,7 +18,7 @@ class SelfUpdateController @Inject() (
 
   private val betaBaseUrlO = configUrl("service.betaBaseUrl")
 
-  def selfUpdate(beta: Boolean) = Action.async { _ =>
+  def selfUpdate(beta: Boolean, platformId: String) = Action.async { _ =>
     appRepo.findApplication().map { maybeApp =>
       val response = for {
         stableBaseUrl <- stableBaseUrlO
@@ -26,6 +27,7 @@ class SelfUpdateController @Inject() (
         stableVersion       = app.stableCliVersion
         betaVersion         = app.betaCliVersion
         stableNativeVersion = app.stableNativeCliVersion
+        platform = Platform(platformId).native
       } yield
         if (beta) {
           Ok(
@@ -33,6 +35,7 @@ class SelfUpdateController @Inject() (
               cliVersion = betaVersion,
               cliNativeVersion = stableNativeVersion,
               baseUrl = betaBaseUrl,
+              platform = platform,
               beta = beta
             )
           )
