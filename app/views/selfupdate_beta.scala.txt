@@ -40,80 +40,24 @@ sdkman_src_folder="${SDKMAN_DIR}/src"
 sdkman_archives_folder="${SDKMAN_DIR}/archives"
 sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
 
-# fetch new cli distribution and check integrity
-download_url="${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}"
-sdkman_zip_file="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip"
-sdkman_zip_base_folder="${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
-__sdkman_echo_debug "Download new scripts from: ${download_url}"
-__sdkman_echo_debug "Download new scripts to: ${sdkman_zip_file}"
-curl --fail --location --progress-bar "$download_url" > "$sdkman_zip_file"
+# script cli distribution
+echo "Installing script cli archive..."
+@includes.install_archive(
+    "${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}",
+    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip",
+    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
+)
 
-ARCHIVE_OK=$(unzip -qt "$sdkman_zip_file" | grep 'No errors detected in compressed data')
-if [[ -z "$ARCHIVE_OK" ]]; then
-	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
-	echo ""
-	echo "If problems persist, please ask for help on our Slack:"
-	echo "* easy sign up: https://slack.sdkman.io/"
-	echo "* report on channel: https://sdkman.slack.com/app_redirect?channel=user-issues"
-	exit
-fi
-
-# extract new distribution
-__sdkman_echo_debug "Extract script archive..."
-__sdkman_echo_debug "Unzipping script archive to: ${sdkman_tmp_folder}"
-if [[ "$cygwin" == 'true' ]]; then
-	__sdkman_echo_debug "Cygwin detected - normalizing paths for unzip..."
-	sdkman_tmp_folder=$(cygpath -w "$sdkman_tmp_folder")
-	sdkman_zip_file=$(cygpath -w "$sdkman_zip_file")
-	sdkman_zip_base_folder=$(cygpath -w "$sdkman_zip_base_folder")
-fi
-unzip -qo "$sdkman_zip_file" -d "$sdkman_tmp_folder"
-
-echo "Install scripts..."
-rm -rf $sdkman_bin_folder
-rm -rf $sdkman_contrib_folder
-rm -rf $sdkman_src_folder
-mv "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
-rm -rf "$sdkman_zip_base_folder"
-rm -rf "$sdkman_archives_folder"
-
-
+# native cli distribution for supported platforms only
+echo "Installing native cli archive..."
 @for(p <- platform) {
-# fetch new native distribution and check integrity
-download_url="${SDKMAN_SERVICE}/broker/download/native/selfupdate/${SDKMAN_NATIVE_VERSION}/${SDKMAN_PLATFORM}"
-sdkman_zip_file="${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip"
-sdkman_zip_base_folder="${sdkman_tmp_folder}/sdkman-cli-native-${SDKMAN_NATIVE_VERSION}-@{p.triple}"
-__sdkman_echo_debug "Download new native binaries from: ${download_url}"
-__sdkman_echo_debug "Download new native binaries to: ${sdkman_zip_file}"
-curl --fail --location --progress-bar "$download_url" > "$sdkman_zip_file"
-
-ARCHIVE_OK=$(unzip -qt "$sdkman_zip_file" | grep 'No errors detected in compressed data')
-if [[ -z "$ARCHIVE_OK" ]]; then
-	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
-	echo ""
-	echo "If problems persist, please ask for help on our Slack:"
-	echo "* easy sign up: https://slack.sdkman.io/"
-	echo "* report on channel: https://sdkman.slack.com/app_redirect?channel=user-issues"
-	exit
-fi
-
-echo "Install binaries..."
-rm -rf $sdkman_libexec_folder
-mv "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
-rm -rf "$sdkman_zip_base_folder"
-
-# extract new distribution
-__sdkman_echo_debug "Extract script archive..."
-__sdkman_echo_debug "Unzipping script archive to: ${sdkman_tmp_folder}"
-if [[ "$cygwin" == 'true' ]]; then
-	__sdkman_echo_debug "Cygwin detected - normalizing paths for unzip..."
-	sdkman_tmp_folder=$(cygpath -w "$sdkman_tmp_folder")
-	sdkman_zip_file=$(cygpath -w "$sdkman_zip_file")
-	sdkman_zip_base_folder=$(cygpath -w "$sdkman_zip_base_folder")
-fi
-unzip -qo "$sdkman_zip_file" -d "$sdkman_tmp_folder"
+native_triple="@p.triple"
+@includes.install_archive(
+    "${SDKMAN_SERVICE}/broker/download/native/selfupdate/${SDKMAN_NATIVE_VERSION}/${SDKMAN_PLATFORM}",
+    "${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip",
+    "${sdkman_tmp_folder}/sdkman-cli-native-${SDKMAN_NATIVE_VERSION}-${native_triple}"
+)
 }
-
 
 # prepare candidates
 SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
@@ -122,7 +66,7 @@ echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 __sdkman_echo_debug "Overwritten cache: $(cat "${SDKMAN_DIR}/var/candidates")"
 
 # prime config file
-echo "Update config file..."
+echo "Updating config file..."
 echo ""
 sdkman_config_file="${SDKMAN_DIR}/etc/config"
 sdkman_config_file_tmp="${SDKMAN_DIR}/etc/config.tmp"
@@ -192,7 +136,7 @@ fi
 
 # create config backup and overwrite with updated config
 echo ""
-echo "Create config file backup..."
+echo "Creating config file backup..."
 @defining(LocalDateTime.now()) { now =>
     @defining(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) { formatter =>
 sdkman_config_file_backup="${sdkman_config_file}-@cliVersion-@{now.format(formatter)}.bak"

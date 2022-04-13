@@ -1,0 +1,46 @@
+@(url: String, targetZip: String, baseFolder: String)
+# fetch distribution
+download_url="@url"
+sdkman_zip_file="@targetZip"
+sdkman_zip_base_folder="@baseFolder"
+__sdkman_echo_debug "Download new scripts from: ${download_url}"
+__sdkman_echo_debug "Download new scripts to: ${sdkman_zip_file}"
+echo "* Downloading..."
+curl --fail --location --progress-bar "$download_url" > "$sdkman_zip_file"
+
+# check integrity
+echo "* Checking archive integrity..."
+ARCHIVE_OK=$(unzip -qt "$sdkman_zip_file" | grep 'No errors detected in compressed data')
+if [[ -z "$ARCHIVE_OK" ]]; then
+	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
+	echo ""
+	echo "If problems persist, please ask for help on our Slack:"
+	echo "* easy sign up: https://slack.sdkman.io/"
+	echo "* report on channel: https://sdkman.slack.com/app_redirect?channel=user-issues"
+	exit
+fi
+
+# extract
+echo "* Extracting archive..."
+__sdkman_echo_debug "Extract script archive ${sdkman_zip_file}..."
+__sdkman_echo_debug "Unzipping script archive to: ${sdkman_tmp_folder}"
+if [[ "$cygwin" == 'true' ]]; then
+	__sdkman_echo_debug "Cygwin detected - normalizing paths for unzip..."
+	sdkman_tmp_folder=$(cygpath -w "$sdkman_tmp_folder")
+	sdkman_zip_file=$(cygpath -w "$sdkman_zip_file")
+	sdkman_zip_base_folder=$(cygpath -w "$sdkman_zip_base_folder")
+fi
+unzip -qo "$sdkman_zip_file" -d "$sdkman_tmp_folder"
+
+# copy in place
+
+echo "* Copying archive contents..."
+__sdkman_echo_debug "Copying over archive contents to: ${SDKMAN_DIR}"
+cp -rf "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
+
+# clean up
+echo "* Cleaning up..."
+rm -rf "$sdkman_zip_base_folder"
+rm -rf "$sdkman_zip_file"
+
+echo ""
