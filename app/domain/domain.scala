@@ -11,7 +11,9 @@ object Candidate {
   val JMC    = Candidate("jmc")
 }
 
-case class Platform(distribution: String, name: String, triple: Option[String] = None)
+case class Platform(distribution: String, name: String, triple: Option[String] = None) {
+  val native: Option[Platform] = Some(this).filter(_.triple.isDefined)
+}
 
 object Platform {
 
