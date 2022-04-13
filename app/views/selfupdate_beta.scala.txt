@@ -48,9 +48,9 @@ echo "Installing script cli archive..."
     "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
 )
 
+@for(p <- platform) {
 # native cli distribution for supported platforms only
 echo "Installing native cli archive..."
-@for(p <- platform) {
 native_triple="@p.triple"
 @includes.install_archive(
     "${SDKMAN_SERVICE}/broker/download/native/selfupdate/${SDKMAN_NATIVE_VERSION}/${SDKMAN_PLATFORM}",
