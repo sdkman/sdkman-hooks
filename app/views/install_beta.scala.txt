@@ -4,7 +4,7 @@
 
 @includes.trap_errors()
 
-@includes.statusline("install", cliVersion, baseUrl, beta)
+@includes.statusline("install", cliVersion, cliNativeVersion, baseUrl, beta)
 
 # Global variables
 SDKMAN_SERVICE="@baseUrl"

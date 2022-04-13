@@ -6,7 +6,7 @@
 
 @includes.trap_errors()
 
-@includes.statusline("selfupdate", cliVersion, baseUrl, beta)
+@includes.statusline("selfupdate", cliVersion, cliNativeVersion, baseUrl, beta)
 
 # Global variables
 SDKMAN_SERVICE="@baseUrl"
