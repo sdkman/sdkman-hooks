@@ -1,5 +1,6 @@
 package controllers
 
+import domain.Platform
 import play.api.Configuration
 import play.api.mvc.{AbstractController, ControllerComponents}
 import repo.ApplicationRepo
@@ -17,7 +18,7 @@ class InstallController @Inject() (
 
   private val betaBaseUrlO = configUrl("service.betaBaseUrl")
 
-  def install(beta: Boolean, rcUpdate: Option[Boolean]) = Action.async { _ =>
+  def install(beta: Boolean, platformId: String, rcUpdate: Option[Boolean]) = Action.async { _ =>
     appRepo.findApplication().map { maybeApp =>
       val response = for {
         stableBaseUrl <- stableBaseUrlO
@@ -33,6 +34,7 @@ class InstallController @Inject() (
               cliVersion = betaVersion,
               cliNativeVersion = stableNativeVersion,
               baseUrl = betaBaseUrl,
+              platform = Platform(platformId).native,
               rcUpdate = rcUpdate.getOrElse(true),
               beta = beta
             )
