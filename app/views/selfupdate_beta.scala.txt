@@ -4,9 +4,9 @@
 @(cliVersion: String, cliNativeVersion: String, baseUrl: String, platform: Option[Platform], beta: Boolean)#!/bin/bash
 @includes.license()
 
-@includes.trap_errors()
-
 @includes.statusline("selfupdate", cliVersion, cliNativeVersion, baseUrl, beta)
+
+@includes.trap_errors()
 
 # Global variables
 SDKMAN_SERVICE="@baseUrl"
