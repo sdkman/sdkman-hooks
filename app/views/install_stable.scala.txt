@@ -26,7 +26,6 @@ sdkman_archives_folder="${SDKMAN_DIR}/archives"
 sdkman_candidates_folder="${SDKMAN_DIR}/candidates"
 sdkman_config_file="${sdkman_etc_folder}/config"
 sdkman_bash_profile="${HOME}/.bash_profile"
-sdkman_profile="${HOME}/.profile"
 sdkman_bashrc="${HOME}/.bashrc"
 sdkman_zshrc="${ZDOTDIR:-${HOME}}/.zshrc"
 
