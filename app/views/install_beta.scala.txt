@@ -18,6 +18,7 @@ if [ -z "$SDKMAN_DIR" ]; then
 else
     SDKMAN_DIR_RAW="$SDKMAN_DIR"
 fi
+export SDKMAN_DIR
 
 # Local variables
 sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
