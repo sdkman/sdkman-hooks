@@ -21,21 +21,15 @@ Feature: Native installation and selfupdate
     And the response script does not contain "# native cli distribution for supported platforms only"
     And the response script does not contain "native_triple"
 
-  Scenario: An installation is performed on the beta channel for a know platform
-    When a request is made to the /install/beta/linuxx64 endpoint
+  Scenario: A native installation is performed on the beta channel for a know platform
+    When a request is made to the /install/native/linuxx64 endpoint
     Then a 200 status code is received
-    And the response script contains "# install:- channel: beta; cliVersion: latest+bff371f; cliNativeVersion: 0.1.0; api: https://beta.sdkman.io/2"
-    And the response script contains "SDKMAN_NATIVE_VERSION="0.1.0""
-    And the response script contains "# native cli distribution for supported platforms only"
-    And the response script contains "native_triple="x86_64-unknown-linux-gnu""
+    And the response script contains "# native extensions supported for Linux 64bit"
 
-  Scenario: An installation is performed on the beta channel for an unknown platform
-    When a request is made to the /install/beta/unknown endpoint
+  Scenario: A native installation is performed on the beta channel for an unknow platform
+    When a request is made to the /install/native/exotic endpoint
     Then a 200 status code is received
-    And the response script contains "# install:- channel: beta; cliVersion: latest+bff371f; cliNativeVersion: 0.1.0; api: https://beta.sdkman.io/2"
-    And the response script contains "SDKMAN_NATIVE_VERSION="0.1.0""
-    And the response script does not contain "# native cli distribution for supported platforms only"
-    And the response script does not contain "native_triple"
+    And the response script contains "# no native extensions support for exotic"
 
   Scenario: A selfupdate is performed on the stable channel for a know platform
     When a request is made to the /selfupdate/stable/linuxx64 endpoint
