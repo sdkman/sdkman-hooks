@@ -7,6 +7,7 @@ import repo.ApplicationRepo
 
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class InstallController @Inject() (
     cc: ControllerComponents,
@@ -18,7 +19,8 @@ class InstallController @Inject() (
 
   private val betaBaseUrlO = configUrl("service.betaBaseUrl")
 
-  def install(beta: Boolean, platformId: String, rcUpdate: Option[Boolean]) = Action.async { _ =>
+  def install(beta: Boolean, rcUpdate: Option[Boolean]) = Action.async { _ =>
+    val platformId = "unknown"
     appRepo.findApplication().map { maybeApp =>
       val response = for {
         stableBaseUrl <- stableBaseUrlO
@@ -34,7 +36,6 @@ class InstallController @Inject() (
               cliVersion = betaVersion,
               cliNativeVersion = stableNativeVersion,
               baseUrl = betaBaseUrl,
-              platform = Platform(platformId).native,
               rcUpdate = rcUpdate.getOrElse(true),
               beta = beta
             )
@@ -54,4 +55,12 @@ class InstallController @Inject() (
   }
 
   private def configUrl(url: String): Option[String] = config.getOptional[String](url)
+
+  def native(platformId: String) = Action.async { _ =>
+    Future.successful {
+      Platform(platformId).native.fold(Ok(s"# no native implementation found for $platformId")){ p =>
+        Ok(views.txt.install_native(p))
+      }
+    }
+  }
 }
