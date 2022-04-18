@@ -7,9 +7,9 @@
 @includes.trap_errors()
 
 # Global variables
-SDKMAN_SERVICE="@baseUrl"
-SDKMAN_VERSION="@cliVersion"
-SDKMAN_NATIVE_VERSION="@cliNativeVersion"
+export SDKMAN_SERVICE="@baseUrl"
+export SDKMAN_VERSION="@cliVersion"
+export SDKMAN_NATIVE_VERSION="@cliNativeVersion"
 @includes.infer_platform()
 
 if [ -z "$SDKMAN_DIR" ]; then
