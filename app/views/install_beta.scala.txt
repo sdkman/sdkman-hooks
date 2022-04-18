@@ -10,7 +10,7 @@
 SDKMAN_SERVICE="@baseUrl"
 SDKMAN_VERSION="@cliVersion"
 SDKMAN_NATIVE_VERSION="@cliNativeVersion"
-SDKMAN_PLATFORM=$(uname)
+@includes.infer_platform()
 
 if [ -z "$SDKMAN_DIR" ]; then
     SDKMAN_DIR="$HOME/.sdkman"
