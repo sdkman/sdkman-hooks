@@ -1,5 +1,5 @@
 @import domain.Platform
-@(platform: Platform)
+@(platform: Platform)#!/bin/bash
 # native extensions supported for @platform.name
 
 echo "Installing native cli archive..."
