@@ -7,9 +7,9 @@ track_last_command() {
 trap track_last_command DEBUG
 
 echo_failed_command() {
-    local failed="$?"
-	if [[ "$failed" != "0" ]]; then
-		echo "'$last_command': command failed with exit code $failed."
+    local exit_code="$?"
+	if [[ "$exit_code" != "0" ]]; then
+		echo "'$last_command': command failed with exit code $exit_code."
 	fi
 }
 trap echo_failed_command EXIT
