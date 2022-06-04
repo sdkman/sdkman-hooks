@@ -37,7 +37,6 @@ sdkman_bin_folder="${SDKMAN_DIR}/bin"
 sdkman_libexec_folder="${SDKMAN_DIR}/libexec"
 sdkman_contrib_folder="${SDKMAN_DIR}/contrib"
 sdkman_src_folder="${SDKMAN_DIR}/src"
-sdkman_archives_folder="${SDKMAN_DIR}/archives"
 sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
 
 # script cli distribution
