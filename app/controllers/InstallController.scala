@@ -20,7 +20,6 @@ class InstallController @Inject() (
   private val betaBaseUrlO = configUrl("service.betaBaseUrl")
 
   def install(beta: Boolean, rcUpdate: Option[Boolean]) = Action.async { _ =>
-    val platformId = "unknown"
     appRepo.findApplication().map { maybeApp =>
       val response = for {
         stableBaseUrl <- stableBaseUrlO
