@@ -10,7 +10,7 @@ Feature: Selfupdate
     Then a 200 status code is received
     And a "text/plain; charset=UTF-8" content type is received
     And the response script starts with "#!/bin/bash"
-    And the response script contains "# selfupdate:- channel: stable; cliVersion: 1.0.0; cliNativeVersion: NA; api: https://api.sdkman.io/2"
+    And the response script contains "# selfupdate:- channel: stable; cliVersion: 1.0.0; cliNativeVersion: 0.1.0; api: https://api.sdkman.io/2"
     And the response script contains "SDKMAN_VERSION="1.0.0""
     And the response script contains "SDKMAN_SERVICE="https://api.sdkman.io/2""
 
@@ -29,7 +29,7 @@ Feature: Selfupdate
     Then a 200 status code is received
     And a "text/plain; charset=UTF-8" content type is received
     And the response script starts with "#!/bin/bash"
-    And the response script contains "# selfupdate:- channel: stable; cliVersion: 1.0.0; cliNativeVersion: NA; api: https://api.sdkman.io/2"
+    And the response script contains "# selfupdate:- channel: stable; cliVersion: 1.0.0; cliNativeVersion: 0.1.0; api: https://api.sdkman.io/2"
     And the response script contains "SDKMAN_VERSION="1.0.0""
     And the response script contains "SDKMAN_SERVICE="https://api.sdkman.io/2""
 

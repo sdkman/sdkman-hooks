@@ -36,16 +36,17 @@ class InstallController @Inject() (
               cliNativeVersion = stableNativeVersion,
               baseUrl = betaBaseUrl,
               rcUpdate = rcUpdate.getOrElse(true),
-              beta = beta
+              beta = true
             )
           )
         } else {
           Ok(
             views.txt.install_stable(
               cliVersion = stableVersion,
+              cliNativeVersion = stableNativeVersion,
               baseUrl = stableBaseUrl,
               rcUpdate = rcUpdate.getOrElse(true),
-              beta = beta
+              beta = false
             )
           )
         }
@@ -57,7 +58,7 @@ class InstallController @Inject() (
 
   def native(platformId: String) = Action.async { _ =>
     Future.successful {
-      Platform(platformId).native.fold(Ok(s"# no native extensions support for $platformId")){ p =>
+      Platform(platformId).native.fold(Ok(s"# no native extensions support for $platformId")) { p =>
         Ok(views.txt.install_native(p))
       }
     }

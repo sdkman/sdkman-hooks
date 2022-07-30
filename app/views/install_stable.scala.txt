@@ -1,14 +1,15 @@
-@(cliVersion: String, baseUrl: String, rcUpdate: Boolean, beta: Boolean)#!/bin/bash
+@(cliVersion: String, cliNativeVersion: String, baseUrl: String, rcUpdate: Boolean, beta: Boolean)#!/bin/bash
 @includes.license()
 
-@includes.statusline("install", cliVersion, "NA", baseUrl, beta)
+@includes.statusline("install", cliVersion, cliNativeVersion, baseUrl, beta)
 
 @includes.trap_errors()
 
 # Global variables
-SDKMAN_SERVICE="@baseUrl"
-SDKMAN_VERSION="@cliVersion"
-SDKMAN_PLATFORM=$(uname)
+export SDKMAN_SERVICE="@baseUrl"
+export SDKMAN_VERSION="@cliVersion"
+export SDKMAN_NATIVE_VERSION="@cliNativeVersion"
+@includes.infer_platform()
 
 if [ -z "$SDKMAN_DIR" ]; then
     SDKMAN_DIR="$HOME/.sdkman"
@@ -16,6 +17,7 @@ if [ -z "$SDKMAN_DIR" ]; then
 else
     SDKMAN_DIR_RAW="$SDKMAN_DIR"
 fi
+export SDKMAN_DIR
 
 # Local variables
 sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
@@ -86,9 +88,14 @@ echo "Installing script cli archive..."
     "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
 )
 
+# native cli distribution
+curl -s "${SDKMAN_SERVICE}/install/native/${SDKMAN_PLATFORM}" | bash
 
 echo "Set version to $SDKMAN_VERSION ..."
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
+
+echo "Set native version to $SDKMAN_NATIVE_VERSION ..."
+echo "$SDKMAN_NATIVE_VERSION" > "${SDKMAN_DIR}/var/version_native"
 
 @if(rcUpdate) {
 if [[ $darwin == true ]]; then

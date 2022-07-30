@@ -1,16 +1,20 @@
+@import domain.Platform
 @import java.time.LocalDateTime
 @import java.time.format.DateTimeFormatter
-@(cliVersion: String, baseUrl: String, beta: Boolean)#!/bin/bash
+@(cliVersion: String, cliNativeVersion: String, baseUrl: String, platform: Option[Platform], beta: Boolean)#!/bin/bash
 @includes.license()
 
-@includes.statusline("selfupdate", cliVersion, "NA", baseUrl, beta)
+@includes.statusline("selfupdate", cliVersion, cliNativeVersion, baseUrl, beta)
 
 @includes.trap_errors()
 
 # Global variables
 SDKMAN_SERVICE="@baseUrl"
 SDKMAN_VERSION="@cliVersion"
-SDKMAN_PLATFORM=$(uname)
+SDKMAN_NATIVE_VERSION="@cliNativeVersion"
+if [[ -z "$SDKMAN_PLATFORM" ]]; then
+    SDKMAN_PLATFORM="unknown"
+fi
 
 @includes.os()
 
@@ -30,6 +34,7 @@ if [ -z "$SDKMAN_DIR" ]; then
 fi
 
 sdkman_bin_folder="${SDKMAN_DIR}/bin"
+sdkman_libexec_folder="${SDKMAN_DIR}/libexec"
 sdkman_contrib_folder="${SDKMAN_DIR}/contrib"
 sdkman_src_folder="${SDKMAN_DIR}/src"
 sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
@@ -41,6 +46,17 @@ echo "Installing script cli archive..."
     "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip",
     "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
 )
+
+@for(p <- platform) {
+# native cli distribution for supported platforms only
+echo "Installing native cli archive..."
+native_triple="@p.triple"
+@includes.install_archive(
+    "${SDKMAN_SERVICE}/broker/download/native/selfupdate/${SDKMAN_NATIVE_VERSION}/${SDKMAN_PLATFORM}",
+    "${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip",
+    "${sdkman_tmp_folder}/sdkman-cli-native-${SDKMAN_NATIVE_VERSION}-${native_triple}"
+)
+}
 
 # prepare candidates
 SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
@@ -131,6 +147,7 @@ mv "$sdkman_config_file_tmp" "$sdkman_config_file"
 
 # drop version token
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
+echo "$SDKMAN_NATIVE_VERSION" > "${SDKMAN_DIR}/var/version_native"
 
 # clean up tmp folder
 rm -rf "${SDKMAN_DIR}"/tmp
