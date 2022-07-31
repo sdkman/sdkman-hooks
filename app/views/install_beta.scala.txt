@@ -90,6 +90,7 @@ echo "Installing script cli archive..."
 )
 
 # native cli distribution
+export sdkman_tmp_folder
 curl -s "${SDKMAN_SERVICE}/install/native/${SDKMAN_PLATFORM}" | bash
 
 echo "Set version to $SDKMAN_VERSION ..."
