@@ -84,13 +84,14 @@ echo "sdkman_selfupdate_feature=true" >> "$sdkman_config_file"
 echo "Installing script cli archive..."
 @includes.install_archive(
     "${SDKMAN_SERVICE}/broker/download/sdkman/install/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}",
-    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip",
-    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
+    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip"
 )
 
 # native cli distribution
-export sdkman_tmp_folder
-curl -s "${SDKMAN_SERVICE}/install/native/${SDKMAN_PLATFORM}" | bash
+@includes.install_archive(
+    "${SDKMAN_SERVICE}/broker/download/native/install/${SDKMAN_NATIVE_VERSION}/${SDKMAN_PLATFORM}",
+    "${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip"
+)
 
 echo "Set version to $SDKMAN_VERSION ..."
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"

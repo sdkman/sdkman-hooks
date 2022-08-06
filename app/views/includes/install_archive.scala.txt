@@ -1,8 +1,7 @@
-@(url: String, targetZip: String, baseFolder: String)
+@(url: String, targetZip: String)
 # fetch distribution
 download_url="@url"
 sdkman_zip_file="@targetZip"
-sdkman_zip_base_folder="@baseFolder"
 echo "* Downloading..."
 curl --fail --location --progress-bar "$download_url" > "$sdkman_zip_file"
 
@@ -18,23 +17,21 @@ if [[ -z "$ARCHIVE_OK" ]]; then
 	exit
 fi
 
-# extract
+# extract archive
 echo "* Extracting archive..."
 if [[ "$cygwin" == 'true' ]]; then
 	sdkman_tmp_folder=$(cygpath -w "$sdkman_tmp_folder")
 	sdkman_zip_file=$(cygpath -w "$sdkman_zip_file")
-	sdkman_zip_base_folder=$(cygpath -w "$sdkman_zip_base_folder")
 fi
 unzip -qo "$sdkman_zip_file" -d "$sdkman_tmp_folder"
 
 # copy in place
-
 echo "* Copying archive contents..."
-cp -rf "${sdkman_zip_base_folder}/"* "$SDKMAN_DIR"
+cp -rf "${sdkman_tmp_folder}"/sdkman-*/* "$SDKMAN_DIR"
 
 # clean up
 echo "* Cleaning up..."
-rm -rf "$sdkman_zip_base_folder"
+rm -rf "$sdkman_tmp_folder"/sdkman-*
 rm -rf "$sdkman_zip_file"
 
 echo ""

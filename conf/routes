@@ -8,5 +8,6 @@ GET        /install/stable                                    controllers.Instal
 GET        /install/native/:platform                          controllers.InstallController.native(platform)
 GET        /selfupdate/beta/:platform                         controllers.SelfUpdateController.selfUpdate(beta: Boolean = true, platform)
 GET        /selfupdate/beta                                   controllers.SelfUpdateController.selfUpdate(beta: Boolean = true, platform = "unknown")
+GET        /selfupdate/stable/:platform                       controllers.SelfUpdateController.selfUpdate(beta: Boolean ?= false, platform)
 GET        /selfupdate/stable                                 controllers.SelfUpdateController.selfUpdate(beta: Boolean ?= false, platform = "unknown")
 GET        /hooks/:phase/:candidate/:version/:platform        controllers.HooksController.hook(phase, candidate, version, platform)

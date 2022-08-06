@@ -43,8 +43,7 @@ sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
 echo "Installing script cli archive..."
 @includes.install_archive(
     "${SDKMAN_SERVICE}/broker/download/sdkman/selfupdate/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}",
-    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip",
-    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}"
+    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip"
 )
 
 @for(p <- platform) {
@@ -53,8 +52,7 @@ echo "Installing native cli archive..."
 native_triple="@p.triple"
 @includes.install_archive(
     "${SDKMAN_SERVICE}/broker/download/native/selfupdate/${SDKMAN_NATIVE_VERSION}/${SDKMAN_PLATFORM}",
-    "${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip",
-    "${sdkman_tmp_folder}/sdkman-cli-native-${SDKMAN_NATIVE_VERSION}-${native_triple}"
+    "${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip"
 )
 }
 
