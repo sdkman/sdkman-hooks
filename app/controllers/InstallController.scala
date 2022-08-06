@@ -55,12 +55,4 @@ class InstallController @Inject() (
   }
 
   private def configUrl(url: String): Option[String] = config.getOptional[String](url)
-
-  def native(platformId: String) = Action.async { _ =>
-    Future.successful {
-      Platform(platformId).native.fold(Ok(s"# no native extensions support for $platformId")) { p =>
-        Ok(views.txt.install_native(p))
-      }
-    }
-  }
 }
