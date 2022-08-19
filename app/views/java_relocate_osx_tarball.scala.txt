@@ -1,0 +1,25 @@
+@import domain._
+@(candidate: Candidate, version: String, platform: Platform)#!/bin/bash
+#Relocation Hook: osx-java
+function __sdkman_relocate_installation_hook {
+    __sdkman_echo_debug "A @{platform.name} relocation hook was found for @{candidate.name} @{version}-openjdk."
+
+    local present_dir="$(pwd)"
+    local candidate_dir="${SDKMAN_CANDIDATE_DIR}/@{candidate.name}/@{version}"
+    local work_jdk_dir="${SDKMAN_DIR}/tmp/@{candidate.name}-@{version}"
+
+    echo ""
+    __sdkman_echo_green "Relocating @{candidate.name} @version..."
+
+    #Move ./Contents/Home to temp location
+    cd "$candidate_dir"/*/Contents
+    mv -f Home "$work_jdk_dir"
+
+    #Replace candidate
+    cd "$present_dir"
+    rm -rf "$candidate_dir"
+    mv -f "$work_jdk_dir" "$candidate_dir"
+
+    echo ""
+    __sdkman_echo_green "Done relocating..."
+}

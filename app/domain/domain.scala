@@ -71,6 +71,7 @@ object Hooks {
   def from(phase: String) = phase match {
     case Post.phase => Post
     case Pre.phase  => Pre
+    case Relocate.phase => Relocate
   }
 }
 case object Post extends Hooks {
@@ -78,4 +79,7 @@ case object Post extends Hooks {
 }
 case object Pre extends Hooks {
   override val phase = "pre"
+}
+case object Relocate extends Hooks {
+  override val phase = "relocate"
 }
