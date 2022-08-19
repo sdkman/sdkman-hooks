@@ -1,0 +1,29 @@
+@import domain._
+@(candidate: Candidate, version: String, vendor: String, executableBinary: String)#!/bin/bash
+#Relocation Hook: win-jmc-zip
+function __sdkman_relocate_installation_hook {
+    __sdkman_echo_debug "A Windows relocate hook was found for JMC @vendor @version."
+
+    local present_dir="$(pwd)"
+    local executable_binary="@{executableBinary}"
+    local candidate_dir="${SDKMAN_CANDIDATE_DIR}/@{candidate.name}/@{version}"
+
+    echo ""
+    __sdkman_echo_green "Relocating JMC @vendor @version..."
+
+    @if(vendor == "zulu") {
+      # deal with zulu folder structure
+      cd "$candidate_dir"/*
+    } else {
+      # deal with jmc flat structure
+      cd "$candidate_dir"
+    }
+
+    mkdir bin
+    cd bin
+    ln -s ../"${executable_binary}" jmc
+    cd "$present_dir"
+
+    echo ""
+    __sdkman_echo_green "Done relocating..."
+}

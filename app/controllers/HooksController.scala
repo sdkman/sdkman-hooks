@@ -80,6 +80,16 @@ class HooksController @Inject() (cc: ControllerComponents)
           case (Pre, _, _, _, _) =>
             Ok(views.txt.default_pre(candidate, version, platform))
 
+          //RELOCATE
+          case (Relocate, Java, _, MacX64 | MacARM64, _) =>
+            Ok(views.txt.java_relocate_osx_tarball(candidate, version, platform))
+          case (Relocate, JMC, _, MacX64 | MacARM64, _) =>
+            Ok(views.txt.jmc_relocate_unix_tarball(candidate, version, vendor, jmcBinaryExec(vendor, MacX64)))
+          case (Relocate, JMC, _, LinuxX32 | LinuxX64 | LinuxARM64 | LinuxARM32HF | LinuxARM32SF, _) =>
+            Ok(views.txt.jmc_relocate_unix_tarball(candidate, version, vendor, jmcBinaryExec(vendor, platform)))
+          case (Relocate, JMC, _, Windows64, _) =>
+            Ok(views.txt.jmc_relocate_win_zip(candidate, version, vendor, jmcBinaryExec(vendor, Windows64)))
+
           case (_, _, _, _, _) => NotFound
         }
       }
