@@ -132,3 +132,6 @@ project/plugins/project/
 *.metals
 
 # End of https://www.gitignore.io/api/sbt,scala,bloop,metals,intellij+all,playframework
+
+.vscode/settings.json
+project/metals.sbt
