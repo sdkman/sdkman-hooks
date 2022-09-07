@@ -10,48 +10,48 @@ function infer_platform() {
 	Linux)
 	  case $machine in
 	  i686)
-		echo "LinuxX32"
+		echo "linuxx32"
 		;;
 	  x86_64)
-		echo "LinuxX64"
+		echo "linuxx64"
 		;;
 	  armv6l)
-		echo "LinuxARM32HF"
+		echo "linuxarm32hf"
 		;;
 	  armv7l)
-		echo "LinuxARM32HF"
+		echo "linuxarm32hf"
 		;;
 	  armv8l)
-		echo "LinuxARM32HF"
+		echo "linuxarm32hf"
 		;;
 	  aarch64)
-		echo "LinuxARM64"
+		echo "linuxarm64"
 		;;
 	  *)
-	  	echo "Exotic"
+	  	echo "exotic"
 	  	;;
 	  esac
 	  ;;
 	Darwin)
 	  case $machine in
 	  x86_64)
-		echo "DarwinX64"
+		echo "darwinx64"
 		;;
 	  arm64)
 		if [[ "$sdkman_rosetta2_compatible" == 'true' ]]; then
-			echo "DarwinX64"
+			echo "darwinx64"
 		else
-			echo "DarwinARM64"
+			echo "darwinarm64"
 		fi
 		;;
 	  *)
-	  	echo "DarwinX64"
+	  	echo "darwinx64"
 	  	;;
 	  esac
 	  ;;
 	*)
-	  echo "$kernel"
+	  echo "exotic"
 	esac
 }
 
-export SDKMAN_PLATFORM="$(infer_platform | tr '[:upper:]' '[:lower:]')"
+export SDKMAN_PLATFORM="$(infer_platform)"
