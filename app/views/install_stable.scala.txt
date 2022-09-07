@@ -88,10 +88,12 @@ echo "Installing script cli archive..."
 )
 
 # native cli distribution
+if [[ "$SDKMAN_PLATFORM" != "exotic" ]]; then
 @includes.install_archive(
     "${SDKMAN_SERVICE}/broker/download/native/install/${SDKMAN_NATIVE_VERSION}/${SDKMAN_PLATFORM}",
     "${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip"
 )
+fi
 
 echo "Set version to $SDKMAN_VERSION ..."
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
