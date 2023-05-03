@@ -20,6 +20,8 @@ fi
 export SDKMAN_DIR
 
 # Local variables
+sdkman_src_folder="${SDKMAN_DIR}/src"
+sdkman_libexec_folder="${SDKMAN_DIR}/libexec"
 sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
 sdkman_ext_folder="${SDKMAN_DIR}/ext"
 sdkman_etc_folder="${SDKMAN_DIR}/etc"
@@ -84,14 +86,16 @@ echo "sdkman_selfupdate_feature=true" >> "$sdkman_config_file"
 echo "Installing script cli archive..."
 @includes.install_archive(
     "${SDKMAN_SERVICE}/broker/download/sdkman/install/${SDKMAN_VERSION}/${SDKMAN_PLATFORM}",
-    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip"
+    "${sdkman_tmp_folder}/sdkman-${SDKMAN_VERSION}.zip",
+    "$sdkman_src_folder"
 )
 
 # native cli distribution
 if [[ "$SDKMAN_PLATFORM" != "exotic" ]]; then
 @includes.install_archive(
     "${SDKMAN_SERVICE}/broker/download/native/install/${SDKMAN_NATIVE_VERSION}/${SDKMAN_PLATFORM}",
-    "${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip"
+    "${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip",
+    "$sdkman_libexec_folder"
 )
 fi
 

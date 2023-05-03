@@ -1,9 +1,8 @@
-@(url: String, targetZip: String)
+@(url: String, targetZip: String, flushDir: String)
 # fetch distribution
-download_url="@url"
 sdkman_zip_file="@targetZip"
 echo "* Downloading..."
-curl --fail --location --progress-bar "$download_url" > "$sdkman_zip_file"
+curl --fail --location --progress-bar "@url" > "$sdkman_zip_file"
 
 # check integrity
 echo "* Checking archive integrity..."
@@ -19,6 +18,7 @@ fi
 
 # extract archive
 echo "* Extracting archive..."
+rm -f "@flushDir"/*
 if [[ "$cygwin" == 'true' ]]; then
 	sdkman_tmp_folder=$(cygpath -w "$sdkman_tmp_folder")
 	sdkman_zip_file=$(cygpath -w "$sdkman_zip_file")
