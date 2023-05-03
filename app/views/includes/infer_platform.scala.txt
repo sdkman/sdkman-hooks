@@ -49,6 +49,16 @@ function infer_platform() {
 	  	;;
 	  esac
 	  ;;
+	CYGWIN*|MSYS*|MINGW*)
+	  case $machine in
+	  x86_64)
+		echo "windowsx64"
+		;;
+	  *)
+	  	echo "exotic"
+	  	;;
+	  esac
+	  ;;
 	*)
 	  echo "exotic"
 	esac
