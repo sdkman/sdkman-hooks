@@ -9,7 +9,6 @@
 export SDKMAN_SERVICE="@baseUrl"
 export SDKMAN_VERSION="@cliVersion"
 export SDKMAN_NATIVE_VERSION="@cliNativeVersion"
-@includes.infer_platform()
 
 if [ -z "$SDKMAN_DIR" ]; then
     SDKMAN_DIR="$HOME/.sdkman"
@@ -28,6 +27,7 @@ sdkman_etc_folder="${SDKMAN_DIR}/etc"
 sdkman_var_folder="${SDKMAN_DIR}/var"
 sdkman_candidates_folder="${SDKMAN_DIR}/candidates"
 sdkman_config_file="${sdkman_etc_folder}/config"
+sdkman_platform_file="${sdkman_etc_folder}/platform"
 sdkman_bash_profile="${HOME}/.bash_profile"
 sdkman_profile="${HOME}/.profile"
 sdkman_bashrc="${HOME}/.bashrc"
@@ -62,6 +62,10 @@ echo "Getting available candidates..."
 SDKMAN_CANDIDATES_CSV=$(curl -s "${SDKMAN_SERVICE}/candidates/all")
 echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 
+echo "Prime platform file..."
+@includes.infer_platform()
+echo "$SDKMAN_PLATFORM" > "$sdkman_platform_file"
+
 echo "Prime the config file..."
 touch "$sdkman_config_file"
 echo "sdkman_auto_answer=false" >> "$sdkman_config_file"
@@ -71,7 +75,6 @@ else
     echo "sdkman_auto_complete=true" >> "$sdkman_config_file"
 fi
 echo "sdkman_auto_env=false" >> "$sdkman_config_file"
-echo "sdkman_auto_update=true" >> "$sdkman_config_file"
 echo "sdkman_beta_channel=@beta" >> "$sdkman_config_file"
 echo "sdkman_checksum_enable=true" >> "$sdkman_config_file"
 echo "sdkman_colour_enable=true" >> "$sdkman_config_file"
@@ -92,6 +95,7 @@ echo "Installing script cli archive..."
 
 # native cli distribution
 if [[ "$SDKMAN_PLATFORM" != "exotic" ]]; then
+echo "Installing script cli archive..."
 @includes.install_archive(
     "${SDKMAN_SERVICE}/broker/download/native/install/${SDKMAN_NATIVE_VERSION}/${SDKMAN_PLATFORM}",
     "${sdkman_tmp_folder}/sdkman-native-${SDKMAN_NATIVE_VERSION}.zip",
