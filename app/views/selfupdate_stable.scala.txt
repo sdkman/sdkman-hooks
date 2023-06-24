@@ -12,9 +12,8 @@
 SDKMAN_SERVICE="@baseUrl"
 SDKMAN_VERSION="@cliVersion"
 SDKMAN_NATIVE_VERSION="@cliNativeVersion"
-if [[ -z "$SDKMAN_PLATFORM" ]]; then
-    SDKMAN_PLATFORM="unknown"
-fi
+
+@includes.infer_platform()
 
 @includes.os()
 
@@ -63,6 +62,11 @@ SDKMAN_CANDIDATES_CSV=$(curl -s "$SDKMAN_SERVICE/candidates/all")
 __sdkman_echo_debug "Fetched candidates: $SDKMAN_CANDIDATES_CSV"
 echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 __sdkman_echo_debug "Overwritten cache: $(cat "${SDKMAN_DIR}/var/candidates")"
+
+# prime platform file
+echo "Updating platform file..."
+sdkman_platform_file="${SDKMAN_DIR}/var/platform"
+echo "$SDKMAN_PLATFORM" > "$sdkman_platform_file"
 
 # prime config file
 echo "Updating config file..."
