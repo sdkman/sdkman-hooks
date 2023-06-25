@@ -6,6 +6,7 @@ import org.scalatest.{Matchers, OptionValues, WordSpec}
 class PlatformSpec extends WordSpec with Matchers with OptionValues {
   "platform" should {
     "return some platform when presented with a valid client platform identifier" in {
+      Platform("windowsx64") shouldBe Platform.Windows64
       Platform("cygwin_nt-6.1") shouldBe Platform.Windows64
       Platform("cygwin_nt-6.1-wow") shouldBe Platform.Windows64
       Platform("cygwin_nt-6.1-wow64") shouldBe Platform.Windows64

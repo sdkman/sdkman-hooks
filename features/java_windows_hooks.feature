@@ -31,4 +31,5 @@ Feature: Java Windows Post Hooks
       | /hooks/post/java/11.0.2-sapmchn/mingw64_nt-10.0  | Post Hook: default-zip     |
       | /hooks/post/java/8.0.202-librca/cygwin           | Post Hook: default-zip     |
       | /hooks/post/java/8.0.202-librca/mingw64_nt-10.0  | Post Hook: default-zip     |
+      | /hooks/post/java/8.0.202-librca/windowsx64       | Post Hook: default-zip     |
 

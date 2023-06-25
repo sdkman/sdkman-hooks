@@ -19,23 +19,24 @@ object Platform {
 
   def apply(platformId: String): Platform = platformId.toLowerCase match {
     // current
-    case "linuxx64"       => LinuxX64
-    case "linuxarm64"     => LinuxARM64
-    case "linuxarm32sf"   => LinuxARM32SF
-    case "linuxarm32hf"   => LinuxARM32HF
-    case "darwinx64"      => MacX64
-    case "darwinarm64"    => MacARM64
-    case CygwinPattern(c) => Windows64
+    case "linuxx64"     => LinuxX64
+    case "linuxarm64"   => LinuxARM64
+    case "linuxarm32sf" => LinuxARM32SF
+    case "linuxarm32hf" => LinuxARM32HF
+    case "darwinx64"    => MacX64
+    case "darwinarm64"  => MacARM64
+    case "windowsx64"   => Windows64
     // backward compat
-    case "darwin"  => MacX64
-    case "linux"   => LinuxX64
-    case "linux64" => LinuxX64
-    case "freebsd" => FreeBSD
-    case "sunos"   => SunOS
-    case _         => Exotic
+    case LegacyWindowsPattern(c) => Windows64
+    case "darwin"                => MacX64
+    case "linux"                 => LinuxX64
+    case "linux64"               => LinuxX64
+    case "freebsd"               => FreeBSD
+    case "sunos"                 => SunOS
+    case _                       => Exotic
   }
 
-  private val CygwinPattern = "(cygwin|mingw64|msys).*".r
+  private val LegacyWindowsPattern = "(cygwin|mingw64|msys).*".r
 
   val LinuxX32     = Platform("LINUX_32", "Linux 32bit")
   val LinuxX64     = Platform("LINUX_64", "Linux 64bit", Some("x86_64-unknown-linux-gnu"))
@@ -69,8 +70,8 @@ sealed trait Hooks {
 }
 object Hooks {
   def from(phase: String) = phase match {
-    case Post.phase => Post
-    case Pre.phase  => Pre
+    case Post.phase     => Post
+    case Pre.phase      => Pre
     case Relocate.phase => Relocate
   }
 }
