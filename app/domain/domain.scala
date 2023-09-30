@@ -4,11 +4,12 @@ case class Candidate private (identifier: String, name: String)
 object Candidate {
   def apply(id: String): Candidate = Candidate(id, id.capitalize)
 
-  val Flink  = Candidate("flink")
-  val Hadoop = Candidate("hadoop")
-  val Java   = Candidate("java")
-  val Spark  = Candidate("spark")
-  val JMC    = Candidate("jmc")
+  val Flink    = Candidate("flink")
+  val Hadoop   = Candidate("hadoop")
+  val Java     = Candidate("java")
+  val Jextract = Candidate("jextract")
+  val Spark    = Candidate("spark")
+  val JMC      = Candidate("jmc")
 }
 
 case class Platform(distribution: String, name: String, triple: Option[String] = None) {

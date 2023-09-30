@@ -1,6 +1,6 @@
 package controllers
 
-import domain.Candidate.{Flink, Hadoop, JMC, Java, Spark}
+import domain.Candidate._
 import domain.JdkDistro._
 import domain.Platform._
 import domain._
@@ -72,6 +72,8 @@ class HooksController @Inject() (cc: ControllerComponents)
           case (Post, Spark, _, _, _) =>
             Ok(views.txt.default_post_tarball(candidate, version, platform))
           case (Post, Hadoop, _, _, _) =>
+            Ok(views.txt.default_post_tarball(candidate, version, platform))
+          case (Post, Jextract, _, _, _) =>
             Ok(views.txt.default_post_tarball(candidate, version, platform))
           case (Post, _, _, _, _) =>
             Ok(views.txt.default_post_zip(candidate, version, platform))
