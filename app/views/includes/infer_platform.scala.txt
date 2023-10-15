@@ -38,11 +38,7 @@ function infer_platform() {
 		echo "darwinx64"
 		;;
 	  arm64)
-		if [[ "$sdkman_rosetta2_compatible" == 'true' ]]; then
-			echo "darwinx64"
-		else
-			echo "darwinarm64"
-		fi
+		echo "darwinarm64"
 		;;
 	  *)
 	  	echo "darwinx64"
