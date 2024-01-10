@@ -43,6 +43,18 @@ if ! command -v zip > /dev/null; then
 	exit 1
 fi
 
+echo "Looking for tar..."
+if ! command -v tar > /dev/null; then
+	echo "Not found."
+	echo "======================================================================================================"
+	echo " Please install tar on your system using your favourite package manager."
+	echo ""
+	echo " Restart after installing tar."
+	echo "======================================================================================================"
+	echo ""
+	exit 1
+fi
+
 echo "Looking for curl..."
 if ! command -v curl > /dev/null; then
 	echo "Not found."
