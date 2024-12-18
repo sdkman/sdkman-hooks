@@ -111,6 +111,10 @@ if ! grep 'sdkman_checksum_enable' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_checksum_enable=true" >> "$sdkman_config_file_tmp"
 fi
 
+if ! grep 'sdkman_native_enable' "${sdkman_config_file_tmp}"; then
+	echo "sdkman_native_enable=true" >> "$sdkman_config_file_tmp"
+fi
+
 if ! grep 'sdkman_selfupdate_feature' "${sdkman_config_file_tmp}"; then
 	echo "sdkman_selfupdate_feature=true" >> "$sdkman_config_file_tmp"
 fi
