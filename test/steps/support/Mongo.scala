@@ -26,18 +26,19 @@ object Mongo {
   lazy val appCollection: MongoCollection[Application] = db.getCollection("application")
 
   def insertAliveOk(): Seq[Completed] =
-    appCollection.insertOne(Application("OK", "", "", "")).results()
+    appCollection.insertOne(Application("OK", "", "", "", "")).results()
 
   def insertAliveKo(): Seq[Completed] =
-    appCollection.insertOne(Application("KO", "", "", "")).results()
+    appCollection.insertOne(Application("KO", "", "", "", "")).results()
 
   def insertCliVersions(
       stableCliVersion: String,
       betaCliVersion: String,
-      stableNativeCliVersion: String
+      stableNativeCliVersion: String,
+      betaNativeCliVersion: String
   ): Seq[Completed] =
     appCollection
-      .insertOne(Application("OK", stableCliVersion, betaCliVersion, stableNativeCliVersion))
+      .insertOne(Application("OK", stableCliVersion, betaCliVersion, stableNativeCliVersion, betaNativeCliVersion))
       .results()
 
   def dropAppCollection(): Seq[Completed] = appCollection.drop().results()

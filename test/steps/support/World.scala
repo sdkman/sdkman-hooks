@@ -15,4 +15,6 @@ object World {
   var betaCliVersion = ""
 
   var stableNativeCliVersion = ""
+  
+  var betaNativeCliVersion = ""
 }

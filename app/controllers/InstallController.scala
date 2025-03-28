@@ -28,12 +28,13 @@ class InstallController @Inject() (
         stableVersion       = app.stableCliVersion
         betaVersion         = app.betaCliVersion
         stableNativeVersion = app.stableNativeCliVersion
+        betaNativeVersion   = app.betaNativeCliVersion
       } yield
         if (beta) {
           Ok(
             views.txt.install_beta(
               cliVersion = betaVersion,
-              cliNativeVersion = stableNativeVersion,
+              cliNativeVersion = betaNativeVersion,
               baseUrl = betaBaseUrl,
               rcUpdate = rcUpdate.getOrElse(true),
               beta = true

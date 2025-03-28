@@ -27,13 +27,14 @@ class SelfUpdateController @Inject() (
         stableVersion       = app.stableCliVersion
         betaVersion         = app.betaCliVersion
         stableNativeVersion = app.stableNativeCliVersion
+        betaNativeVersion   = app.betaNativeCliVersion
         platform            = Platform(platformId).native
       } yield
         if (beta) {
           Ok(
             views.txt.selfupdate_beta(
               cliVersion = betaVersion,
-              cliNativeVersion = stableNativeVersion,
+              cliNativeVersion = betaNativeVersion,
               baseUrl = betaBaseUrl,
               platform = platform,
               beta = true
