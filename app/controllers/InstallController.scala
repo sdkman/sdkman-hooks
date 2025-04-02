@@ -19,7 +19,7 @@ class InstallController @Inject() (
 
   private val betaBaseUrlO = configUrl("service.betaBaseUrl")
 
-  def install(beta: Boolean, rcUpdate: Option[Boolean]) = Action.async { _ =>
+  def install(beta: Boolean, rcUpdate: Option[Boolean], ci: Option[Boolean]) = Action.async { _ =>
     appRepo.findApplication().map { maybeApp =>
       val response = for {
         stableBaseUrl <- stableBaseUrlO
@@ -37,7 +37,8 @@ class InstallController @Inject() (
               cliNativeVersion = betaNativeVersion,
               baseUrl = betaBaseUrl,
               rcUpdate = rcUpdate.getOrElse(true),
-              beta = true
+              beta = true,
+              ci = ci.getOrElse(false)
             )
           )
         } else {
@@ -47,7 +48,8 @@ class InstallController @Inject() (
               cliNativeVersion = stableNativeVersion,
               baseUrl = stableBaseUrl,
               rcUpdate = rcUpdate.getOrElse(true),
-              beta = false
+              beta = false,
+              ci = ci.getOrElse(false)
             )
           )
         }
