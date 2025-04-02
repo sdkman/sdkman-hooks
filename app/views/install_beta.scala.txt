@@ -1,4 +1,4 @@
-@(cliVersion: String, cliNativeVersion: String, baseUrl: String, rcUpdate: Boolean, beta: Boolean)#!/bin/bash
+@(cliVersion: String, cliNativeVersion: String, baseUrl: String, rcUpdate: Boolean, beta: Boolean, ci: Boolean)#!/bin/bash
 @includes.license()
 
 @includes.statusline("install", cliVersion, cliNativeVersion, baseUrl, beta)
