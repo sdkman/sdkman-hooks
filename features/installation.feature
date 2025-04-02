@@ -55,4 +55,16 @@ Feature: Installation
     And a "text/plain; charset=UTF-8" content type is received
     And the response script contains "# install:- channel: beta"
     And the response script contains "Attempt update of interactive bash profile "
-    And the response script contains "Attempt update of zsh profile...""
+    And the response script contains "Attempt update of zsh profile..."
+    
+  Scenario: Install SDKMAN beta in CI mode
+    When a request is made to the /install/beta?ci=true endpoint
+    Then a 200 status code is received
+    And a "text/plain; charset=UTF-8" content type is received
+    And the response script contains "# install:- channel: beta"
+    And the response script contains "sdkman_auto_answer=true"
+    And the response script contains "sdkman_colour_enable=false"
+    And the response script contains "sdkman_selfupdate_feature=false"
+    And the response script does not contain "sdkman_auto_answer=false"
+    And the response script does not contain "sdkman_colour_enable=true"
+    And the response script does not contain "sdkman_selfupdate_feature=true"
