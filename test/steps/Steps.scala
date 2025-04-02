@@ -26,11 +26,16 @@ class Steps extends ScalaDsl with EN with Matchers {
   And("""^the stable native CLI Version is "(.*)"""") { native: String =>
     stableNativeCliVersion = native
   }
-  
+
   And("""^the beta native CLI Version is "(.*)"""") { native: String =>
     betaNativeCliVersion = native
     // Insert all CLI versions after both stable and beta native CLI versions are set
-    Mongo.insertCliVersions(stableCliVersion, betaCliVersion, stableNativeCliVersion, betaNativeCliVersion)
+    Mongo.insertCliVersions(
+      stableCliVersion,
+      betaCliVersion,
+      stableNativeCliVersion,
+      betaNativeCliVersion
+    )
   }
 
   And("""^a request is made to the (.*) endpoint$""") { endpoint: String =>

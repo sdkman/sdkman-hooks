@@ -38,7 +38,15 @@ object Mongo {
       betaNativeCliVersion: String
   ): Seq[Completed] =
     appCollection
-      .insertOne(Application("OK", stableCliVersion, betaCliVersion, stableNativeCliVersion, betaNativeCliVersion))
+      .insertOne(
+        Application(
+          "OK",
+          stableCliVersion,
+          betaCliVersion,
+          stableNativeCliVersion,
+          betaNativeCliVersion
+        )
+      )
       .results()
 
   def dropAppCollection(): Seq[Completed] = appCollection.drop().results()
