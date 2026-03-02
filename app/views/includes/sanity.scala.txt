@@ -1,7 +1,23 @@
 # Sanity checks
 
+echo "Validating installation location..."
+if [ -e "$SDKMAN_DIR" ] && [ ! -d "$SDKMAN_DIR" ]; then
+	echo "Cannot install to requested location."
+	echo ""
+	echo "======================================================================================================"
+	echo " A file of the same name as the installation directory exists."
+	echo " File in conflict is:"
+	echo ""
+	echo "    ${SDKMAN_DIR}"
+	echo ""
+	echo " Restart after removing the existing file or choosing a different installation location."
+	echo "======================================================================================================"
+	echo ""
+	exit 1
+fi
+
 echo "Looking for a previous installation of SDKMAN..."
-if [ -d "$SDKMAN_DIR" ]; then
+if [ -d "$SDKMAN_DIR" ] && [ ! -z $(ls -A "$SDKMAN_DIR") ]; then
 	echo "SDKMAN found."
 	echo ""
 	echo "======================================================================================================"
