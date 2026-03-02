@@ -8,7 +8,7 @@ name := """sdkman-hooks"""
 
 Docker / packageName := "sdkman/sdkman-hooks"
 
-dockerBaseImage := "openjdk:11"
+dockerBaseImage := "eclipse-temurin:11"
 
 Universal / javaOptions ++= Seq(
   "-Dpidfile.path=/dev/null"
