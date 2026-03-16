@@ -19,6 +19,27 @@ if [ -d "$SDKMAN_DIR" ]; then
 	exit 0
 fi
 
+echo "Checking Bash version..."
+if [ -n "$BASH_VERSION" ]; then
+	bash_major_version="${BASH_VERSINFO[0]}"
+	if [ "$bash_major_version" -lt 4 ]; then
+		echo ""
+		echo "======================================================================================================"
+		echo " SDKMAN requires Bash 4 or higher, but you are running Bash ${BASH_VERSION}."
+		echo ""
+		echo " macOS ships with Bash 3.2 by default. Please upgrade via Homebrew:"
+		echo ""
+		echo "    $ brew install bash"
+		echo ""
+		echo " Alternatively, install SDKMAN! using ZSH (the default macOS shell since Catalina):"
+		echo ""
+		echo "    $ zsh <(curl -s \"https://get.sdkman.io\")"
+		echo "======================================================================================================"
+		echo ""
+		exit 1
+	fi
+fi
+
 echo "Looking for unzip..."
 if ! command -v unzip > /dev/null; then
 	echo "Not found."
