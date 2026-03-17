@@ -30,7 +30,7 @@ if [ -n "$BASH_VERSION" ]; then
 		echo " Please upgrade Bash using your system's package manager, or run the installer"
 		echo " with a compatible shell such as ZSH:"
 		echo ""
-		echo "    $ zsh <(curl -s \"https://get.sdkman.io\")"
+		echo "    $ curl -s \"https://get.sdkman.io\" | zsh"
 		echo "======================================================================================================"
 		echo ""
 		exit 1
