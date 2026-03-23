@@ -95,6 +95,7 @@ echo "sdkman_checksum_enable=true" >> "$sdkman_config_file"
 echo "sdkman_curl_connect_timeout=7" >> "$sdkman_config_file"
 echo "sdkman_curl_max_time=10" >> "$sdkman_config_file"
 echo "sdkman_debug_mode=false" >> "$sdkman_config_file"
+echo "sdkman_healthcheck_enable=true" >> "$sdkman_config_file"
 echo "sdkman_insecure_ssl=false" >> "$sdkman_config_file"
 echo "sdkman_native_enable=true" >> "$sdkman_config_file"
 
