@@ -28,7 +28,7 @@ unzip -qo "$sdkman_zip_file" -d "$sdkman_tmp_folder"
 
 # copy in place
 echo "* Copying archive contents..."
-rm -f "@flushDir"/*
+find "@flushDir" -maxdepth 1 -type f -delete
 cp -rf "${sdkman_tmp_folder}"/sdkman-*/* "$SDKMAN_DIR"
 
 # clean up
