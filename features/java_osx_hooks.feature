@@ -7,11 +7,8 @@ Feature: Java OSX Hooks
     Examples:
       | uri                                        | contains                    |
       | /hooks/pre/java/8.0.161-zulu/darwinx64     | Pre Hook: default           |
-      | /hooks/post/java/8.0.161-zulu/darwinx64    | Post Hook: default-tarball  |
-      | /hooks/post/java/9.0.4-zulu/darwinx64      | Post Hook: default-tarball  |
-      | /hooks/post/java/10.0.0-zulu/darwinx64     | Post Hook: default-tarball  |
-      | /hooks/post/java/11.0.2-zulu/darwinx64     | Post Hook: default-tarball  |
-      | /hooks/post/java/11.0.2-zulu/darwinarm64   | Post Hook: default-tarball  |
+      | /hooks/post/java/21.0.11-zulu/darwinx64    | Post Hook: osx-java-tarball |
+      | /hooks/post/java/21.0.11-zulu/darwinarm64  | Post Hook: osx-java-tarball |
       | /hooks/post/java/8.0.202-zulufx/darwinx64  | Post Hook: osx-java-tarball |
       | /hooks/post/java/11.0.2-zulufx/darwinx64   | Post Hook: osx-java-tarball |
       | /hooks/post/java/9.0.4-open/darwinx64      | Post Hook: osx-java-tarball |

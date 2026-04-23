@@ -40,7 +40,7 @@ class HooksController @Inject() (cc: ControllerComponents)
           case (Post, Java, _, MacX64 | MacARM64, BellSoft) =>
             Ok(views.txt.default_post_zip(candidate, version, platform))
           case (Post, Java, _, MacX64 | MacARM64, Zulu) =>
-            Ok(views.txt.default_post_tarball(candidate, version, platform))
+            Ok(views.txt.java_post_osx_tarball(candidate, version, platform))
           case (Post, Java, _, MacX64 | MacARM64, ZuluFX) =>
             Ok(views.txt.java_post_osx_tarball(candidate, version, platform))
           case (Post, Java, _, MacX64 | MacARM64, _) =>
