@@ -73,6 +73,18 @@ if ! command -v tar > /dev/null; then
 	exit 1
 fi
 
+echo "Looking for find..."
+if ! command -v find > /dev/null; then
+	echo "Not found."
+	echo "======================================================================================================"
+	echo " Please install find on your system using your favourite package manager."
+	echo ""
+	echo " Restart after installing find."
+	echo "======================================================================================================"
+	echo ""
+	exit 1
+fi
+
 echo "Looking for curl..."
 if ! command -v curl > /dev/null; then
 	echo "Not found."
