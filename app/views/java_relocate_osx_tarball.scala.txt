@@ -11,9 +11,13 @@ function __sdkman_relocate_installation_hook {
     echo ""
     __sdkman_echo_green "Relocating @{candidate.name} @version..."
 
-    #Move ./Contents/Home to temp location
-    cd "$candidate_dir"/*/Contents
-    mv -f Home "$work_jdk_dir"
+    # Detect tarball layout: bundle (*.jdk/Contents/Home) vs flat (Linux-style root with bin/, lib/)
+    if [ -d "$candidate_dir"/*/Contents/Home ]; then
+        cd "$candidate_dir"/*/Contents
+        mv -f Home "$work_jdk_dir"
+    else
+        mv "$candidate_dir"/* "$work_jdk_dir"
+    fi
 
     #Replace candidate
     cd "$present_dir"
