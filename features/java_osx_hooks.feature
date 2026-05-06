@@ -24,8 +24,3 @@ Feature: Java OSX Hooks
     When a hook is requested at /hooks/post/java/21.0.11-zulu/darwinarm64
     Then a 200 status code is received
     And the response script contains "Detect tarball layout"
-
-  Scenario: The OSX relocation hook handles both bundle and flat tarball layouts
-    When a hook is requested at /hooks/relocate/java/21.0.11-zulu/darwinarm64
-    Then a 200 status code is received
-    And the response script contains "Detect tarball layout"

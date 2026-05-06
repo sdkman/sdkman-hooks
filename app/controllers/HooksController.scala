@@ -83,8 +83,6 @@ class HooksController @Inject() (cc: ControllerComponents)
             Ok(views.txt.default_pre(candidate, version, platform))
 
           //RELOCATE
-          case (Relocate, Java, _, MacX64 | MacARM64, _) =>
-            Ok(views.txt.java_relocate_osx_tarball(candidate, version, platform))
           case (Relocate, JMC, _, MacX64 | MacARM64, _) =>
             Ok(
               views.txt.jmc_relocate_unix_tarball(
