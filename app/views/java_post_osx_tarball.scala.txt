@@ -17,7 +17,7 @@ function __sdkman_post_installation_hook {
     /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
 
     # Detect tarball layout: bundle (*.jdk/Contents/Home) vs flat (Linux-style root with bin/, lib/)
-    if [ -d "$work_dir"/*/Contents/Home ]; then
+    if ls -d "$work_dir"/*/Contents/Home > /dev/null 2>&1; then
         cd "$work_dir"/*/Contents
         mv -f Home "$work_jdk_dir"
     else
