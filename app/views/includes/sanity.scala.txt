@@ -1,7 +1,20 @@
 # Sanity checks
 
+if [ -e "$SDKMAN_DIR" ] && [ ! -d "$SDKMAN_DIR" ]; then
+	echo ""
+	echo "======================================================================================================"
+	echo " Cannot install SDKMAN: \$SDKMAN_DIR exists but is not a directory."
+	echo ""
+	echo "    ${SDKMAN_DIR}"
+	echo ""
+	echo " Remove the file or set SDKMAN_DIR to a different path, then re-run the installer."
+	echo "======================================================================================================"
+	echo ""
+	exit 1
+fi
+
 echo "Looking for a previous installation of SDKMAN..."
-if [ -d "$SDKMAN_DIR" ]; then
+if [ -f "$SDKMAN_DIR/bin/sdkman-init.sh" ]; then
 	echo "SDKMAN found."
 	echo ""
 	echo "======================================================================================================"
