@@ -3,9 +3,9 @@
 
 @includes.statusline("install", cliVersion, cliNativeVersion, baseUrl, beta)
 
-@includes.trap_errors()
-
 @includes.cygwin_check()
+
+@includes.trap_errors()
 
 # Global variables
 export SDKMAN_SERVICE="@baseUrl"
