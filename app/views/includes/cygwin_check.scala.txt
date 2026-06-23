@@ -1,0 +1,19 @@
+# Refuse to install on Cygwin
+if [[ "$(uname -s)" == CYGWIN_NT* ]]; then
+	echo ""
+	echo "======================================================================================================"
+	echo " SDKMAN does not support Cygwin."
+	echo ""
+	echo " The SDKMAN native components rely on POSIX path semantics that are incompatible"
+	echo " with Cygwin's path translation, which causes platform detection, candidate"
+	echo " listings, and self-update to fail in confusing ways."
+	echo ""
+	echo " On Windows, please use Windows Subsystem for Linux 2 (WSL2) instead:"
+	echo ""
+	echo "    https://learn.microsoft.com/windows/wsl/install"
+	echo ""
+	echo " Then re-run this installer from inside your WSL2 distribution."
+	echo "======================================================================================================"
+	echo ""
+	exit 1
+fi
