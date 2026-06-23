@@ -68,3 +68,17 @@ Feature: Installation
     And the response script does not contain "sdkman_auto_answer=false"
     And the response script does not contain "sdkman_colour_enable=true"
     And the response script does not contain "sdkman_selfupdate_feature=true"
+
+  Scenario: Install SDKMAN stable refuses to run on Cygwin
+    When a request is made to the /install/stable endpoint
+    Then a 200 status code is received
+    And the response script contains "if [[ "$(uname -s)" == CYGWIN_NT* ]]; then"
+    And the response script contains "SDKMAN does not support Cygwin."
+    And the response script contains "Windows Subsystem for Linux 2 (WSL2)"
+
+  Scenario: Install SDKMAN beta refuses to run on Cygwin
+    When a request is made to the /install/beta endpoint
+    Then a 200 status code is received
+    And the response script contains "if [[ "$(uname -s)" == CYGWIN_NT* ]]; then"
+    And the response script contains "SDKMAN does not support Cygwin."
+    And the response script contains "Windows Subsystem for Linux 2 (WSL2)"

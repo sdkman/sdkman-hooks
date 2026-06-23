@@ -5,6 +5,8 @@
 
 @includes.trap_errors()
 
+@includes.cygwin_check()
+
 # Global variables
 export SDKMAN_SERVICE="@baseUrl"
 export SDKMAN_VERSION="@cliVersion"
