@@ -127,23 +127,32 @@ echo "$SDKMAN_NATIVE_VERSION" > "${SDKMAN_DIR}/var/version_native"
 
 @if(rcUpdate) {
 if [[ $darwin == true ]]; then
-  echo "Attempt update of login bash profile on OSX..."
-  if [[ -e "$sdkman_bash_profile" && -z $(grep 'sdkman-init.sh' "$sdkman_bash_profile") ]]; then
-    echo -e "\n$sdkman_init_snippet" >> "$sdkman_bash_profile"
-    echo "Added sdkman init snippet to $sdkman_bash_profile"
+  if command -v bash &>/dev/null; then
+    echo "Attempt update of login bash profile on OSX..."
+    touch "$sdkman_bash_profile"
+    if [[ -z $(grep 'sdkman-init.sh' "$sdkman_bash_profile") ]]; then
+      echo -e "\n$sdkman_init_snippet" >> "$sdkman_bash_profile"
+      echo "Added sdkman init snippet to $sdkman_bash_profile"
+    fi
   fi
 else
-  echo "Attempt update of interactive bash profile on regular UNIX..."
-  if [[ -e "$sdkman_bashrc" && -z $(grep 'sdkman-init.sh' "$sdkman_bashrc") ]]; then
-      echo -e "\n$sdkman_init_snippet" >> "$sdkman_bashrc"
-      echo "Added sdkman init snippet to $sdkman_bashrc"
+  if command -v bash &>/dev/null; then
+    echo "Attempt update of interactive bash profile on regular UNIX..."
+    touch "$sdkman_bashrc"
+    if [[ -z $(grep 'sdkman-init.sh' "$sdkman_bashrc") ]]; then
+        echo -e "\n$sdkman_init_snippet" >> "$sdkman_bashrc"
+        echo "Added sdkman init snippet to $sdkman_bashrc"
+    fi
   fi
 fi
 
 echo "Attempt update of zsh profile..."
-if [[ -e "$sdkman_zshrc" && -z $(grep 'sdkman-init.sh' "$sdkman_zshrc") ]]; then
-    echo -e "\n$sdkman_init_snippet" >> "$sdkman_zshrc"
-    echo "Updated existing ${sdkman_zshrc}"
+if command -v zsh &>/dev/null; then
+  touch "$sdkman_zshrc"
+  if [[ -z $(grep 'sdkman-init.sh' "$sdkman_zshrc") ]]; then
+      echo -e "\n$sdkman_init_snippet" >> "$sdkman_zshrc"
+      echo "Updated existing ${sdkman_zshrc}"
+  fi
 fi
 
 }
