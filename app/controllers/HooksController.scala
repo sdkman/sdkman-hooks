@@ -37,8 +37,6 @@ class HooksController @Inject() (cc: ControllerComponents)
         (Hooks.from(phase), candidate, normalise(candidate, version), platform, vendor) match {
 
           //POST: Mac OSX
-          case (Post, Java, _, MacX64 | MacARM64, BellSoft) =>
-            Ok(views.txt.default_post_zip(candidate, version, platform))
           case (Post, Java, _, MacX64 | MacARM64, Zulu) =>
             Ok(views.txt.java_post_osx_tarball(candidate, version, platform))
           case (Post, Java, _, MacX64 | MacARM64, ZuluFX) =>
