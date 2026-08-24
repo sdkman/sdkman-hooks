@@ -30,3 +30,10 @@ Feature: Java OSX Hooks
     When a hook is requested at /hooks/post/java/21.0.3-librca/darwinarm64
     Then a 200 status code is received
     And the response script contains "Detect tarball layout"
+
+  Scenario: The OSX post-install hook detects the layout without a glob that zsh aborts on
+    When a hook is requested at /hooks/post/java/21.0.11-zulu/darwinarm64
+    Then a 200 status code is received
+    And the response script contains "Detect tarball layout"
+    And the response script contains "Contents/Home"
+    And the response script does not contain "ls -d"

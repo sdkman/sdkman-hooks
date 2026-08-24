@@ -17,9 +17,18 @@ function __sdkman_post_installation_hook {
     /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
 
     # Detect tarball layout: bundle (*.jdk/Contents/Home) vs flat (Linux-style root with bin/, lib/)
-    if ls -d "$work_dir"/*/Contents/Home > /dev/null 2>&1; then
-        cd "$work_dir"/*/Contents
-        mv -f Home "$work_jdk_dir"
+    # Tested with -d rather than a nested glob: zsh aborts on a non-matching glob (NOMATCH) and
+    # prints "no matches found", which a redirect on the command cannot suppress.
+    local bundle_home=""
+    for root in "$work_dir"/*; do
+        if [ -d "$root/Contents/Home" ]; then
+            bundle_home="$root/Contents/Home"
+            break
+        fi
+    done
+
+    if [ -n "$bundle_home" ]; then
+        mv -f "$bundle_home" "$work_jdk_dir"
     else
         mv "$work_dir"/* "$work_jdk_dir"
     fi
