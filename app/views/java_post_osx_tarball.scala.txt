@@ -17,15 +17,11 @@ function __sdkman_post_installation_hook {
     /usr/bin/env tar zxf "$binary_input" -C "$work_dir"
 
     # Detect tarball layout: bundle (*.jdk/Contents/Home) vs flat (Linux-style root with bin/, lib/)
-    # Tested with -d rather than a nested glob: zsh aborts on a non-matching glob (NOMATCH) and
-    # prints "no matches found", which a redirect on the command cannot suppress.
-    local bundle_home=""
-    for root in "$work_dir"/*; do
-        if [ -d "$root/Contents/Home" ]; then
-            bundle_home="$root/Contents/Home"
-            break
-        fi
-    done
+    # Matched by find rather than a shell glob: this hook is sourced into the user's shell, and zsh
+    # aborts a command whose glob matches nothing (NOMATCH), printing "no matches found" before the
+    # command runs, so a redirect on it cannot suppress the noise.
+    local bundle_home
+    bundle_home="$(find "$work_dir" -mindepth 3 -maxdepth 3 -type d -path "*/Contents/Home" 2>/dev/null | head -1)"
 
     if [ -n "$bundle_home" ]; then
         mv -f "$bundle_home" "$work_jdk_dir"
