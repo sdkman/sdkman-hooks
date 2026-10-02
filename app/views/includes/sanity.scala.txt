@@ -1,5 +1,21 @@
 # Sanity checks
 
+if [[ "$cygwin" == true ]]; then
+	echo ""
+	echo "======================================================================================================"
+	echo " SDKMAN is not supported on Cygwin."
+	echo ""
+	echo " Cygwin's path handling is incompatible with the native SDKMAN components, which leads to"
+	echo " confusing failures such as an empty 'sdk list java' and a broken 'sdk selfupdate'."
+	echo ""
+	echo " Please use Windows Subsystem for Linux (WSL2) instead:"
+	echo ""
+	echo "    https://learn.microsoft.com/windows/wsl/install"
+	echo "======================================================================================================"
+	echo ""
+	exit 1
+fi
+
 if [ -e "$SDKMAN_DIR" ] && [ ! -d "$SDKMAN_DIR" ]; then
 	echo ""
 	echo "======================================================================================================"

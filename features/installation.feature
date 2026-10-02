@@ -15,6 +15,12 @@ Feature: Installation
     And the response script contains "SDKMAN_VERSION="1.0.0""
     And the response script contains "SDKMAN_SERVICE="https://api.sdkman.io/2"
 
+  Scenario: Install SDKMAN script blocks installation on Cygwin
+    When a request is made to the /install/stable endpoint
+    Then a 200 status code is received
+    And the response script contains "if [[ "$cygwin" == true ]]; then"
+    And the response script contains "SDKMAN is not supported on Cygwin."
+
   Scenario: Install SDKMAN stable from the command line without updating rc files
     When a request is made to the /install/stable?rcupdate=false endpoint
     Then a 200 status code is received
