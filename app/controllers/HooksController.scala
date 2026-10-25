@@ -61,6 +61,10 @@ class HooksController @Inject() (cc: ControllerComponents)
           //POST
           case (Post, Java, _, _, _) =>
             NotFound
+          case (Post, Contrib, _, Windows64, _) =>
+            Ok(views.txt.default_post_zip(candidate, version, platform))
+          case (Post, Contrib, _, _, _) =>
+            Ok(views.txt.default_post_tarball(candidate, version, platform))
           case (Post, Flink, _, _, _) =>
             Ok(views.txt.default_post_tarball(candidate, version, platform))
           case (Post, Spark, _, _, _) =>
