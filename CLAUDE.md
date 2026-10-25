@@ -32,7 +32,7 @@ Routes (`conf/routes`) map four controllers, each rendering a Twirl **text** tem
 
 Domain model (`app/domain/domain.scala`) is the single source of truth for:
 
-- `Candidate` instances (`Java`, `JMC`, `Flink`, `Spark`, `Hadoop`, `Jextract`).
+- `Candidate` instances (`Contrib`, `Java`, `JMC`, `Flink`, `Spark`, `Hadoop`, `Jextract`).
 - `Platform` parsing — including legacy aliases (`darwin` → `MacX64`, `cygwin*`/`mingw64*`/`msys*` → `Windows64`) and the `Exotic` fallback that forces UNIVERSAL-only installs for unsupported platforms.
 - `JdkDistro` short codes (`zulu`, `librca`, `adpt`, `grl`, `open`, `amzn`, `sapmchn`, `zulufx`) — these are the `vendor` suffix parsed off the version string by `HooksController.determineVendor` (last `-`-delimited segment).
 
